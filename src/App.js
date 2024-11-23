@@ -4,6 +4,7 @@ import About from "./components/About";
 import Login from "./components/Login";
 import Contact from "./components/Contact";
 import Signup from "./components/Signup";
+import Reels from "./components/Reels";
 import EmailConfirm from "./components/EmailConfirm";
 import PasswordReset from "./components/PasswordReset";
 import ForgetPassword from "./components/ForgetPassword";
@@ -22,6 +23,7 @@ function App() {
       <Route path="/email-confirmation" element={<EmailConfirmation/>}/>
       <Route path="/signup" element ={<Signup/>}/>
       <Route path="/contact" element ={<Contact/>}/>
+      <Route path="/reels" element={<Reels/>} /> 
     </Routes>
     </BrowserRouter>
   );
