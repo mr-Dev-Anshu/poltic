@@ -4,6 +4,10 @@ import About from "./components/About";
 import Login from "./components/Login";
 import Contact from "./components/Contact";
 import Signup from "./components/Signup";
+import EmailConfirm from "./components/EmailConfirm";
+import PasswordReset from "./components/PasswordReset";
+import ForgetPassword from "./components/ForgetPassword";
+import EmailConfirmation from "./components/EmailConfirmation";
 
 function App() {
   return (
@@ -12,6 +16,10 @@ function App() {
       <Route path="/" element ={<LandingPage/>}/>
       <Route path="/about" element ={<About/>}/>
       <Route path="/login" element ={<Login/>}/>
+      <Route path="/forget-password" element = {<ForgetPassword/>}/>
+      <Route path="/reset-password" element={<PasswordReset/>}/>
+      <Route path="/email-confirm" element={<EmailConfirm/>}/>
+      <Route path="/email-confirmation" element={<EmailConfirmation/>}/>
       <Route path="/signup" element ={<Signup/>}/>
       <Route path="/contact" element ={<Contact/>}/>
     </Routes>
