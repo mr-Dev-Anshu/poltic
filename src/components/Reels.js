@@ -7,7 +7,7 @@ const Reel = ({ reel, isMuted, videoRef }) => {
   return (
     <div
       key={reel.id}
-      className="reel w-full h-screen flex items-center justify-center snap-start relative"
+      className="reel w-fit h-[cal(100vh-100px)] flex items-center justify-center snap-start relative m-10 rounded-xl"
     >
       <video
         ref={videoRef}
@@ -31,7 +31,7 @@ const Reels = () => {
   useEffect(() => {
     const options = {
       root: null,
-      threshold: 0.5, // Video should be 50% visible to start playing
+      threshold: 0.5,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -41,7 +41,7 @@ const Reels = () => {
         if (entry.isIntersecting) {
           video.play().catch((error) => {
             console.warn("Autoplay blocked by the browser:", error.message);
-            video.muted = true; // Ensure autoplay works by muting
+            video.muted = true;
             video.play();
           });
         } else {
@@ -72,7 +72,7 @@ const Reels = () => {
     >
       <button
         onClick={toggleMute}
-        className="fixed top-8 right-8 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full hover:bg-opacity-75 z-10"
+        className="fixed top-20 right-8 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full hover:bg-opacity-75 z-10"
       >
         {isMuted ? <IoVolumeMuteOutline size={24} /> : <GoUnmute size={24} />}
       </button>
