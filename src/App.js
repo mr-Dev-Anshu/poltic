@@ -9,12 +9,14 @@ import EmailConfirm from "./components/EmailConfirm";
 import PasswordReset from "./components/PasswordReset";
 import ForgetPassword from "./components/ForgetPassword";
 import EmailConfirmation from "./components/EmailConfirmation";
+import VideoPlay from "./components/VideoPlay";
 
 function App() {
   return (
     <BrowserRouter>
     <Routes>
       <Route path="/" element ={<LandingPage/>}/>
+      <Route path="/home" element={<VideoPlay/>}/>
       <Route path="/about" element ={<About/>}/>
       <Route path="/login" element ={<Login/>}/>
       <Route path="/forget-password" element = {<ForgetPassword/>}/>

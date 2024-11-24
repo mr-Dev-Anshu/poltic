@@ -11,7 +11,7 @@ const Navbar = () => {
                     <img src={img1} alt="logo" className="h-[50px] mr-2"/>
                 </button>
             </div>
-            <div className="flex gap-[65px] text-[18px]">
+            <div className="hidden md:flex gap-[65px] text-[18px]">
                 {NavButtons.map((button, index) => (
                     <button
                         key={index}

@@ -11,7 +11,7 @@ const EmailConfirm = () => {
     return (
         <div className="max-h-screen">
             <img src={img} alt="" className="m-4 h-[50px] " onClick={() => {navigate("/")}}/>
-            <div className="flex flex-col justify-end my-auto" >
+            <div className="flex flex-col justify-end my-auto p-5 md:p-0" >
             <div className="flex flex-col justify-center  h-[calc(100vh-140px)] items-center my-auto">
                 <div>
                     <p className="font-semibold py-2 text-[20px] text-[#000000DE] ">Recovery Email Sent!</p>
