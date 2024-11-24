@@ -10,23 +10,47 @@ import PasswordReset from "./components/PasswordReset";
 import ForgetPassword from "./components/ForgetPassword";
 import EmailConfirmation from "./components/EmailConfirmation";
 import VideoPlay from "./components/VideoPlay";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useEffect } from "react";
+import { fetchCurrentUser } from "./features/auth/authThunk";
+import { useDispatch } from "react-redux";
 
 function App() {
+
+  const dispatch = useDispatch() ; 
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+}, [dispatch]);
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element ={<LandingPage/>}/>
-      <Route path="/home" element={<VideoPlay/>}/>
-      <Route path="/about" element ={<About/>}/>
-      <Route path="/login" element ={<Login/>}/>
-      <Route path="/forget-password" element = {<ForgetPassword/>}/>
-      <Route path="/reset-password" element={<PasswordReset/>}/>
-      <Route path="/email-confirm" element={<EmailConfirm/>}/>
-      <Route path="/email-confirmation" element={<EmailConfirmation/>}/>
-      <Route path="/signup" element ={<Signup/>}/>
-      <Route path="/contact" element ={<Contact/>}/>
-      <Route path="/reels" element={<Reels/>} /> 
-    </Routes>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <VideoPlay />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password" element={<PasswordReset />} />
+        <Route path="/email-confirm" element={<EmailConfirm />} />
+        <Route path="/email-confirmation" element={<EmailConfirmation />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/reels"
+          element={
+            <ProtectedRoute>
+              <Reels />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

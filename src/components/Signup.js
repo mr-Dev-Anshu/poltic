@@ -3,12 +3,12 @@ import img1 from "../assets/image-Photoroom (38) 1.png";
 import { LuDot } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signup } from "../features/auth/authThunk";
 
 const Signup = () => {
     const dispatch = useDispatch();
-    const { data:signupData, loading:signupLoading, error:signupError } = useSelector((state) => state.auth);
+    const { data: signupData, loading: signupLoading, error: signupError } = useSelector((state) => state.auth);
 
     const [firstName, setFName] = useState("");
     const [lastName, setLName] = useState("");
@@ -34,11 +34,23 @@ const Signup = () => {
         }
         setErrorMessage("");
         dispatch(
-            signup({ firstName, lastName, email, country, phone, password })
+            signup({
+                firstName,
+                lastName,
+                email,
+                country,
+                phone,
+                password,
+            })
         );
+
         console.log(signupData, signupLoading, signupError);
-        
+
     };
+
+    useEffect(()=> {
+        console.log(signupError)
+    } , [])
 
     const navigate = useNavigate();
 
@@ -111,12 +123,13 @@ const Signup = () => {
                                 className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
                             />
                         </div>
-                        {errorMessage && <p style={{ color: "red", whiteSpace: "pre-line" }}>{errorMessage}</p>}
+                        {signupError && <p style={{ color: "red", whiteSpace: "pre-line" }}>{signupError}</p>}
+
                         <button
                             type="submit"
                             className="px-4 py-2 my-4 bg-[#065FD4] text-white rounded-sm w-full uppercase"
                         >
-                            Sign up
+                          {signupLoading ? "Loading...":"Sign up"}
                         </button>
                         <button
                             type="button"

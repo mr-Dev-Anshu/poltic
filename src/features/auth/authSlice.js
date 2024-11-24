@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, signup } from "./authThunk";
+import { fetchCurrentUser, login, signup } from "./authThunk";
 
 const authSlice = createSlice({
     name: "auth",
@@ -21,7 +21,7 @@ const authSlice = createSlice({
         })
         .addCase(login.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload.message;
         })
         .addCase(signup.pending, (state) => {
             state.loading= true;
@@ -33,8 +33,20 @@ const authSlice = createSlice({
         })
         .addCase(signup.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload; // Set the error message
+        }) 
+        .addCase(fetchCurrentUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
         })
+        .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+        })
+        .addCase(fetchCurrentUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
     },
 })
 
