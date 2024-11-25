@@ -36,8 +36,7 @@ const Signup = () => {
         dispatch(
             signup({ firstName, lastName, email, country, phone, password })
         );
-        console.log(signupData, signupLoading, signupError);
-        
+        console.log(signupData, signupLoading, signupError)   
     };
 
     const navigate = useNavigate();
