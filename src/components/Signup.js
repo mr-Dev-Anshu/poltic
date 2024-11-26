@@ -3,12 +3,13 @@ import img1 from "../assets/image-Photoroom (38) 1.png";
 import { LuDot } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signup } from "../features/auth/authThunk";
 
 const Signup = () => {
     const dispatch = useDispatch();
-    const { data:signupData, loading:signupLoading, error:signupError } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+    const { data: signupData, loading: signupLoading, error: signupError } = useSelector((state) => state.auth);
 
     const [firstName, setFName] = useState("");
     const [lastName, setLName] = useState("");
@@ -22,24 +23,33 @@ const Signup = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         let errors = "";
-        if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-            errors += "Enter a valid 10-digit phone number.\n";
-        }
-        if (password !== confPassword) {
-            errors += "Passwords do not match.\n";
-        }
+        if (!firstName.trim()) errors += "First Name is required.\n";
+        if (!lastName.trim()) errors += "Last Name is required.\n";
+        if (!email.includes("@")) errors += "Enter a valid email address.\n";
+        if (phone.length !== 10 || !/^\d+$/.test(phone)) errors += "Enter a valid 10-digit phone number.\n";
+        if (password !== confPassword) errors += "Passwords do not match.\n";
+
         if (errors) {
             setErrorMessage(errors);
             return;
         }
         setErrorMessage("");
         dispatch(
-            signup({ firstName, lastName, email, country, phone, password })
+            signup({
+                firstName,
+                lastName,
+                email,
+                country,
+                phone,
+                password,
+            })
         );
-        console.log(signupData, signupLoading, signupError)   
     };
-
-    const navigate = useNavigate();
+    useEffect(() => {
+        if (signupError) {
+            setErrorMessage(signupError);
+        }
+    }, [signupError]);
 
     return (
         <div className="flex flex-col md:flex-row md:justify-between">
@@ -52,6 +62,7 @@ const Signup = () => {
             <div className="md:w-[50%] h-screen md:mx-auto px-5 md:px-0">
                 <div className="flex flex-col md:justify-center md:items-center h-[calc(100vh-84px)]">
                     <form className="flex flex-col max-h-screen my-auto" onSubmit={handleSignup}>
+
                         <div>
                             <p className="font-medium text-[20px]">Sign up to Poltic</p>
                         </div>
@@ -110,12 +121,13 @@ const Signup = () => {
                                 className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
                             />
                         </div>
-                        {errorMessage && <p style={{ color: "red", whiteSpace: "pre-line" }}>{errorMessage}</p>}
-                        <button
-                            type="submit"
-                            className="px-4 py-2 my-4 bg-[#065FD4] text-white rounded-sm w-full uppercase"
-                        >
-                            Sign up
+                        {errorMessage && (
+                            <p className="text-red-600 bg-white text-sm mb-4 whitespace-pre-line">
+                                {errorMessage}
+                            </p>)}
+                        <button type="submit" className="px-4 py-2 my-4 bg-[#065FD4] text-white rounded-sm w-full uppercase"
+                            disabled={signupLoading}>
+                            {signupLoading ? "Loading..." : "Sign up"}
                         </button>
                         <button
                             type="button"

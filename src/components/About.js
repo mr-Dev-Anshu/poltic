@@ -16,7 +16,7 @@ const About = () => {
             </div>
             <div className="p-20">
                 <span className="px-4 py-2 my-2 rounded-xl bg-[#F3F5F7] text-[#032347] text-[15px] font-medium ">About PolTic</span>
-                <p className="bg-gradient-to-b from-transparent via-transparent via-transparent text-[20px] md:text-[44px] font-medium to-[#A6CCFF] w-fit my-2">Introduction</p>
+                <p className="bg-gradient-to-b from-transparent  via-transparent text-[20px] md:text-[44px] font-medium to-[#A6CCFF] w-fit my-2">Introduction</p>
                 <div className="flex gap-5 justify-between">
                     <div className="w-[45%]">
                         <p className="text-[#23291FCC] text-[18px] py-4">PolTic is a unique social media platform dedicated to the voices of everyday citizens on political opinions, Trending Issues, and Breaking News. Users post quick, under-1-minute videos where they discuss their views on a wide range of topics, that affect their lives. The platform emphasizes transparency, aiming to avoid bias, toxicity, and hidden agendas often present in some media.</p>
