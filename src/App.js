@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import Channel from "./components/Channel";
 import Videos from "./components/Videos";
 import ClickedVideo from "./components/ClickedVideo";
+import UserDashboard from "./components/UserDashboard";
 
 function App() {
 
@@ -37,7 +38,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/videos" element={<Videos />} />
         <Route path="/short/:id" element={<ClickedVideo />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
@@ -48,6 +48,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/channel" element={<Channel />} />
+        <Route path="/user-profile" element={<UserDashboard/>}/>
         <Route
           path="/reels"
           element={

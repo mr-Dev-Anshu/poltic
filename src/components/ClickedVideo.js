@@ -1,9 +1,10 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import VideosList from "../constants/VideoList";
 
 const ClickedVideo = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const short = VideosList.find((item) => item.id === parseInt(id));
 
   if (!short) {
@@ -12,15 +13,18 @@ const ClickedVideo = () => {
 
   return (
     <div className="">
-      <Link to="/" className="back-button">
+      <button
+        onClick={() => navigate(-1)}
+        className="back-button text-blue-500 "
+      >
         &larr; Back to Feed
-      </Link>
+      </button>
       <h1 className="text-center text-xl font-bold">{short.title}</h1>
       <video
         src={short.video}
         controls
         autoPlay
-        className=""
+        className="w-fit mt-4"
       ></video>
     </div>
   );

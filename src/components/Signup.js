@@ -79,7 +79,7 @@ const Signup = () => {
                                 placeholder="Last Name"
                                 value={lastName}
                                 onChange={(e) => setLName(e.target.value)}
-                                className="md:w-60 px-3 py-2 border border-[#0000003B] mt-4 rounded-sm"
+                                className="md:w-60 px-3 py-2 border border-[#0000003B] md:mt-4 rounded-sm"
                             />
                         </div>
                         <input
@@ -95,7 +95,7 @@ const Signup = () => {
                                 placeholder="Country"
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
-                                className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
+                                className="md:w-60 px-3 py-2 border border-[#0000003B] md:mb-4 rounded-sm"
                             />
                             <input
                                 type="number"
@@ -111,7 +111,7 @@ const Signup = () => {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
+                                className="md:w-60 px-3 py-2 border border-[#0000003B] md:mb-4 rounded-sm"
                             />
                             <input
                                 type="password"

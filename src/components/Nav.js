@@ -3,7 +3,7 @@ import img from "../assets/image-Photoroom (38) 1.png"
 
 const Nav = () => {
     return (
-        <div className="h-[53px] md:h-[89px] flex justify-between items-center bg-[#F6F6F6] ">
+        <div className="sticky h-[53px] md:h-[89px] flex justify-between items-center bg-white font-roboto md:bg-[#F6F6F6] ">
             <div className="md:hidden bg-[#E0E9F3] h-[33px] w-[33px] rounded-full flex items-center justify-center ml-2">
             <IoMdSearch className="h-[16px] w-[16px]" />
             </div>

@@ -19,4 +19,4 @@ export const reels = [
       likes: 843,
       comments: 34,
     },
-  ];
+  ]; 

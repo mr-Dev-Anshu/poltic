@@ -87,6 +87,6 @@ const Reels = () => {
       ))}
     </div>
   );
-};
+}; 
 
 export default Reels;

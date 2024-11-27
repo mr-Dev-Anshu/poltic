@@ -33,11 +33,11 @@ const HeroSection = () => {
         style={{ backgroundImage: `url(${img})` }}>
         <p className="text-center text-[15px] font-medium pt-16">Short Form Video News</p>
         <p className="text-center text-[44px] font-medium">Why PolTic?</p>
-        <p className="text-center text-[16px] text-[#000000E5] md:w-[30%] py-1">
+        <p className="text-center text-[16px] text-[#000000E5] md:w-[30%] py-1 px-5 md:px-0">
           Join a community where your voice matters! At #PolTic, everyone shapes the news that impacts our lives.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 p-5 md:px-24 gap-10 bg-no-repeat bg-right-bottom">
+      <div className="grid grid-cols-1 px-12 md:grid-cols-4 p-5 md:px-24 gap-10 bg-no-repeat bg-right-bottom">
         {ItemList.map((item, index)=>(
             <div className="bg-[#F3F8FF] p-4 w-[275px]">
                 <div className="bg-[#D9D9D9] h-[31px] w-[31px] rounded-full"/>
