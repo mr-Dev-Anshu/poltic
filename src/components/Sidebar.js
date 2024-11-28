@@ -11,8 +11,8 @@ const Sidebar = () => {
         <div className="bg-white w-full flex md:flex-col gap-4 sm:gap-14 md:gap-4 font-roboto p-2 items-center md:items-start md:justify-normal justify-around mx-auto md:mx-0 md:bg-[#F6F6F6] h-[36px] md:h-[calc(100vh-89px)] md:w-[227px]">
             <div className="flex flex-col gap-1 md:m-2 relative">
                 <Link
-                    to="/channel"
-                    className={`flex items-center gap-2 ${isActive("/channel") ? "text-blue-500" : "text-gray-700"
+                    to="/home"
+                    className={`flex items-center gap-2 ${isActive("/home") ? "text-blue-500" : "text-gray-700"
                         }`}>
                     <GoHomeFill className="m-1" />
                     Home

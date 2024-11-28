@@ -52,9 +52,7 @@ function App() {
         <Route
           path="/reels"
           element={
-            <ProtectedRoute>
               <Reels />
-            </ProtectedRoute>
           }
         />
       </Routes>

@@ -26,6 +26,11 @@ const Login = () => {
         }
         dispatch(login({ email, password }));
         console.log(loginData, loginError, loginLoading)
+
+        if(loginError == null)
+        {
+            navigate("/home")
+        }
     };
 
     useEffect(() => {

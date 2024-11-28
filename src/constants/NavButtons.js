@@ -1,7 +1,7 @@
 export const NavButtons = [
     {
         title: "Home",
-        link: "/home"
+        link: "/"
     }, 
     {
         title: "About ",
