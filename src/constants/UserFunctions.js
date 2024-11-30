@@ -10,22 +10,22 @@ export const UserFunctions = [
     },
     {
         title: "Video Library",
-        link: "/",
+        link: "/user-library",
         icon: <AiFillVideoCamera className="text-xl" />,
     },
     {
         title: "Reported Videos",
-        link: "/",
+        link: "/user-reports",
         icon: <RiVideoAddLine className="text-xl" />,
     },
     {
         title: "Subscribed Channels",
-        link: "/",
+        link: "/user-subscriptions",
         icon: <MdSubscriptions className="text-xl" />,
     },
     {
         title: "Settings",
-        link: "/settings",
+        link: "/user-settings",
         icon: <AiFillSetting className="text-xl" />,
     },
     {

@@ -27,10 +27,10 @@ const Dashboard = () => {
                 </div>
             </div>
             <div>
+                <div className="sm:m-4 font-roboto">
                 <p className="font-semibold text-[20px] py-2 font-inter mt-5">Top Performing News</p>
-                <div className="sm:m-5 font-roboto">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
-                        {VideosList.map((short) => (
+                        {VideosList.slice(0, 4).map((short) => (
                             <Link
                                 to={`/short/${short.id}`}
                                 key={short.id}

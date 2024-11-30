@@ -18,6 +18,10 @@ import Channel from "./components/Channel";
 import Videos from "./components/Videos";
 import ClickedVideo from "./components/ClickedVideo";
 import UserDashboard from "./components/UserDashboard";
+import Subscriptions from "./components/Subscriptions";
+import UserSettings from "./components/UserSettings";
+import Library from "./components/Library";
+import ReportedVideos from "./components/ReportedVideos";
 
 function App() {
 
@@ -49,6 +53,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/channel" element={<Channel />} />
         <Route path="/user-profile" element={<UserDashboard/>}/>
+        <Route path="/user-library" element={<Library/>}/>
+        <Route path="/user-settings" element={<UserSettings/>}/>
+        <Route path="/user-subscriptions" element={<Subscriptions/>}/>
+        <Route path="/user-reports" element={<ReportedVideos/>}/>
         <Route
           path="/reels"
           element={

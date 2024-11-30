@@ -7,12 +7,12 @@ const ProfileSidebar = () => {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className="hidden md:block bg-[#F1F8FF] w-[227px] h-[330px] rounded-[7px] overflow-hidden">
+        <div className="hidden md:block bg-[#F1F8FF] w-[227px] h-fit rounded-[7px] overflow-hidden">
             {UserFunctions.map((func, index) => (
                 <a
                     href={func.link}
                     key={index}
-                    className={`flex items-center px-4 gap-3 font-light hover:text-blue-500 py-3 ${isActive(func.link) ? "bg-[#065FD4] text-white " : ""}
+                    className={`flex items-center px-4 gap-3 font-light py-3 ${isActive(func.link) ? "bg-[#065FD4] text-white " : ""}
                         `}>
                     {func.icon}
                     <span>{func.title}</span>
