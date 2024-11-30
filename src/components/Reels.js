@@ -3,58 +3,7 @@ import { reels } from "../constants/Reels";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 import { GoUnmute } from "react-icons/go";
 import { AiOutlineComment, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
-
-const Reel = ({ reel, isMuted, videoRef }) => {
-  const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  };
-
-  return (
-    <div
-      key={reel.id}
-      className="reel w-full md:w-[330px] h-[calc(100vh-150px)] md:h-[calc(100vh-30px)] flex items-center justify-center snap-start relative sm:m-5 sm:rounded-xl overflow-hidden"
-    >
-      <video
-        ref={videoRef}
-        src={reel.video_url}
-        loop
-        muted={isMuted}
-        className="w-full rounded-xl h-full object-cover cursor-pointer"
-        onClick={togglePlayPause}
-      />
-      <div className="absolute bottom-8 flex gap-3 left-4 text-white">
-        <div>
-          <img src={reel.profile_pic} alt="" className="h-12 w-12 rounded-full my-2" />
-        </div>
-        <div>
-          <p className="font-bold mt-1">{reel.username}</p>
-          <p>{reel.caption}</p>
-        </div>
-      </div>
-      <div className="absolute sm:hidden bottom-16 text-white right-4 flex flex-col justify-end my-5">
-        <button className="flex flex-col items-center p-2">
-          <AiOutlineHeart size={28} />
-          <span className="text-xs">123</span>
-        </button>
-        <button className="flex flex-col items-center p-2">
-          <AiOutlineComment size={28} />
-          <span className="text-xs">45</span>
-        </button>
-        <button className="flex flex-col items-center p-2">
-          <AiOutlineShareAlt size={28} />
-          <span className="text-xs">Share</span>
-        </button>
-      </div>
-    </div>
-  );
-};
-
+import ReelPage from "./ReelPage";
 
 const Reels = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -112,9 +61,9 @@ const Reels = () => {
       <div>
         <div>
           {reels.map((reel, index) => (
-            <div className="flex gap-2">
+            <div className="flex sm:gap-2">
               <div>
-                <Reel
+                <ReelPage
                   key={reel.id}
                   reel={reel}
                   isMuted={isMuted}

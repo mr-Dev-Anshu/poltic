@@ -7,7 +7,7 @@ const ProfileSidebar = () => {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className="hidden md:block bg-[#F1F8FF] w-[227px] rounded-[7px] overflow-hidden">
+        <div className="hidden md:block bg-[#F1F8FF] w-[227px] h-[330px] rounded-[7px] overflow-hidden">
             {UserFunctions.map((func, index) => (
                 <a
                     href={func.link}
