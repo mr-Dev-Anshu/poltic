@@ -11,33 +11,42 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { data: loginData, loading: loginLoading, error: loginError } = useSelector((state) => state.auth);
+
+    const { data: loginData,  error: loginError } = useSelector((state) => state.auth);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = (e) => {
-        e.preventDefault(); 
-        setErrorMessage("");
-        if (!email || !password) {
-            setErrorMessage("Both email and password are required.");
-            return;
-        }
-        dispatch(login({ email, password }));
-        console.log(loginData, loginError, loginLoading)
-
-        if(loginError == null)
-        {
-            navigate("/home")
+    const handleLogin = async (e) => {
+        try {
+            setLoading(true)
+            e.preventDefault();
+            setErrorMessage("");
+            if (!email || !password) {
+                setErrorMessage("Both email and password are required.");
+                setLoading(false)
+                return;
+            }
+            dispatch(login({ email, password }));
+        } catch (error) {
+            console.log("Error whole login ", error)
+            setLoading(false)
+            setErrorMessage(error.message || "Someting went wrong while login ")
         }
     };
 
     useEffect(() => {
         if (loginError) {
             setErrorMessage(loginError);
+            setLoading(false);
+        } else if (loginData) {
+            setLoading(false)
         }
-    }, [loginError]);
+    }, [loginError, loginData, dispatch]);
+
+
 
     return (
         <div className="flex flex-col md:flex-row md:justify-between max-h-screen">
@@ -74,9 +83,9 @@ const Login = () => {
                             <button
                                 className="px-4 py-2 bg-[#065FD4] text-white rounded-sm flex gap-2"
                                 type="submit"
-                                disabled={loginLoading}
+                                disabled={loading}
                             >
-                                {loginLoading ? "Logging in..." : "LOGIN"}
+                                {loading ? "Logging in..." : "LOGIN"}
                                 <FaArrowRight className="m-1" />
                             </button>
                             <button

@@ -1,21 +1,35 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { Loader } from "./Loader";
 
 export const ProtectedRoute = ({ children }) => {
     const { data: currentUser, loading } = useSelector((state) => state.auth);
+    const [delayed, setDelayed] = useState(false);
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDelayed(true);
+        }, 100);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (!delayed) {
+        return (
+            <Loader/>
+        );
+    }
 
     if (loading) {
-        // Show a loading state until the user data is fully fetched
-        return <div>Loading...</div>;
+        return (
+          <Loader/>
+        );
     }
 
     if (!currentUser) {
-        // If not logged in after loading, redirect to login
         return <Navigate to="/login" replace />;
     }
 
-    // If the user is logged in, render the children
     return children;
 };
 

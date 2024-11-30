@@ -50,10 +50,10 @@ const About = () => {
                     <div className="w-[558px] h-[526px] bg-[#F3F5F7] rounded-lg inset-0 " style={{ position: "absolute", top: "50px", left: "-50px" }} />
                 </div>
                 <div className=" w-[40%] m-20">
-                <span className="px-4 py-2 my-2 rounded-xl bg-[#F3F5F7] text-[#032347] text-[15px] font-medium ">Our Mission</span>
-                <br />
-                <span className="bg-gradient-to-b from-transparent via-transparent via-transparent to-[#A6CCFF]  text-[20px] md:text-[44px] font-medium w-fit">Empowering {" "} </span><span className=" text-[20px] md:text-[44px] font-medium">You With News That Matters</span>
-                <p className="text-[#23291FCC] text-[18px] py-4">To empower people with quick, credible, and impactful news stories that keep them connected to the world around them. We aim to bridge the gap between complex issues and everyday audiences, making news more relatable, insightful, and meaningful.</p>
+                    <span className="px-4 py-2 my-2 rounded-xl bg-[#F3F5F7] text-[#032347] text-[15px] font-medium ">Our Mission</span>
+                    <br />
+                    <span className="bg-gradient-to-b from-transparent  via-transparent to-[#A6CCFF]  text-[20px] md:text-[44px] font-medium w-fit">Empowering {" "} </span><span className=" text-[20px] md:text-[44px] font-medium">You With News That Matters</span>
+                    <p className="text-[#23291FCC] text-[18px] py-4">To empower people with quick, credible, and impactful news stories that keep them connected to the world around them. We aim to bridge the gap between complex issues and everyday audiences, making news more relatable, insightful, and meaningful.</p>
                 </div>
             </div>
             <Footer />
