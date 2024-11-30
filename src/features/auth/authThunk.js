@@ -46,3 +46,13 @@ export const login = createAsyncThunk("auth/login",
             }
         }
     );
+
+    export const logout = createAsyncThunk('auth/logout' ,  async (_, {rejectWithValue}) => {
+           try {
+             const response = await axios.post('https://polity-backend.onrender.com/api/v1/users/logout'); 
+               return response.data ; 
+           } catch (error) {
+             const errorMessage = error.response?.data?.message || "Something went wrong while logout"
+             return rejectWithValue(errorMessage) ; 
+           }
+    } )
