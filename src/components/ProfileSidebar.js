@@ -1,6 +1,7 @@
 import React from "react";
 import { UserFunctions } from "../constants/UserFunctions";
 import { useLocation } from "react-router-dom";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 const ProfileSidebar = () => {
     const location = useLocation();
@@ -18,6 +19,7 @@ const ProfileSidebar = () => {
                     <span>{func.title}</span>
                 </a>
             ))}
+            <button className="flex py-3 gap-3 px-4"><RiLogoutCircleRLine className="text-xl" />Logout</button>
         </div>
     );
 };

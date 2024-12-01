@@ -28,9 +28,4 @@ export const UserFunctions = [
         link: "/user-settings",
         icon: <AiFillSetting className="text-xl" />,
     },
-    {
-        title: "Logout",
-        link: "/logout",
-        icon: <RiLogoutCircleRLine className="text-xl" />,
-    },
 ];

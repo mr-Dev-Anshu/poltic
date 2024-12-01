@@ -20,7 +20,7 @@ export const login = createAsyncThunk("auth/login",
                 const response = await axios.post(
                     "https://polity-backend.onrender.com/api/v1/users/signup",
                     { firstName, lastName, email, country, phone, password },
-                    { withCredentials: true } // Ensures cookies are sent and stored
+                    { withCredentials: true }
                 );
                 return response.data;
             } catch (error) {

@@ -9,8 +9,8 @@ import { signup } from "../features/auth/authThunk";
 const Signup = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { data: signupData, loading: signupLoading, error: signupError } = useSelector((state) => state.auth);
-
+    const { data: signupData, error: signupError } = useSelector((state) => state.auth);
+    const [loading, setLoading] = useState(false)
     const [firstName, setFName] = useState("");
     const [lastName, setLName] = useState("");
     const [country, setCountry] = useState("");
@@ -30,6 +30,7 @@ const Signup = () => {
         if (password !== confPassword) errors += "Passwords do not match.\n";
 
         if (errors) {
+            setLoading(false)
             setErrorMessage(errors);
             return;
         }
@@ -48,8 +49,12 @@ const Signup = () => {
     useEffect(() => {
         if (signupError) {
             setErrorMessage(signupError);
+            setLoading(false)
+        } else if(signupData)
+        {
+            setLoading(false)
         }
-    }, [signupError]);
+    }, [signupError,signupData,dispatch]);
 
     return (
         <div className="flex flex-col md:flex-row md:justify-between">
@@ -126,8 +131,8 @@ const Signup = () => {
                                 {errorMessage}
                             </p>)}
                         <button type="submit" className="px-4 py-2 my-4 bg-[#065FD4] text-white rounded-sm w-full uppercase"
-                            disabled={signupLoading}>
-                            {signupLoading ? "Loading..." : "Sign up"}
+                            disabled={loading}>
+                            {loading ? "Loading..." : "Sign up"}
                         </button>
                         <button
                             type="button"
