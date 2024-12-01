@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import VideosList from "../constants/VideoList";
-import Dashboard from "./Dashboard";
 import Nav from "./Nav";
 import ProfileSidebar from "./ProfileSidebar";
 import Sidebar from "./Sidebar";

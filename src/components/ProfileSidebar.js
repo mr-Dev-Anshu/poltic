@@ -15,10 +15,8 @@ const ProfileSidebar = () => {
     const handleLogout = async () => {
         const result = await dispatch(logout());
         if (logout.fulfilled.match(result)) {
-            // Redirect to login or home page after successful logout
             navigate("/login");
         } else {
-            // Handle any logout error if needed
             alert(result.payload || "Failed to logout. Please try again.");
         }
     };

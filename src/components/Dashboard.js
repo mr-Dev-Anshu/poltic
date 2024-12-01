@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
 import VideosList from "../constants/VideoList"
-import Videos from "./Videos"
 
 const Dashboard = () => {
     return (
