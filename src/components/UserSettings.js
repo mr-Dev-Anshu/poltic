@@ -19,6 +19,7 @@ const UserSettings = () => {
                     <hr className="my-5 w-full" />
                     <div className="flex gap-10">
                     <ProfileSidebar/>
+                    div
                     </div>
                 </div>
             </div>

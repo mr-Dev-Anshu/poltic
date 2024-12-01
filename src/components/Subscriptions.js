@@ -1,3 +1,4 @@
+import { SubscribedChannels } from "../constants/SubscribedChannels"
 import Dashboard from "./Dashboard"
 import Nav from "./Nav"
 import ProfileSidebar from "./ProfileSidebar"
@@ -15,11 +16,34 @@ const Subscriptions = () => {
                     <Sidebar />
                 </div>
                 <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-5">
-                    <UserProfile/>
+                    <UserProfile />
                     <hr className="my-5 w-full" />
                     <div className="flex gap-10">
-                    <ProfileSidebar/>
-                    
+                        <ProfileSidebar />
+                        <div>
+                            <div className="sm:mx-4 font-inter">
+                                <p className="font-semibold text-[20px] pb-4 font-inter">All Subscribed Channels</p>
+                                <div className="grid grid-cols-2 gap-10 justify-center mb-10 items-center mx-auto max-w-7xl">
+                                    {SubscribedChannels.map((channel) => (
+                                       <div className="flex gap-5">
+                                         <div className="flex gap-5">
+                                            <div>
+                                                <img src={channel.profile} alt="" className="h-[75px] w-[75px]" />
+                                            </div>
+                                            <div>
+                                                <p className="text-[18px] ">{channel.name}</p>
+                                                <p className="text-[13px] text-[#B7B7B7]">{channel.attherate}</p>
+                                                <p className="text-[13px] text-[#065FD4]">{channel.subscribers} <span className="text-[#B7B7B7]">Subscribers</span></p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button className="bg-[#F0F0F0] rounded-md text-[#717171] text-[12px] px-3 py-2">Subscribed</button>
+                                        </div>
+                                       </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
