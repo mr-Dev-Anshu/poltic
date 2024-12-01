@@ -10,7 +10,6 @@ import img7 from "../assets/Rectangle 55.png"
 import img8 from "../assets/Rectangle 57.png"
 import img9 from "../assets/Rectangle 58.png"
 
-
 const VideosList = [
     {
       id: 1,
@@ -91,4 +90,3 @@ const VideosList = [
   ];
   
   export default VideosList;
-   
