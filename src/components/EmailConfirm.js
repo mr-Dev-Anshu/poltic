@@ -5,7 +5,6 @@ import { FaArrowRight } from "react-icons/fa"
 import { LuDot } from "react-icons/lu"
 
 const EmailConfirm = () => {
-    const [email, setEmail] = useState('')
 
     const navigate = useNavigate()
     return (

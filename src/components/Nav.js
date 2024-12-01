@@ -12,8 +12,8 @@ const Nav = () => {
             <div className="md:ml-4">
                 <img src={img} alt="" className="w-[99px] md:w-[138px]" />
             </div>
-            <div className="bg-[#032347] w-[33px] h-[33px] rounded-full flex items-center justify-center mr-2 md:mr-12">
-                <button className="text-white" onClick={() => navigate("/user-profile")} >A</button>
+            <div className=" mr-2 md:mr-12">
+                <button className="text-white bg-[#032347] w-[33px] h-[33px] rounded-full flex items-center justify-center" onClick={() => navigate("/user-profile")} >A</button>
             </div>
         </div>
     )
