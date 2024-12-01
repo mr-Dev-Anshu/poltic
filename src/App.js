@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { fetchCurrentUser } from "./features/auth/authThunk";
 
 import LandingPage from "./components/LandingPage";
@@ -16,10 +16,8 @@ import EmailConfirmation from "./components/EmailConfirmation";
 import VideoPlay from "./components/VideoPlay";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Channel from "./components/Channel";
-import Videos from "./components/Videos";
 import ClickedVideo from "./components/ClickedVideo";
 import UserDashboard from "./components/UserDashboard";
-import { Loader } from "./components/Loader";
 import { PublicRoute } from "./components/PublicRoute";
 import Subscriptions from "./components/Subscriptions";
 import UserSettings from "./components/UserSettings";
