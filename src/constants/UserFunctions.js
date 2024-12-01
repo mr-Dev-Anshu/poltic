@@ -1,5 +1,5 @@
 import { AiFillDashboard, AiFillVideoCamera, AiFillSetting } from "react-icons/ai";
-import { RiVideoAddLine, RiLogoutCircleRLine } from "react-icons/ri";
+import { RiVideoAddLine } from "react-icons/ri";
 import { MdSubscriptions } from "react-icons/md";
 
 export const UserFunctions = [
