@@ -14,21 +14,22 @@ const Library = () => {
     };
     return (
         <div className="flex flex-col h-screen font-roboto">
-            <div className="fixed top-0 w-full z-10">
+            <div className="fixed top-0 w-full z-50">
                 <Nav />
             </div>
             <div className="flex flex-1 pt-[53px] md:pt-[89px]">
-                <div className="fixed w-full flex flex-col items-center md:h-[calc(100vh-89px)] md:w-[227px]">
+                <div className="z-50 fixed w-full flex flex-col items-center md:h-[calc(100vh-89px)] md:w-[227px]">
                     <Sidebar />
                 </div>
                 <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-5">
                     <UserProfile />
                     <hr className="my-5 w-full" />
                     <div className="flex gap-10">
-                        <ProfileSidebar />
-
+                    <div className="hidden md:flex">
+                        <ProfileSidebar/>
+                        </div>
                         <div>
-                            <div className="sm:m-5 font-roboto">
+                            <div className="sm:m-5 font-roboto w-[90vw]">
                                 <div className="flex justify-between my-2">
                                     <p className="font-semibold text-[20px] py-2 font-inter">
                                         Video Library
@@ -93,7 +94,7 @@ const Library = () => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto md:max-w-7xl">
                                     {VideosList.map((short) => (
                                         <Link
                                             to={`/short/${short.id}`}

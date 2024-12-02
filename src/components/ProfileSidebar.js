@@ -22,7 +22,7 @@ const ProfileSidebar = () => {
     };
 
     return (
-        <div className="hidden md:block bg-[#F1F8FF] w-[227px] h-fit rounded-[7px] overflow-hidden">
+        <div className=" bg-[#F1F8FF] w-[227px] h-fit rounded-[7px] overflow-hidden">
             {UserFunctions.map((func, index) => (
                 <a
                     href={func.link}
