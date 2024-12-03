@@ -7,17 +7,19 @@ const HeroSection = () => {
   return (
     <div className="font-inter bg-no-repeat bg-right-bottom md:h-[1200px]" 
     style={{ backgroundImage: `url(${img1})` }}>
-      <div className="p-10 flex justify-between">
+      <div className="p-4 md:p-10 flex flex-col md:flex-row md:justify-between">
         <div className="md:w-[40%] md:p-10">
-          <span className="bg-gradient-to-b from-transparent via-transparent text-[20px] md:text-[60px] font-medium to-[#A6CCFF]">
+          <div className="flex justify-center md:justify-normal">
+          <span className=" bg-gradient-to-b from-transparent via-transparent text-[38px] md:text-[60px] font-medium to-[#A6CCFF]">
             News by You
           </span>
-          <p className="text-[20px] md:text-[60px] font-medium">In just 1 Minute of Video!</p>
-          <p className="text-[18px] py-4 text-[#23291FCC]">
+          </div>
+          <p className="text-[38px] text-center md:text-start md:text-[60px] font-medium">In just 1 Minute of Video!</p>
+          <p className="text-[18px] text-center md:text-start py-4 text-[#23291FCC]">
             Share and Discover the Latest Political Opinions, Trending Issues, and Breaking News. All in Quick Videos from Everyday Citizens!
           </p>
-          <div className="flex items-center mr-6">
-            <div className="text-sm font-medium py-2">
+          <div className="flex justify-center md:justify-normal mr-6">
+            <div className="text-sm font-medium py-4">
               <button className="px-6 p-3 bg-[#032347] rounded-md text-white">
                 Get Started
               </button>
@@ -25,7 +27,7 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="md:py-10 rounded-md">
-          <div className="w-[120px] md:w-[587px] h-[80px] md:h-[358px] bg-[#F8E8E8] rounded-md" />
+          <div className="w-[351px] md:w-[587px] h-[244px] md:h-[358px] bg-[#F8E8E8] rounded-md" />
         </div>
       </div>
       <div
