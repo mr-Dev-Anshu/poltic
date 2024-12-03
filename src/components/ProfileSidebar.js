@@ -13,13 +13,15 @@ const ProfileSidebar = () => {
     const isActive = (path) => location.pathname === path;
 
     const handleLogout = async () => {
-        const result = await dispatch(logout());
-        if (logout.fulfilled.match(result)) {
-            navigate("/login");
-        } else {
-            alert(result.payload || "Failed to logout. Please try again.");
+        try {
+            await dispatch(logout()).unwrap(); 
+    
+            window.location.href = "/";
+        } catch (error) {
+            console.error("Logout failed: ", error);
         }
     };
+    
 
     return (
         <div className=" bg-[#F1F8FF] w-[227px] h-fit rounded-[7px] overflow-hidden">

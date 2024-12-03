@@ -23,6 +23,7 @@ import Subscriptions from "./components/Subscriptions";
 import UserSettings from "./components/UserSettings";
 import Library from "./components/Library";
 import ReportedVideos from "./components/ReportedVideos";
+import { Verify } from "./components/Verify";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,10 +61,14 @@ function App() {
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/email-confirm" element={<EmailConfirm />} />
-        <Route path="/email-confirmation" element={<EmailConfirmation />} />
+
+        <Route path="/email-confirmation" element={<PublicRoute>
+          <EmailConfirmation />
+        </PublicRoute>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/channel" element={<Channel />} />
+        <Route path="/verify" element={<Verify/>} /> 
 
 
          {/* Public routes */}
