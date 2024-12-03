@@ -49,6 +49,7 @@ const authSlice = createSlice({
         })
         .addCase(logout.pending , (state , action) => {
               state.loading = true ; 
+              state.data = action.payload ; 
         })
         .addCase(logout.fulfilled , (state , action )=> {
               state.loading = false ; 
@@ -58,7 +59,7 @@ const authSlice = createSlice({
              state.loading = false ; 
              state.error = action.payload ; 
         }) 
-        
+
     },
 })
 

@@ -59,7 +59,5 @@ export const login = createAsyncThunk("auth/login",
              const errorMessage = error.response?.data?.message || "Something went wrong while logout"
              console.log(errorMessage);
              return rejectWithValue(errorMessage) ; 
-           
-             
            }
     } )
