@@ -14,15 +14,15 @@ const ProfileSidebar = () => {
 
     const handleLogout = async () => {
         try {
-            await dispatch(logout()).unwrap(); 
-    
-            window.location.href = "/";
+            await dispatch(logout()).unwrap().then((payload)=> {
+                window.location.href = "/";
+            }).catch((error)=> {
+                 console.log(error)
+            })
         } catch (error) {
             console.error("Logout failed: ", error);
         }
     };
-    
-
     return (
         <div className=" bg-[#F1F8FF] w-[227px] h-fit rounded-[7px] overflow-hidden">
             {UserFunctions.map((func, index) => (

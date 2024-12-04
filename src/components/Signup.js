@@ -49,13 +49,14 @@ const Signup = () => {
                     phone,
                     password,
                 })
-            ).unwrap(); 
-            // This will only run after the dispatch completes
-            console.log("Signup successful!");
-            console.log(signupData)
-            setLoading(false)
-            // Optionally, navigate to login or show success message
-            navigate("/email-confirmation");
+            ).unwrap().then((payload)=> {
+                console.log("Signup successful!");
+                console.log(signupData)
+                setLoading(false)
+                navigate("/email-confirmation");
+            }).catch((error)=> {
+                 setErrorMessage(error)
+            })           
         } catch (error) {
             console.error(error);
             setLoading(false);
