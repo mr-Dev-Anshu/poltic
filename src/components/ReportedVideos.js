@@ -23,7 +23,7 @@ const ReportedVideos = () => {
                         <ProfileSidebar/>
                         </div>
                         <div>
-                            <div className="sm:mx-4 font-roboto w-[90vw]">
+                            <div className="sm:mx-4 font-roboto w-[90vw] md:w-fit">
                                 <p className="font-semibold text-[20px] pb-2 font-inter">Reported Videos</p>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
                                     {reportedVideos.map((short) => (

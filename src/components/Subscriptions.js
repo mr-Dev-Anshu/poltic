@@ -22,7 +22,7 @@ const Subscriptions = () => {
                         <ProfileSidebar/>
                         </div>
                         <div>
-                            <div className="sm:mx-4 font-inter w-[90vw]">
+                            <div className="sm:mx-4 font-inter  w-[90vw] md:w-fit">
                                 <p className="text-center md:text-start font-semibold text-[20px] pb-4 font-inter">All Subscribed Channels</p>
                                 <div className="grid md:grid-cols-2 gap-10 justify-center mb-10 items-center mx-auto max-w-7xl">
                                     {SubscribedChannels.map((channel) => (
