@@ -20,41 +20,52 @@ const Signup = () => {
     const [confPassword, setConfPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSignup = (e) => {
-        e.preventDefault();
-        let errors = "";
-        if (!firstName.trim()) errors += "First Name is required.\n";
-        if (!lastName.trim()) errors += "Last Name is required.\n";
-        if (!email.includes("@")) errors += "Enter a valid email address.\n";
-        if (phone.length !== 10 || !/^\d+$/.test(phone)) errors += "Enter a valid 10-digit phone number.\n";
-        if (password !== confPassword) errors += "Passwords do not match.\n";
-
-        if (errors) {
-            setLoading(false)
-            setErrorMessage(errors);
-            return;
+    const handleSignup = async (e) => {
+        try {
+            setLoading(true);
+            e.preventDefault();
+            let errors = "";
+    
+            if (!firstName.trim()) errors += "First Name is required.\n";
+            if (!lastName.trim()) errors += "Last Name is required.\n";
+            if (!email.includes("@")) errors += "Enter a valid email address.\n";
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) errors += "Enter a valid 10-digit phone number.\n";
+            if (password !== confPassword) errors += "Passwords do not match.\n";
+    
+            if (errors) {
+                setLoading(false);
+                setErrorMessage(errors);
+                return;
+            }
+    
+            setErrorMessage("");
+    
+            await dispatch(
+                signup({
+                    firstName,
+                    lastName,
+                    email,
+                    country,
+                    phone,
+                    password,
+                })
+            ).unwrap().then((payload)=> {
+                console.log("Signup successful!");
+                console.log(signupData)
+                setLoading(false)
+                navigate("/email-confirmation");
+            }).catch((error)=> {
+                setLoading(false)
+                 setErrorMessage(error)
+            })           
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+            setErrorMessage("An error occurred during signup.");
         }
-        setErrorMessage("");
-        dispatch(
-            signup({
-                firstName,
-                lastName,
-                email,
-                country,
-                phone,
-                password,
-            })
-        );
     };
-    useEffect(() => {
-        if (signupError) {
-            setErrorMessage(signupError);
-            setLoading(false)
-        } else if(signupData)
-        {
-            setLoading(false)
-        }
-    }, [signupError,signupData,dispatch]);
+    
+
 
     return (
         <div className="flex flex-col md:flex-row md:justify-between">

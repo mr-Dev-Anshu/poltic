@@ -10,15 +10,11 @@ import { login } from "../features/auth/authThunk";
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-
     const { data: loginData,  error: loginError } = useSelector((state) => state.auth);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
     const handleLogin = async (e) => {
         try {
             setLoading(true)
@@ -29,24 +25,19 @@ const Login = () => {
                 setLoading(false)
                 return;
             }
-            dispatch(login({ email, password }));
+            dispatch(login({ email, password })).unwrap().then((payload)=> {
+                   setLoading(false) ; 
+                   navigate('/home') ; 
+            }).catch((error)=> {
+                setLoading(false)
+                 setErrorMessage(error)
+            })
         } catch (error) {
-            console.log("Error whole login ", error)
+            console.log("Error while login ", error)
             setLoading(false)
             setErrorMessage(error.message || "Someting went wrong while login ")
         }
     };
-
-    useEffect(() => {
-        if (loginError) {
-            setErrorMessage(loginError);
-            setLoading(false);
-        } else if (loginData) {
-            setLoading(false)
-        }
-    }, [loginError, loginData, dispatch]);
-
-
 
     return (
         <div className="flex flex-col md:flex-row md:justify-between max-h-screen">
