@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch} from "react-redux";
-import { fetchCurrentUser } from "./features/auth/authThunk";
+import { fetchCurrentUser, updateProfile } from "./features/auth/authThunk";
 
 import LandingPage from "./components/LandingPage";
 import About from "./components/About";
@@ -31,8 +31,6 @@ function App() {
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
-
- 
 
   return (
     <BrowserRouter>

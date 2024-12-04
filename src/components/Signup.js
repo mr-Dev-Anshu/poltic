@@ -55,6 +55,7 @@ const Signup = () => {
                 setLoading(false)
                 navigate("/email-confirmation");
             }).catch((error)=> {
+                setLoading(false)
                  setErrorMessage(error)
             })           
         } catch (error) {
