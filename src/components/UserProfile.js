@@ -24,6 +24,7 @@ const UserProfile = () => {
     
     useEffect(()=> {
         console.log('fetched');
+        console.log(user);
         }, [user])
     
     if(loading) {
