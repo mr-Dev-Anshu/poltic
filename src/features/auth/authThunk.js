@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
             const errorMessage = error.response?.data?.message || "Something went wrong";
             return rejectWithValue(errorMessage);
         }
-    }
+    } 
 );
 
 // Signup

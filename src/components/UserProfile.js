@@ -21,10 +21,10 @@ const UserProfile = () => {
     }, []);
 
     const {data:user, loading, error} = useSelector((state) => state.auth)
-    
+
     useEffect(()=> {
-        console.log('fetched');
-        }, [user])
+        console.log('fetched', user);
+        }, [user,loading])
     
     if(loading) {
         return <p>loading...</p>

@@ -3,7 +3,7 @@ import img1 from "../assets/image-Photoroom (38) 1.png";
 import { LuDot } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { signup } from "../features/auth/authThunk";
 
 const Signup = () => {
