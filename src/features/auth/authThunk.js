@@ -51,7 +51,7 @@ export const fetchCurrentUser = createAsyncThunk(
             const response = await axios.get(`${BASE_URL}/users/current`, {
                 withCredentials: true,
             });
-            console.log(response.data)
+            // console.log(response.data)
             return response.data;
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Failed to fetch current user";
@@ -80,12 +80,12 @@ export const logout = createAsyncThunk(
 );
 
 
-export const updateProfile = createAsyncThunk('auth/update', async ( profileData  , {rejectWithValue} )=> {
-     try {
-         const response = await axios.put(`${BASE_URL}/users/update` , profileData , {withCredentials:true}); 
-          return response.data ; 
-     } catch (error) {
-        const errorMessage = error.response?.data?.message || "Somethign went worng while updating the profile"
-        return rejectWithValue(errorMessage); 
-     }
+export const updateProfile = createAsyncThunk('auth/update', async ( {id , updates }  , {rejectWithValue} )=> {
+    try {
+        const response = await axios.put(`${BASE_URL}/users/update?id=${id}` , updates , {withCredentials:true}); 
+         return response.data ; 
+    } catch (error) {
+       const errorMessage = error.response?.data?.message || "Somethign went worng while updating the profile"
+       return rejectWithValue(errorMessage); 
+    }
 })

@@ -2,25 +2,37 @@ import React, { useState, useRef, useEffect } from "react";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import ProfileSidebar from "./ProfileSidebar"; // Adjust the path if needed
 import img from "../assets/profileimg.png";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCurrentUser } from "../features/auth/authThunk";
 
 const UserProfile = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const sidebarRef = useRef(null);
-    useEffect(()=> {
-        console.log(isSidebarOpen);
-        
-    }, [isSidebarOpen,setIsSidebarOpen,sidebarRef])
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
                 setIsSidebarOpen(false);
             }
         };
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside); 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    const {data:user, loading, error} = useSelector((state) => state.auth)
+    
+    useEffect(()=> {
+        console.log('fetched');
+        }, [user])
+    
+    if(loading) {
+        return <p>loading...</p>
+    }
+
+    if(error){
+        return <p className="text-red-500">{error}</p>
+    }
 
     return (
         <div className="w-full flex flex-col md:flex-row items-center md:justify-normal justify-center mx-auto p-5 relative">
@@ -34,16 +46,16 @@ const UserProfile = () => {
                 </div>
             </div>
             <div className="flex flex-col items-center sm:items-start">
-                <p className="md:text-[31px] text-[19px] py-1 md:py-0">Riya Sharma</p>
-                <p className="md:text-[25px] text-[16px] text-[#B7B7B7] ">@riyakinews</p>
+                <p className="md:text-[31px] text-[19px] py-1 md:py-0">{user?.firstName || "User Name"} {user?.lastName || "User Name"}</p>
+                <p className="md:text-[25px] text-[16px] text-[#B7B7B7] ">@{user?.firstName|| "username"}</p>
                 <div className="hidden md:flex gap-4 p-2 md:p-0">
                     <div>
-                        <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">400K</p>
+                        <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium"> {user?.subscribers || "0"}</p>
                         <p className="md:text-[20px] text-[14px] ">Subscribers</p>
                     </div>
                     <div className="bg-gray-300 h-14 mx-8 md:mx-0 md:mt-3 w-[1px]" />
                     <div>
-                        <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">280</p>
+                        <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">{user?.newsCount || "0"}</p>
                         <p className="md:text-[20px] text-[14px] ">News</p>
                     </div>
                 </div>

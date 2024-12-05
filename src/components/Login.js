@@ -27,7 +27,9 @@ const Login = () => {
             }
             dispatch(login({ email, password })).unwrap().then((payload)=> {
                    setLoading(false) ; 
+                //    const dispatch = useDispatch();
                    navigate('/home') ; 
+
             }).catch((error)=> {
                 setLoading(false)
                  setErrorMessage(error)

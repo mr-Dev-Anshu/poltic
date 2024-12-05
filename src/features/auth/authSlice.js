@@ -47,6 +47,7 @@ const authSlice = createSlice({
         })
         .addCase(fetchCurrentUser.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload;
         })
         .addCase(logout.pending , (state , action) => {
               state.loading = true ; 

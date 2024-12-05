@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchCurrentUser, updateProfile } from "./features/auth/authThunk";
 
 import LandingPage from "./components/LandingPage";
@@ -53,7 +53,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route path="/short/:id" element={<ClickedVideo />} />
         <Route path="/about" element={<About />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
@@ -66,24 +66,24 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/channel" element={<Channel />} />
-        <Route path="/verify" element={<Verify/>} /> 
+        <Route path="/verify" element={<Verify />} />
 
 
-         {/* Public routes */}
-         <Route path="/login" element={
-           <PublicRoute>
+        {/* Public routes */}
+        <Route path="/login" element={
+          <PublicRoute>
             <Login />
-           </PublicRoute>
-         } />
-        <Route path="/user-profile" element={<UserDashboard/>}/>
-        <Route path="/user-library" element={<Library/>}/>
-        <Route path="/user-settings" element={<UserSettings/>}/>
-        <Route path="/user-subscriptions" element={<Subscriptions/>}/>
-        <Route path="/user-reports" element={<ReportedVideos/>}/>
+          </PublicRoute>
+        } />
+        <Route path="/user-profile" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+        <Route path="/user-library" element={<Library />} />
+        <Route path="/user-settings" element={<UserSettings />} />
+        <Route path="/user-subscriptions" element={<Subscriptions />} />
+        <Route path="/user-reports" element={<ReportedVideos />} />
         <Route
           path="/reels"
           element={
-              <Reels />
+            <Reels />
           }
         />
       </Routes>
