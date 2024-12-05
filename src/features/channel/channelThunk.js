@@ -2,16 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL configuration
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
-
+// const BASE_URL = "https://polity-backend.onrender.com/api/v1";
+const BASE_URL = 'http://localhost:9000/api/v1'
 // Create Channel
 export const createChannel = createAsyncThunk(
     "channel/create",
-    async ({ channelName, niche, language }, { rejectWithValue }) => {
+    async ({ channelName, niche, language , email }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
                 `${BASE_URL}/channels/create`,
-                { channelName, niche, language },
+                { channelName, niche, language,email},
                 { withCredentials: true }
             );
             return response.data;
@@ -45,6 +45,8 @@ export const updateChannel = createAsyncThunk(
     "channel/update",
     async ({ channelId, updates }, { rejectWithValue }) => {
         try {
+            // console.log(channelId , updates)
+            // return ; 
             const response = await axios.put(
                 `${BASE_URL}/channels/update?id=${channelId}`,
                 updates,
