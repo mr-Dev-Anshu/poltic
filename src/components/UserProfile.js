@@ -23,8 +23,9 @@ const UserProfile = () => {
     const {data:user, loading, error} = useSelector((state) => state.auth)
 
     useEffect(()=> {
-        console.log('fetched', user);
-        }, [user,loading])
+        console.log('fetched');
+        console.log( "this is user from the userProfile" , user);
+        }, [user])
     
     if(loading) {
         return <p>loading...</p>

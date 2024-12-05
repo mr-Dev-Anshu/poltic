@@ -23,13 +23,13 @@ export const createChannel = createAsyncThunk(
 );
 
 
-
+ 
 // Get Single Channel
 export const getChannelByEmail  = createAsyncThunk(
     "channel/get",
     async (email, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${BASE_URL}/channels/get?email=${email}`, {
+            const response = await axios.get(`${BASE_URL}/channels/getByEmail?email=${email}`, {
                 withCredentials: true,
             });
             return response.data;

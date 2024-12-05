@@ -28,11 +28,11 @@ export const login = createAsyncThunk(
 // Signup
 export const signup = createAsyncThunk(
     "auth/signup",
-    async ({ firstName, lastName, email, country, phone, password }, { rejectWithValue }) => {
+    async ({ firstName, lastName, email, country, number, password }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
                 `${BASE_URL}/users/signup`,
-                { firstName, lastName, email, country, phone, password },
+                { firstName, lastName, email, country, number, password },
                 { withCredentials: true }
             );
             return response.data;
@@ -70,7 +70,7 @@ export const logout = createAsyncThunk(
                 `${BASE_URL}/users/logout`,
                 {},
                 { withCredentials: true }
-            );
+            )
             return response.data;
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Something went wrong while logging out";
