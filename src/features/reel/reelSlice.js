@@ -1,29 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { upload } from "./reelThunk";
+import { uploadReel, getReels, deleteReel } from "./reelsThunk";
 
-const reelSlice = createSlice({
-    name: "reel",
+const reelsSlice = createSlice({
+    name: "reels",
     initialState: {
         data: null,
-        loading: false,
         error: null,
+        loading: false, // Loading only for getReels
     },
-    reducers: {
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(upload.pending, (state) => {
-            state.error = null
-        })
-        .addCase(upload.fulfilled, (state, action) => {
-            state.loading = false;
-            state.data = action.payload;
-        })
-        .addCase(upload.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        })
-    }
-})
+        builder
+            // Handle Upload Reel
+            .addCase(uploadReel.fulfilled, (state, action) => {
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(uploadReel.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            // Handle Get Reels
+            .addCase(getReels.pending, (state) => {
+                state.loading = true; // Set loading to true
+                state.error = null;
+            })
+            .addCase(getReels.fulfilled, (state, action) => {
+                state.loading = false; // Reset loading
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(getReels.rejected, (state, action) => {
+                state.loading = false; // Reset loading
+                state.error = action.payload;
+            })
+            // Handle Delete Reel
+            .addCase(deleteReel.fulfilled, (state, action) => {
+                state.data = state.data.filter((reel) => reel.id !== action.meta.arg);
+                state.error = null;
+            })
+            .addCase(deleteReel.rejected, (state, action) => {
+                state.error = action.payload;
+            });
+    },
+});
 
-
-export default reelSlice.reducer
+export default reelsSlice.reducer;
