@@ -7,11 +7,11 @@ const BASE_URL = "https://polity-backend.onrender.com/api/v1";
 // Create Channel
 export const createChannel = createAsyncThunk(
     "channel/create",
-    async ({ name, description }, { rejectWithValue }) => {
+    async ({ channelName, niche, language }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
                 `${BASE_URL}/channels/create`,
-                { name, description },
+                { channelName, niche, language },
                 { withCredentials: true }
             );
             return response.data;
