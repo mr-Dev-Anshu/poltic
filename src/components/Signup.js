@@ -14,7 +14,7 @@ const Signup = () => {
     const [firstName, setFName] = useState("");
     const [lastName, setLName] = useState("");
     const [country, setCountry] = useState("");
-    const [number, setPhone] = useState("");
+    const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
@@ -29,7 +29,7 @@ const Signup = () => {
             if (!firstName.trim()) errors += "First Name is required.\n";
             if (!lastName.trim()) errors += "Last Name is required.\n";
             if (!email.includes("@")) errors += "Enter a valid email address.\n";
-            if (number.length !== 10 || !/^\d+$/.test(number)) errors += "Enter a valid 10-digit phone number.\n";
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) errors += "Enter a valid 10-digit phone phone.\n";
             if (password !== confPassword) errors += "Passwords do not match.\n";
     
             if (errors) {
@@ -46,7 +46,7 @@ const Signup = () => {
                     lastName,
                     email,
                     country,
-                    number,
+                    phone,
                     password,
                 })
             ).unwrap().then((payload)=> {
@@ -114,9 +114,9 @@ const Signup = () => {
                                 className="md:w-60 px-3 py-2 border border-[#0000003B] md:mb-4 rounded-sm"
                             />
                             <input
-                                type="number"
+                                type="phone"
                                 placeholder="Phone"
-                                value={number}
+                                value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
                             />

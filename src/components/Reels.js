@@ -1,24 +1,30 @@
 import React, { useRef, useEffect, useState } from "react";
-import { reels } from "../constants/Reels";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 import { GoUnmute } from "react-icons/go";
 import { AiOutlineComment, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import ReelPage from "./ReelPage";
+import { useDispatch, useSelector } from "react-redux";
+import { getReels } from "../features/reel/reelThunk";
+import { Loader } from "./Loader";
 
 const Reels = () => {
+  const {data:reels , loading:reelsLoading , error:reelsError } = useSelector((state)=> state.reels)
   const [isMuted, setIsMuted] = useState(true);
   const videoRefs = useRef([]);
+  const dispatch = useDispatch() ; 
+
+  useEffect(()=> {
+     dispatch(getReels())
+  },[])
 
   useEffect(() => {
     const options = {
       root: null,
       threshold: 0.5,
     };
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const video = entry.target;
-
         if (entry.isIntersecting) {
           video.play().catch((error) => {
             console.warn("Autoplay blocked by the browser:", error.message);
@@ -30,7 +36,6 @@ const Reels = () => {
         }
       });
     }, options);
-
     videoRefs.current.forEach((video) => {
       if (video) observer.observe(video);
     });
@@ -40,11 +45,15 @@ const Reels = () => {
         if (video) observer.unobserve(video);
       });
     };
-  }, []);
+  }, [reels]);
 
   const toggleMute = () => {
     setIsMuted((prev) => !prev);
   };
+
+  if(reelsLoading){
+     return <Loader/> 
+  }
 
   return (
     <div
@@ -60,11 +69,11 @@ const Reels = () => {
 
       <div>
         <div>
-          {reels.map((reel, index) => (
+          {reels?.map((reel, index) => (
             <div className="flex sm:gap-2">
               <div>
                 <ReelPage
-                  key={reel.id}
+                  key={reel._id}
                   reel={reel}
                   isMuted={isMuted}
                   videoRef={(el) => (videoRefs.current[index] = el)}

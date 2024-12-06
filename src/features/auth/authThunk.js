@@ -82,6 +82,7 @@ export const logout = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk('auth/update', async ( {id , updates }  , {rejectWithValue} )=> {
     try {
+        console.log("this is from updates " , updates)
         const response = await axios.put(`${BASE_URL}/users/update?id=${id}` , updates , {withCredentials:true}); 
          return response.data ; 
     } catch (error) {
