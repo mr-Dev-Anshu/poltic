@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateProfile } from "../features/auth/authThunk"
 import { createChannel, getChannelByEmail, updateChannel } from "../features/channel/channelThunk"
 
-const Modal = ({ children, isOpen, onClose }) => {
+const Modal = ({ children, isOpen }) => {
     if (!isOpen) return null;
 
     return (
@@ -39,7 +39,7 @@ const UserSettings = () => {
 
     const [basicInfo, setBasicInfo] = useState({
         country: user?.country || "",
-        number: user?.number || "",
+        phone: user?.phone || "",
         gender: user?.gender || "",
     });
 
@@ -51,7 +51,7 @@ const UserSettings = () => {
 
     const updates = {
         "gender": basicInfo.gender,
-        "number": basicInfo.number,
+        "phone": basicInfo.phone,
         "location": basicInfo.country
     }
 
@@ -66,11 +66,11 @@ const UserSettings = () => {
             setBasicInfo({
                 email: user.email || "",
                 country: user.country || "",
-                number: user.number || "",
+                phone: user.phone || "",
                 gender: user.gender || "",
             });
             setChannelInfo({
-                channelName: user.lastName || "",
+                channelName: user.channelName || "",
                 niche: user.niche || "",
                 language: user.language || "",
             });
@@ -83,7 +83,7 @@ const UserSettings = () => {
     const email = user?.email
 
     useEffect(() => {
-        const featchChannelDetails = () => {
+        const fetchChannelDetails = () => {
             dispatch(getChannelByEmail(email)).unwrap().then((payload) => {
                 setChannelData(payload);
             }).catch((error) => {
@@ -132,7 +132,7 @@ const UserSettings = () => {
     const saveChannelInfo = async (e) => {
         try {
             await dispatch(updateChannel({ id, channelUpdates }));
-            console.log("Channel Info Saved Successfully");
+            console.log("Channel Info Saved Successfully", channelInfo);
             setChannelInfoModalOpen(false);
         } catch (error) {
             console.error("Error saving channel info:", error);
@@ -191,7 +191,7 @@ const UserSettings = () => {
                                         </div>
                                         <div className="py-4">
                                             <p className="text-[10px] text-[#1C1C1C99] py-1">Phone Number</p>
-                                            <p className="text-[#1C1C1CCC] text-[14px] ">{user?.number || " "}</p>
+                                            <p className="text-[#1C1C1CCC] text-[14px] ">{user?.phone || " "}</p>
                                         </div>
                                         <div className="md:py-4">
                                             <p className="text-[10px] text-[#1C1C1C99] py-1">Gender</p>
@@ -264,7 +264,7 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="number"
-                                            value={basicInfo.number}
+                                            value={basicInfo.phone}
                                             onChange={handleBasicInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
