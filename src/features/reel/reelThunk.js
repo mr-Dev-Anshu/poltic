@@ -7,18 +7,13 @@ const BASE_URL = "https://polity-backend.onrender.com/api/v1";
 // Upload Reel
 export const uploadReel = createAsyncThunk(
     "reels/upload",
-    async ({ title, description, videoFile }, { rejectWithValue }) => {
+    async ({ title, description, video , thumbnail  }, { rejectWithValue }) => {
         try {
-            const formData = new FormData();
-            formData.append("title", title);
-            formData.append("description", description);
-            formData.append("videoFile", videoFile);
-
             const response = await axios.post(
-                `${BASE_URL}/reels/upload`,
-                formData,
+                `${BASE_URL}/reels/create`,
+                {title , description , video , thumbnail },
                 {
-                    headers: { "Content-Type": "multipart/form-data" },
+                    headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 }
             );
@@ -32,10 +27,10 @@ export const uploadReel = createAsyncThunk(
 
 // Get All Reels
 export const getReels = createAsyncThunk(
-    "reels/getAll",
+    "reels/get-all",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${BASE_URL}/reels`, {
+            const response = await axios.get(`${BASE_URL}/reels/get-all`, {
                 withCredentials: true,
             });
             return response.data;

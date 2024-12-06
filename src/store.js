@@ -2,10 +2,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import channelReducer from './features/channel/channelSlice'
+import reelsReducer from './features/reel/reelSlice.js';
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    channel:channelReducer
+    channel:channelReducer,
+    reels:reelsReducer
   },
 });
 

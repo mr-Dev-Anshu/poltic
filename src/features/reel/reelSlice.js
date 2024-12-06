@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uploadReel, getReels, deleteReel } from "./reelsThunk";
+import { deleteReel, getReels, uploadReel } from "./reelThunk";
 
 const reelsSlice = createSlice({
     name: "reels",
     initialState: {
         data: null,
         error: null,
-        loading: false, // Loading only for getReels
+        loading: false, 
     },
     reducers: {},
     extraReducers: (builder) => {

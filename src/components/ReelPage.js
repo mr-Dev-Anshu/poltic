@@ -13,12 +13,12 @@ const ReelPage = ({ reel, isMuted, videoRef }) => {
   
     return (
       <div
-        key={reel.id}
+        key={reel._id}
         className="reel w-[100vw] md:w-[330px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
       >
         <video
           ref={videoRef}
-          src={reel.video_url}
+          src={reel.video}
           loop
           muted={isMuted}
           className="w-full md:rounded-xl h-[calc(100vh-97px)] md:h-h-[calc(100vh-83px)] object-cover cursor-pointer"
@@ -26,11 +26,11 @@ const ReelPage = ({ reel, isMuted, videoRef }) => {
         />
         <div className="absolute bottom-8 flex gap-3 left-4 text-white">
           <div>
-            <img src={reel.profile_pic} alt="" className="h-12 w-12 rounded-full my-2" />
+            {/* <img src={reel.profile_pic} alt="" className="h-12 w-12 rounded-full my-2" /> */}
           </div>
           <div>
-            <p className="font-bold mt-1">{reel.username}</p>
-            <p>{reel.caption}</p>
+            {/* <p className="font-bold mt-1">{reel.username}</p>
+            <p>{reel.caption}</p> */}
           </div>
         </div>
         <div className="absolute sm:hidden bottom-16 text-white right-4 flex flex-col justify-end my-5">

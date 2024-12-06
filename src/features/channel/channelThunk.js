@@ -21,8 +21,6 @@ export const createChannel = createAsyncThunk(
         }
     }
 );
-
-
  
 // Get Single Channel
 export const getChannelByEmail  = createAsyncThunk(
@@ -59,5 +57,3 @@ export const updateChannel = createAsyncThunk(
         }
     }
 );
-
-

@@ -1,51 +1,81 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import VideosList from "../constants/VideoList";
 import Nav from "./Nav";
 import ProfileSidebar from "./ProfileSidebar";
 import Sidebar from "./Sidebar";
 import UserProfile from "./UserProfile";
 import { useState } from "react";
-import { uploadFileToS3 } from "../utils/uploadReels"; // Import the function
+import { uploadFileToS3 } from "../utils/uploadReels"; 
+import { video } from "framer-motion/client";
+import { useDispatch, useSelector } from "react-redux";
+import { Loader } from "./Loader";
+import { uploadReel } from "../features/reel/reelThunk";
 
 const Library = () => {
+    const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ; 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedFile, setSelectedFile] = useState(null); // State to store the selected file
-    const [uploading, setUploading] = useState(false); // State to show upload progress or status
-    const [title, setTitle] = useState(""); // Store the title
-    const [description, setDescription] = useState(""); // Store the description
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploading, setUploading] = useState(false); 
+    const [title, setTitle] = useState(""); 
+    const [description, setDescription] = useState(""); 
     const [thumbnail, setThumbnail] = useState(null); 
+    const dispatch = useDispatch() ; 
+    const navigate = useNavigate(); 
     const toggleModal = () => {
         setIsOpen(!isOpen);
-        setSelectedFile(null); // Clear file selection when closing modal
+        setSelectedFile(null); 
     };
-
     const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]); // Save the selected file
+        setSelectedFile(e.target.files[0]); 
     };
     const handleThumbnailSelect = (e) => {
         setThumbnail(e.target.files[0]);
     };
     const handleUpload = async () => {
+
         if (!selectedFile) {
             alert("Please select a file to upload.");
             return;
+        }else if (!title){
+             alert("Please provide the title")
+             return 
+        }else if (!description){
+             alert("Please provide the Description")
+             return;
         }
+        setUploading(true);
+        const payload = {title,description , userId:user._id};
 
+        if(thumbnail){
+             const thumbnailUrl = await uploadFileToS3(thumbnail) ; 
+              payload.thumbnail=thumbnailUrl;
+        }
         try {
-            setUploading(true);
             const uploadedFileUrl = await uploadFileToS3(selectedFile);
-            alert("File uploaded successfully! File URL: " + uploadedFileUrl);
-            setTitle("");
-            setDescription("");
-            setThumbnail(null);
-            setIsOpen(false);
+            payload.video=uploadedFileUrl; 
+            dispatch(uploadReel(payload)).unwrap().then((payload)=> {
+                setTitle("");
+                setDescription("");
+                setThumbnail(null);
+                setIsOpen(false);
+                setUploading(false); 
+            }).catch((error)=>{
+                alert(error)
+                setUploading(false); 
+            })
         } catch (error) {
             alert("Error uploading file. Please try again.");
             console.error(error);
-        } finally {
-            setUploading(false);
         }
     };
+
+    if(userLoading) {
+         return <Loader/>
+    }
+
+    if(userError){
+        return navigate("/")
+    }
 
     return (
         <div className="flex flex-col h-screen font-roboto">
