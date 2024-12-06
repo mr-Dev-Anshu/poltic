@@ -112,7 +112,8 @@ const UserSettings = () => {
     };
     const handleChannelInfoChange = (e) => {
         const { name, value } = e.target;
-        setChannelInfo((prev) => ({ ...prev, [name]: value }));
+        setChannelInfo((prev) => ({ ...prev, [name]: value }))
+        setChannelData((prev) => ({ ...prev, [name]: value }))
     };
     const handleCreateChannel = (e) => {
         const { name, value } = e.target
@@ -144,6 +145,8 @@ const UserSettings = () => {
                  setLoading(false)
                  setChannelInfoModalOpen(false)
                 setCreateChannelInfoModalOpen(false);
+                console.log("updtaees", channelData,"updtaes");
+                
                 // channelData.channelName = channelName
                 // channelData.niche = niche
                 // channelData.language = language
@@ -160,6 +163,7 @@ const UserSettings = () => {
              dispatch(createChannel({ channelName, niche, language , email:user?.email })).unwrap().then(()=> {
                 setLoading(false)
             setCreateChannelInfoModalOpen(false);
+          console.log(channelData);
           
              }).catch((error)=> {
                setError(error)
