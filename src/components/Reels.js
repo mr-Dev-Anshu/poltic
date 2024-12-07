@@ -99,6 +99,10 @@ const Reels = () => {
     return <Loader />;
   }
 
+  if(reels && reels.length===0){
+     return <div>No Reels uploaded yet</div>
+  }
+
   return (
     <div
       className="reels-container custom-scrollbar flex flex-col items-center justify-center h-auto overflow-y-scroll snap-y snap-mandatory"
@@ -113,7 +117,7 @@ const Reels = () => {
 
       <div>
         <div>
-          {reels?.map((reel, index) => (
+          {reels && reels.length>0 && reels?.map((reel, index) => (
             <div className="flex sm:gap-2">
               <div>
                 <ReelPage

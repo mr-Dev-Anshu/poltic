@@ -146,7 +146,6 @@ const UserSettings = () => {
                  setChannelInfoModalOpen(false)
                 setCreateChannelInfoModalOpen(false);
                 console.log("updtaees", channelData,"updtaes");
-                
                 // channelData.channelName = channelName
                 // channelData.niche = niche
                 // channelData.language = language
