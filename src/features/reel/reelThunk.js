@@ -3,15 +3,16 @@ import axios from "axios";
 
 // Base URL configuration
 const BASE_URL = "https://polity-backend.onrender.com/api/v1";
+// const BASE_URL = "http://localhost:9000/api/v1";
 
 // Upload Reel
 export const uploadReel = createAsyncThunk(
     "reels/upload",
-    async ({ title, description, video , thumbnail  }, { rejectWithValue }) => {
+    async ({ title, description, video , thumbnail , userId  }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
                 `${BASE_URL}/reels/create`,
-                {title , description , video , thumbnail },
+                {title , description , video , thumbnail , userId },
                 {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
@@ -19,6 +20,7 @@ export const uploadReel = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
+            console.log(error)
             const errorMessage = error.response?.data?.message || "Failed to upload reel";
             return rejectWithValue(errorMessage);
         }

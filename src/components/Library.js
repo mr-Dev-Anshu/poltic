@@ -45,14 +45,14 @@ const Library = () => {
         }
         setUploading(true);
         const payload = {title,description , userId:user._id};
-
         if(thumbnail){
              const thumbnailUrl = await uploadFileToS3(thumbnail) ; 
-              payload.thumbnail=thumbnailUrl;
+              payload.thumbnail=thumbnailUrl; 
         }
         try {
             const uploadedFileUrl = await uploadFileToS3(selectedFile);
             payload.video=uploadedFileUrl; 
+            console.log(payload);
             dispatch(uploadReel(payload)).unwrap().then((payload)=> {
                 setTitle("");
                 setDescription("");
@@ -60,12 +60,14 @@ const Library = () => {
                 setIsOpen(false);
                 setUploading(false); 
             }).catch((error)=>{
+                
                 alert(error)
                 setUploading(false); 
             })
         } catch (error) {
+            setUploading(false)
             alert("Error uploading file. Please try again.");
-            console.error(error);
+            console.log(error);
         }
     };
 

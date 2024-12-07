@@ -43,7 +43,7 @@ export const uploadFileToS3 = async (file) => {
       throw new Error(`Error while uploading the file: ${uploadResponse.status}`);
     }
   } catch (error) {
-    console.error("Error while uploading file:", error);
+    console.log("Error while uploading file:", error);
     throw error; // Re-throw the error for higher-level handling
   }
 };
