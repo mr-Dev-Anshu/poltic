@@ -8,17 +8,26 @@ import { getReels } from "../features/reel/reelThunk";
 import { Loader } from "./Loader";
 
 const Reels = () => {
-  const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels)
+  const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
   const [isMuted, setIsMuted] = useState(true);
+  const [thumbnails, setThumbnails] = useState({});
   const videoRefs = useRef([]);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Fetch reels data
+    dispatch(getReels());
+  }, [dispatch]);
+
+  useEffect(() => {
+    // Intersection Observer for autoplay
+    const options = { root: null, threshold: 0.5 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const video = entry.target;
         if (entry.isIntersecting) {
           video.play().catch((error) => {
-            console.warn("Autoplay blocked by the browser:", error.message);
+            console.warn("Autoplay blocked:", error.message);
             video.muted = true;
             video.play();
           });
@@ -27,14 +36,11 @@ const Reels = () => {
         }
       });
     }, options);
-    videoRefs.current.forEach((video) => {
-      if (video) observer.observe(video);
-    });
+
+    videoRefs.current.forEach((video) => video && observer.observe(video));
 
     return () => {
-      videoRefs.current.forEach((video) => {
-        if (video) observer.unobserve(video);
-      });
+      videoRefs.current.forEach((video) => video && observer.unobserve(video));
     };
   }, [reels]);
 
@@ -42,15 +48,15 @@ const Reels = () => {
     setIsMuted((prev) => !prev);
   };
 
-  const captureFrameFromVideo = async (videoUrl) => {
-    return new Promise((resolve) => {
+  const captureFrameFromVideo = (videoUrl) =>
+    new Promise((resolve) => {
       const video = document.createElement("video");
       video.src = videoUrl;
-      video.crossOrigin = "anonymous"; // Ensure cross-origin compatibility
+      video.crossOrigin = "anonymous";
       video.muted = true;
 
       video.onloadedmetadata = () => {
-        const randomTime = Math.random() * video.duration; // Random timestamp
+        const randomTime = Math.random() * video.duration;
         video.currentTime = randomTime;
       };
 
@@ -63,24 +69,13 @@ const Reels = () => {
         resolve(canvas.toDataURL("image/png"));
       };
 
-
       video.onerror = () => {
-        resolve("/default-placeholder.png"); // Fallback image
+        resolve("/default-placeholder.png");
       };
-
-    })
-  }
+    });
 
   useEffect(() => {
-    dispatch(getReels())
-  }, [])
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      threshold: 0.5,
-    };
-  useEffect(() => {
+    // Generate thumbnails
     const fetchThumbnails = async () => {
       const generatedThumbnails = {};
       for (const reel of reels) {
@@ -99,10 +94,6 @@ const Reels = () => {
     return <Loader />;
   }
 
-  if(reels && reels.length===0){
-     return <div>No Reels uploaded yet</div>
-  }
-
   return (
     <div
       className="reels-container custom-scrollbar flex flex-col items-center justify-center h-auto overflow-y-scroll snap-y snap-mandatory"
@@ -116,37 +107,31 @@ const Reels = () => {
       </button>
 
       <div>
-        <div>
-          {reels && reels.length>0 && reels?.map((reel, index) => (
-            <div className="flex sm:gap-2">
-              <div>
-                <ReelPage
-                  key={reel._id}
-                  reel={reel}
-                  isMuted={isMuted}
-                  videoRef={(el) => (videoRefs.current[index] = el)}
-                />
-              </div>
-              <div className="hidden sm:flex flex-col justify-end my-5">
-                <button className="flex flex-col items-center p-2">
-                  <AiOutlineHeart size={28} />
-                  <span className="text-xs">123</span>
-                </button>
-                <button className="flex flex-col items-center p-2">
-                  <AiOutlineComment size={28} />
-                  <span className="text-xs">45</span>
-                </button>
-                <button className="flex flex-col items-center p-2">
-                  <AiOutlineShareAlt size={28} />
-                  <span className="text-xs">Share</span>
-                </button>
-              </div>
+        {reels?.map((reel, index) => (
+          <div key={reel._id} className="flex sm:gap-2">
+            <div>
+              <ReelPage
+                reel={reel}
+                isMuted={isMuted}
+                videoRef={(el) => (videoRefs.current[index] = el)}
+              />
             </div>
-          ))}
-        </div>
-        <div>
-
-        </div>
+            <div className="hidden sm:flex flex-col justify-end my-5">
+              <button className="flex flex-col items-center p-2">
+                <AiOutlineHeart size={28} />
+                <span className="text-xs">123</span>
+              </button>
+              <button className="flex flex-col items-center p-2">
+                <AiOutlineComment size={28} />
+                <span className="text-xs">45</span>
+              </button>
+              <button className="flex flex-col items-center p-2">
+                <AiOutlineShareAlt size={28} />
+                <span className="text-xs">Share</span>
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
