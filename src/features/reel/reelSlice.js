@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteReel, getReels, uploadReel } from "./reelThunk";
+import { deleteReel, getReels, getReelsByUserId, uploadReel } from "./reelThunk";
 
 const reelsSlice = createSlice({
     name: "reels",
@@ -33,14 +33,26 @@ const reelsSlice = createSlice({
                 state.loading = false; // Reset loading
                 state.error = action.payload;
             })
-            // Handle Delete Reel
             .addCase(deleteReel.fulfilled, (state, action) => {
                 state.data = state.data.filter((reel) => reel.id !== action.meta.arg);
                 state.error = null;
             })
             .addCase(deleteReel.rejected, (state, action) => {
                 state.error = action.payload;
-            });
+            })
+            .addCase(getReelsByUserId.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getReelsByUserId.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(getReelsByUserId.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     },
 });
 

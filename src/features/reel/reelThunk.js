@@ -59,3 +59,16 @@ export const deleteReel = createAsyncThunk(
         }
     }
 );
+
+
+export const getReelsByUserId = createAsyncThunk( "reels/get", async(userId, {rejectWithValue}) => {
+    try{
+        const response = await axios.get(`${BASE_URL}/reels/getByUserId?userId=${userId}`,
+            {withCredentials:true}
+        )
+        return response.data
+    } catch(error) {
+        const errorMessage = error.response?.data?.message || "Failed to get reels"
+        return rejectWithValue(errorMessage)
+    }
+});
