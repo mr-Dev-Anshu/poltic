@@ -8,20 +8,11 @@ import { getReels } from "../features/reel/reelThunk";
 import { Loader } from "./Loader";
 
 const Reels = () => {
-  const {data:reels , loading:reelsLoading , error:reelsError } = useSelector((state)=> state.reels)
+  const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels)
   const [isMuted, setIsMuted] = useState(true);
   const videoRefs = useRef([]);
-  const dispatch = useDispatch() ; 
+  const dispatch = useDispatch();
 
-  useEffect(()=> {
-     dispatch(getReels())
-  },[])
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      threshold: 0.5,
-    };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const video = entry.target;
@@ -51,8 +42,61 @@ const Reels = () => {
     setIsMuted((prev) => !prev);
   };
 
-  if(reelsLoading){
-     return <Loader/> 
+  const captureFrameFromVideo = async (videoUrl) => {
+    return new Promise((resolve) => {
+      const video = document.createElement("video");
+      video.src = videoUrl;
+      video.crossOrigin = "anonymous"; // Ensure cross-origin compatibility
+      video.muted = true;
+
+      video.onloadedmetadata = () => {
+        const randomTime = Math.random() * video.duration; // Random timestamp
+        video.currentTime = randomTime;
+      };
+
+      video.onseeked = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/png"));
+      };
+
+
+      video.onerror = () => {
+        resolve("/default-placeholder.png"); // Fallback image
+      };
+
+    })
+  }
+
+  useEffect(() => {
+    dispatch(getReels())
+  }, [])
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      threshold: 0.5,
+    };
+  useEffect(() => {
+    const fetchThumbnails = async () => {
+      const generatedThumbnails = {};
+      for (const reel of reels) {
+        if (!reel.thumbnail) {
+          const frame = await captureFrameFromVideo(reel.videoUrl);
+          generatedThumbnails[reel._id] = frame;
+        }
+      }
+      setThumbnails(generatedThumbnails);
+    };
+
+    if (reels?.length > 0) fetchThumbnails();
+  }, [reels]);
+
+  if (reelsLoading) {
+    return <Loader />;
   }
 
   return (
