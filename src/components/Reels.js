@@ -1,17 +1,31 @@
 import React, { useRef, useEffect, useState } from "react";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 import { GoUnmute } from "react-icons/go";
+import { CiMenuKebab } from "react-icons/ci";
 import { AiOutlineComment, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import ReelPage from "./ReelPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getReels } from "../features/reel/reelThunk";
 import { Loader } from "./Loader";
 
+const Modal = ({ children, isOpen }) => {
+  if (!isOpen) return null;
+
+  return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-[90%] max-w-[500px] p-6">
+              {children}
+          </div>
+      </div>
+  );
+}; 
+
 const Reels = () => {
   const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
   const [isMuted, setIsMuted] = useState(true);
   const [thumbnails, setThumbnails] = useState({});
   const videoRefs = useRef([]);
+  const [currentReelId, setCurrentReelId] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +34,6 @@ const Reels = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Intersection Observer for autoplay
     const options = { root: null, threshold: 0.5 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -31,6 +44,7 @@ const Reels = () => {
             video.muted = true;
             video.play();
           });
+          setCurrentReelId(video.dataset.reelId);
         } else {
           video.pause();
         }
@@ -39,9 +53,9 @@ const Reels = () => {
 
     videoRefs.current.forEach((video) => video && observer.observe(video));
 
-    return () => {
-      videoRefs.current.forEach((video) => video && observer.unobserve(video));
-    };
+  //   return () => {
+  //     videoRefs.current.forEach((video) => video && observer.unobserve(video));
+  //   };
   }, [reels]);
 
   const toggleMute = () => {
@@ -113,10 +127,16 @@ const Reels = () => {
               <ReelPage
                 reel={reel}
                 isMuted={isMuted}
-                videoRef={(el) => (videoRefs.current[index] = el)}
+                reelI = {reel._id}
+                isPlaying={currentReelId === reel._id}
+                vid={(el) => (videoRefs.current[index] = el)}
               />
             </div>
-            <div className="hidden sm:flex flex-col justify-end my-5">
+            <div className="hidden sm:flex flex-col justify-between my-5">
+              <div className="p-2">
+              <CiMenuKebab size={28}/>
+              </div>
+              <div>
               <button className="flex flex-col items-center p-2">
                 <AiOutlineHeart size={28} />
                 <span className="text-xs">123</span>
@@ -129,6 +149,7 @@ const Reels = () => {
                 <AiOutlineShareAlt size={28} />
                 <span className="text-xs">Share</span>
               </button>
+              </div>
             </div>
           </div>
         ))}

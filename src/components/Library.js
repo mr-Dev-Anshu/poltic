@@ -4,15 +4,31 @@ import Nav from "./Nav";
 import ProfileSidebar from "./ProfileSidebar";
 import Sidebar from "./Sidebar";
 import UserProfile from "./UserProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadFileToS3 } from "../utils/uploadReels"; 
 import { video } from "framer-motion/client";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "./Loader";
-import { uploadReel } from "../features/reel/reelThunk";
+import { getReelsByUserId, uploadReel } from "../features/reel/reelThunk";
 
 const Library = () => {
     const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ; 
+    const { data: reels, loading:reelsLoading , reelerror } = useSelector((state) => state.reels)
+
+    useEffect(() => {       
+        const fetchUserReels = () => {
+            if(user?.email){
+            console.log(user._id);
+                dispatch(getReelsByUserId(user?._id)).unwrap().then((payload) => {
+                   console.log(payload);           
+                   console.log("reels",reels);           
+                }).catch((error) => {
+                   console.log(error);             
+                })
+            }
+        }
+    fetchUserReels() ; 
+    }, [])
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false); 
@@ -78,7 +94,7 @@ const Library = () => {
     if(userError){
         return navigate("/")
     }
-
+    
     return (
         <div className="flex flex-col h-screen font-roboto">
             <div className="fixed top-0 w-full z-50">
@@ -179,7 +195,7 @@ const Library = () => {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto md:max-w-7xl">
-                                    {VideosList.map((short) => (
+                                    {reels.map((short) => (
                                         <Link
                                             to={`/short/${short.id}`}
                                             key={short.id}
