@@ -22,17 +22,31 @@ const Modal = ({ children, isOpen }) => {
 
 const Reels = () => {
   const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
+  const { data: user, error: userError } = useSelector((state) => state.auth);
+  const [userId, setUserId] = useState()
   const [isMuted, setIsMuted] = useState(true);
   const [thumbnails, setThumbnails] = useState({});
   const videoRefs = useRef([]);
   const [currentReelId, setCurrentReelId] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Fetch reels data
-    dispatch(getReels());
-  }, [dispatch]);
+ useEffect(()=> {
+  setUserId(user?._id)
+  const getAllReels = async () => {
+    try {
+         dispatch(getReels({ userId})).unwrap().then((payload)=> {   
+            console.log(payload)
+         }).catch((error)=> {
+            console.log(error)
+         })
+    } catch (error) {
+        console.log("Error saving basic info:", error);
+    }
+};
+getAllReels()
+ },[user])
 
+ 
   useEffect(() => {
     const options = { root: null, threshold: 0.5 };
     const observer = new IntersectionObserver((entries) => {

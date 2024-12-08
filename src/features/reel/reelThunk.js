@@ -30,9 +30,9 @@ export const uploadReel = createAsyncThunk(
 // Get All Reels
 export const getReels = createAsyncThunk(
     "reels/get-all",
-    async (_, { rejectWithValue }) => {
+    async ({userId}, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${BASE_URL}/reels/get-all`, {
+            const response = await axios.get(`${BASE_URL}/reels/get-all?userId=${userId}`, {
                 withCredentials: true,
             });
             return response.data;
