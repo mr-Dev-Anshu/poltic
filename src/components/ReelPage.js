@@ -4,6 +4,7 @@ import { AiOutlineComment, AiOutlineHeart, AiOutlineShareAlt } from "react-icons
 import { CiMenuKebab } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { reportReel } from "../features/report/reportThunk";
+import { Loader } from "./Loader";
 
 const Modal = ({ children, isOpen }) => {
   if (!isOpen) return null;
@@ -71,6 +72,10 @@ const ReelPage = ({ reel, vid, reelI }) => {
       console.error("Error creating channel", error);
     }
   };
+
+   if (!reel){
+     return <Loader/> 
+   }
 
   return (
     <div
