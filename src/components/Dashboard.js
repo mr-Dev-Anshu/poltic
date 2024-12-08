@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { getReelsByUserId } from "../features/reel/reelThunk"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 const Dashboard = () => {
     const { data: user, loading: userLoading, error } = useSelector((state) => state.auth)
@@ -9,7 +9,6 @@ const Dashboard = () => {
 
     const dispatch = useDispatch()
     const [thumbnails, setThumbnails] = useState({})
-    console.log(user._Id, reels,reelerror);
 
     const captureFrameFromVideo = (videoUrl) =>
         new Promise((resolve) => {
@@ -39,11 +38,10 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchUserReels = () => {
-            if (user?.email) {
+            if (user) {
                 console.log(user._id);
                 dispatch(getReelsByUserId(user?._id)).unwrap().then((payload) => {
-                    console.log(payload);
-                    console.log("reels", reels);
+                    console.log("this is reels ", payload);
                 }).catch((error) => {
                     console.log(error);
                 })
@@ -62,7 +60,7 @@ const Dashboard = () => {
         };
 
         if (reels?.length > 0) fetchThumbnails();
-    }, [reels]);
+    }, [dispatch]);
 
     return (
         <div>
@@ -91,10 +89,10 @@ const Dashboard = () => {
                 <div className="sm:m-4 font-roboto">
                     <p className="font-semibold text-[20px] py-2 font-inter mt-5">Top Performing News</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
-                        {reels.slice(0, 4).map((short) => (
+                        {reels && reels.slice(0, 4).map((short) => (
                             <Link
+                                key={short._id}
                                 to={`/short/${short.id}`}
-                                key={short.id}
                                 className="flex flex-col"
                             >
                                 <img
@@ -114,5 +112,4 @@ const Dashboard = () => {
         </div>
     )
 }
-
-export default Dashboard
+export default Dashboard ; 
