@@ -29,12 +29,15 @@ const Reels = () => {
   const videoRefs = useRef([]);
   const [currentReelId, setCurrentReelId] = useState(null);
   const dispatch = useDispatch();
+  const { data: user, error: userError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // Fetch reels data 
     setUserId(user?._id)
     setTimeout(() => {
-      dispatch(getReels());
+      if(user){
+        dispatch(getReels(user._id));
+      }
     }, 100)
   }, [dispatch]);
 
