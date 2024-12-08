@@ -22,8 +22,6 @@ const Modal = ({ children, isOpen }) => {
 
 const Reels = () => {
   const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
-  const { data: user, error: userError } = useSelector((state) => state.auth);
-  const [userId, setUserId] = useState()
   const [isMuted, setIsMuted] = useState(true);
   const [thumbnails, setThumbnails] = useState({});
   const videoRefs = useRef([]);
@@ -33,7 +31,6 @@ const Reels = () => {
 
   useEffect(() => {
     // Fetch reels data 
-    setUserId(user?._id)
     setTimeout(() => {
       if(user){
         dispatch(getReels(user._id));

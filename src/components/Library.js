@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import VideosList from "../constants/VideoList";
 import Nav from "./Nav";
 import ProfileSidebar from "./ProfileSidebar";
 import Sidebar from "./Sidebar";
@@ -29,6 +28,51 @@ const Library = () => {
         }
     fetchUserReels() ; 
     }, [])
+    const [thumbnails, setThumbnails] = useState({});
+
+    const captureFrameFromVideo = (videoUrl) =>
+        new Promise((resolve) => {
+            const video = document.createElement("video");
+            video.src = videoUrl;
+            video.crossOrigin = "anonymous";
+            video.muted = true;
+            console.log(video,reels);
+            
+            video.onloadedmetadata = () => {
+                const randomTime = Math.random() * video.duration;
+                video.currentTime = randomTime;
+            };
+
+            video.onseeked = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL("image/png"));
+            };
+
+            video.onerror = () => {
+                resolve("/default-placeholder.png");
+            };
+        });
+
+    useEffect(() => {
+        const fetchThumbnails = async () => {
+            if (reels?.length) {
+                const generatedThumbnails = {};
+                for (const reel of reels) {
+                    if (!reel.thumbnail) {
+                        const frame = await captureFrameFromVideo(reel.video);
+                        generatedThumbnails[reel._id] = frame;
+                    }
+                }
+                setThumbnails(generatedThumbnails);
+            }
+        };
+
+        fetchThumbnails();
+    }, [reels]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false); 
@@ -202,7 +246,7 @@ const Library = () => {
                                             className="flex flex-col"
                                         >
                                             <img
-                                                src={short.thumbnail}
+                                                src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
                                                 alt={short.title}
                                                 className="h-[265px] object-cover rounded-lg w-full "
                                             />

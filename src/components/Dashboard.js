@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom"
-import { getReelsByUserId } from "../features/reel/reelThunk"
-import { useDispatch, useSelector } from "react-redux"
-import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
+import { getReelsByUserId } from "../features/reel/reelThunk";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
-    const { data: user, loading: userLoading, error } = useSelector((state) => state.auth)
-    const { data: reels, loading: reelsLoading, reelerror } = useSelector((state) => state.reels)
+    const { data: user } = useSelector((state) => state.auth);
+    const { data: reels, loading: reelsLoading } = useSelector((state) => state.reels);
 
-    const dispatch = useDispatch()
-    const [thumbnails, setThumbnails] = useState({})
+    const dispatch = useDispatch();
+    const [thumbnails, setThumbnails] = useState({});
 
     const captureFrameFromVideo = (videoUrl) =>
         new Promise((resolve) => {
@@ -16,7 +16,8 @@ const Dashboard = () => {
             video.src = videoUrl;
             video.crossOrigin = "anonymous";
             video.muted = true;
-
+            console.log(video,reels);
+            
             video.onloadedmetadata = () => {
                 const randomTime = Math.random() * video.duration;
                 video.currentTime = randomTime;
@@ -37,51 +38,50 @@ const Dashboard = () => {
         });
 
     useEffect(() => {
-        const fetchUserReels = () => {
-            if (user) {
-                console.log(user._id);
-                dispatch(getReelsByUserId(user?._id)).unwrap().then((payload) => {
-                    console.log("this is reels ", payload);
-                }).catch((error) => {
-                    console.log(error);
-                })
-            }
+        if (user) {
+            dispatch(getReelsByUserId(user._id))
+                .unwrap()
+                .catch((error) => console.error("Error fetching reels:", error));
         }
-        fetchUserReels();
+    }, [dispatch, user]);
+
+    useEffect(() => {
         const fetchThumbnails = async () => {
-            const generatedThumbnails = {};
-            for (const reel of reels) {
-                if (!reel.thumbnail) {
-                    const frame = await captureFrameFromVideo(reel.videoUrl);
-                    generatedThumbnails[reel._id] = frame;
+            if (reels?.length) {
+                const generatedThumbnails = {};
+                for (const reel of reels) {
+                    if (!reel.thumbnail) {
+                        const frame = await captureFrameFromVideo(reel.video);
+                        generatedThumbnails[reel._id] = frame;
+                    }
                 }
+                setThumbnails(generatedThumbnails);
             }
-            setThumbnails(generatedThumbnails);
         };
 
-        if (reels?.length > 0) fetchThumbnails();
-    }, [dispatch]);
+        fetchThumbnails();
+    }, [reels]);
 
     return (
         <div>
             <div>
-                <p className="font-semibold text-[20px] pb-2 font-inter ">Dashboard</p>
-                <div className="grid grid-cols-3 gap-5  sm:gap-10">
+                <p className="font-semibold text-[20px] pb-2 font-inter">Dashboard</p>
+                <div className="grid grid-cols-3 gap-5 sm:gap-10">
                     <div className="w-[108px] md:w-[258px] h-[120px] md:h-[158px] border border-[#C5C5C5] rounded-[10px] flex flex-col items-center justify-center">
-                        <p className="text-[24px] font-semibold ">1.3M</p>
-                        <p className="text-[17px] font-normal text-[#999999]  ">Total views</p>
+                        <p className="text-[24px] font-semibold">1.3M</p>
+                        <p className="text-[17px] font-normal text-[#999999]">Total views</p>
                     </div>
                     <div className="w-[108px] md:w-[258px] h-[120px] md:h-[158px] border border-[#C5C5C5] rounded-[10px] flex flex-col items-center justify-center">
-                        <p className="text-[24px] font-semibold ">145</p>
-                        <p className="text-[17px] font-normal text-[#999999]  ">Total videos</p>
+                        <p className="text-[24px] font-semibold">145</p>
+                        <p className="text-[17px] font-normal text-[#999999]">Total videos</p>
                     </div>
                     <div className="hidden w-[108px] md:w-[258px] h-[120px] md:h-[158px] border border-[#C5C5C5] rounded-[10px] sm:flex flex-col items-center justify-center">
-                        <p className="text-[24px] font-semibold ">42.5k</p>
-                        <p className="text-[17px] font-normal text-[#999999] ">Total comments</p>
+                        <p className="text-[24px] font-semibold">42.5k</p>
+                        <p className="text-[17px] font-normal text-[#999999]">Total comments</p>
                     </div>
                     <div className="sm:hidden w-[108px] md:w-[258px] h-[120px] md:h-[158px] border border-[#C5C5C5] rounded-[10px] flex flex-col items-center justify-center">
-                        <p className="text-[24px] font-semibold ">400k</p>
-                        <p className="text-[17px] font-normal text-[#999999] ">Subscribers</p>
+                        <p className="text-[24px] font-semibold">400k</p>
+                        <p className="text-[17px] font-normal text-[#999999]">Subscribers</p>
                     </div>
                 </div>
             </div>
@@ -89,18 +89,14 @@ const Dashboard = () => {
                 <div className="sm:m-4 font-roboto">
                     <p className="font-semibold text-[20px] py-2 font-inter mt-5">Top Performing News</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
-                        {reels && reels.slice(0, 4).map((short) => (
-                            <Link
-                                key={short._id}
-                                to={`/short/${short.id}`}
-                                className="flex flex-col"
-                            >
+                        {reels?.slice(0, 4).map((short) => (
+                            <Link key={short._id} to={`/short/${short._id}`} className="flex flex-col">
                                 <img
                                     src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
                                     alt={short.title}
-                                    className="h-[265px] w-[160px] object-cover rounded-lg "
+                                    className="h-[265px] w-[160px] object-cover rounded-lg"
                                 />
-                                <div className="">
+                                <div>
                                     <p className="font-light mt-2">{short.title}</p>
                                     <p className="text-[14px] font-light">{short.views}</p>
                                 </div>
@@ -110,6 +106,7 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-    )
-}
-export default Dashboard ; 
+    );
+};
+
+export default Dashboard;
