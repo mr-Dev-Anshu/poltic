@@ -5,6 +5,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { reportReel } from "../features/report/reportThunk";
 import { Loader } from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ children, isOpen }) => {
   if (!isOpen) return null;
@@ -21,6 +22,7 @@ const ReelPage = ({ reel, vid, reelI }) => {
   const BASE_URL = "https://polity-backend.onrender.com/api/v1";
   const { data: user } = useSelector((state) => state.auth);
   const videoRef = useRef(null);
+  const navigate = useNavigate()
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -73,9 +75,9 @@ const ReelPage = ({ reel, vid, reelI }) => {
     }
   };
 
-   if (!reel){
-     return <Loader/> 
-   }
+  if (!reel) {
+    return <Loader />
+  }
 
   return (
     <div
@@ -96,6 +98,16 @@ const ReelPage = ({ reel, vid, reelI }) => {
             src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF/?text=Avatar"}
             alt="Profile"
             className="h-12 w-12 rounded-full my-2"
+            onClick={() =>
+              navigate("/creator-profile", {
+                state: {
+                  creatorId: reel.user?._id,            
+                  firstName: reel.user?.firstName,
+                  lastName: reel.user?.lastName,
+                  userId: user?._id
+                },
+              })
+            }
           />
         </div>
         <div>

@@ -24,6 +24,7 @@ import UserSettings from "./components/UserSettings";
 import Library from "./components/Library";
 import ReportedVideos from "./components/ReportedVideos";
 import { Verify } from "./components/Verify";
+import Profile from "./components/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,7 @@ function App() {
         } />
         <Route path="/user-profile" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
         <Route path="/user-library" element={<Library />} />
+        <Route path="/creator-profile" element={<Profile />} />
         <Route path="/user-settings" element={<UserSettings />} />
         <Route path="/user-subscriptions" element={<Subscriptions />} />
         <Route path="/user-reports" element={<ReportedVideos />} />
