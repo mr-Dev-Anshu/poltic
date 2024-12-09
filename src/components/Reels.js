@@ -7,6 +7,7 @@ import ReelPage from "./ReelPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getReels } from "../features/reel/reelThunk";
 import { Loader } from "./Loader";
+import { reportReel } from "../features/report/reportThunk";
 
 const Modal = ({ children, isOpen }) => {
   if (!isOpen) return null;
@@ -23,14 +24,17 @@ const Modal = ({ children, isOpen }) => {
 const Reels = () => {
   const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
   const [isMuted, setIsMuted] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
   const [thumbnails, setThumbnails] = useState({});
   const videoRefs = useRef([]);
   const [currentReelId, setCurrentReelId] = useState(null);
+  const [creatorId, setCreatorId] = useState()
+  const [reporterId, setReporterId] = useState()
+  const [reelId, setReelId] = useState()
   const dispatch = useDispatch();
   const { data: user, error: userError } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // Fetch reels data 
     setTimeout(() => {
       if(user){
         dispatch(getReels(user._id));
@@ -78,45 +82,22 @@ const Reels = () => {
     setIsMuted((prev) => !prev);
   };
 
-  const captureFrameFromVideo = (videoUrl) =>
-    new Promise((resolve) => {
-      const video = document.createElement("video");
-      video.src = videoUrl;
-      video.crossOrigin = "anonymous";
-      video.muted = true;
+  const handleReport = async (reel) => {
+    try {
+      setCreatorId(reel?.userId)
+      setReporterId(user?._id)
+      setReelId(reel?._id)
+      console.log(creatorId, reporterId, reelId)
+      dispatch(reportReel({ creatorId, reporterId, reelId })).unwrap().then(() => {
 
-      video.onloadedmetadata = () => {
-        const randomTime = Math.random() * video.duration;
-        video.currentTime = randomTime;
-      };
+        console.log(creatorId, reporterId, reelId);
 
-      video.onseeked = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL("image/png"));
-      };
-
-      video.onerror = () => {
-        resolve("/default-placeholder.png");
-      };
-    });
-  useEffect(() => {
-    // Generate thumbnails
-    const fetchThumbnails = async () => {
-      const generatedThumbnails = {};
-      for (const reel of reels) {
-        if (!reel.thumbnail) {
-          const frame = await captureFrameFromVideo(reel.videoUrl);
-          generatedThumbnails[reel._id] = frame;
-        }
-      }
-      setThumbnails(generatedThumbnails);
-    };
-    if (reels?.length > 0) fetchThumbnails();
-  }, [reels]);
+      }).catch((error) => {
+      })
+    } catch (error) {
+      console.error("Error creating channel", error);
+    }
+  };
 
   if (reels && reels.length === 0) {
     return <div>No Reels uploaded yet</div>
@@ -125,8 +106,6 @@ const Reels = () => {
   if (reelsLoading) {
     return <Loader />;
   }
-
-
 
   return (
     <div
@@ -154,9 +133,9 @@ const Reels = () => {
 
             </div>
             <div className="hidden sm:flex flex-col justify-between my-5">
-              <div className="p-2">
-                <CiMenuKebab size={28} />
-              </div>
+            <div className="ml-4 mt-6">
+          <CiMenuKebab size={28} onClick={() => setModalOpen(true)} />
+        </div>
               <div>
                 <button className="flex flex-col items-center p-2">
                   <AiOutlineHeart size={28} />
@@ -172,6 +151,24 @@ const Reels = () => {
                 </button>
               </div>
             </div>
+            <Modal isOpen={modalOpen}  >
+        <div className="flex flex-col">
+          <div className="flex justify-end">
+            <button
+              className="mb-4 text-xl"
+              onClick={() => setModalOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+          <div>
+            <hr />
+            <button className="" onClick={() => handleReport(reel)}>
+              Report Video
+            </button>
+          </div>
+        </div>
+      </Modal>
           </div>
         ))}
       </div>

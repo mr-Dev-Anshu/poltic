@@ -61,7 +61,7 @@ const ReelPage = ({ reel, vid, reelI }) => {
       setReporterId(user?._id)
       setReelId(reel?._id)
       console.log(creatorId, reporterId, reelId)
-      dispatch(reportReel({ creatorId, reporterId, reelId })).unwrap().then(() => {
+      await dispatch(reportReel({ creatorId, reporterId, reelId })).unwrap().then(() => {
 
         console.log(creatorId, reporterId, reelId);
 
