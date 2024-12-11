@@ -11,15 +11,15 @@ import { IoMail } from "react-icons/io5"
 
 const Contact = () => {
     return (
-        <div className="font-inter ">
+        <div className="font-inter overflow-x-hidden w-[100vw]">
             <Navbar/>
-            <div className="h-[359px] bg-no-repeat bg-cover flex items-center justify-center text-white "
+            <div className="h-[359px] w-full bg-no-repeat bg-cover flex items-center justify-center text-white "
                 style={{ backgroundImage: `url(${img})` }}>
                 <p className="text-[48px] font-semibold text-center">Contact Us</p>
             </div>
-           <div className="bg-gray-100 flex items-center justify-center">
-           <div className="flex py-28">
-                <div className="h-[533px] w-[484px] bg-no-repeat  text-white p-5" style={{ backgroundImage: `url(${img1})` }}>
+           <div className="bg-gray-100 sm:flex items-center justify-center">
+           <div className="flex flex-col sm:flex-row py-28">
+                <div className=" sm:h-[533px] w-full rounded-t-xl sm:rounded-t-none sm:w-[484px] bg-no-repeat  text-white p-5" style={{ backgroundImage: `url(${img1})` }}>
                     <p className="text-[28px] font-semibold p-4 ">Contact Information</p>
                     <p className="text-[18px] font-medium px-4 text-[#C9C9C9] ">Say something to start a live chat!</p>
                     <div className="p-4 mt-8 flex gap-6">
@@ -36,8 +36,8 @@ const Contact = () => {
                         <img src={img4} alt="" />
                     </div>
                 </div>
-                <form className="p-10 bg-white rounded-e-md">
-                    <div className="flex gap-10 m-10">
+                <form className="md:p-10 bg-white rounded-md sm:rounded-e-md">
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-10 m-5 md:m-10">
                         <div className="flex flex-col">
                         <label htmlFor="" className="text-[12px] text-[#8D8D8D] py-2">First Name</label>
                         <input type="text" placeholder="" className="border border-x-0 border-t-0 focus:outline-none border-[#8D8D8D]" />
@@ -47,21 +47,15 @@ const Contact = () => {
                         <input type="text" placeholder="" className="border border-x-0 border-t-0 focus:outline-none border-[#8D8D8D]" />
                         </div>
                     </div>
-                    <div className="flex gap-10 m-10 my-10">
-                        <div className="flex flex-col">
+                    <div className="flex flex-col m-5 md:m-10">
                         <label htmlFor="" className="text-[12px] text-[#8D8D8D] py-2">Email</label>
-                        <input type="text" placeholder="" className="border border-x-0 border-t-0 focus:outline-none border-[#8D8D8D]" />
-                        </div>
-                        <div className="flex flex-col">
-                        <label htmlFor="" className="text-[12px] text-[#8D8D8D] py-2">Phone Number</label>
-                        <input type="number" placeholder="" className="border border-x-0 border-t-0 focus:outline-none border-[#8D8D8D]" />
-                        </div>
+                        <input type="text" placeholder="" className="border border-x-0 border-t-0 w-full focus:outline-none border-[#8D8D8D]" />
                     </div>
-                    <div className="flex flex-col m-10">
+                    <div className="flex flex-col m-5 md:m-10">
                         <label htmlFor="" className="text-[12px] text-[#8D8D8D] py-2">Message</label>
                         <input type="text" placeholder="Write your message." className="border border-x-0 border-t-0 p-1 w-full focus:outline-none border-[#8D8D8D]" />
                     </div>
-                    <div className="flex items-end justify-end m-10">
+                    <div className="flex items-end justify-end m-5 md:m-10">
                         <button className="px-4 py-2 bg-[#065FD4] text-white rounded-md " type="submit">Send Message</button>
                     </div>
                 </form>

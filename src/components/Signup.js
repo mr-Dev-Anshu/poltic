@@ -107,22 +107,6 @@ const Signup = () => {
                         />
                         <div className="flex flex-col md:flex-row gap-4">
                             <input
-                                type="text"
-                                placeholder="Country"
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                                className="md:w-60 px-3 py-2 border border-[#0000003B] md:mb-4 rounded-sm"
-                            />
-                            <input
-                                type="phone"
-                                placeholder="Phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                className="md:w-60 px-3 py-2 border border-[#0000003B] mb-4 rounded-sm"
-                            />
-                        </div>
-                        <div className="flex flex-col md:flex-row gap-4">
-                            <input
                                 type="password"
                                 placeholder="Password"
                                 value={password}
