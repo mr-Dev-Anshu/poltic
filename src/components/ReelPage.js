@@ -66,8 +66,8 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
       await dispatch(reportReel({ creatorId, reporterId, reelId })).unwrap().then(() => {
         console.log(creatorId, reporterId, reelId);
       }).catch((error) => {
+        
       })
-
     } catch (error) {
       console.error("Error creating channel", error);
     }

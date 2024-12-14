@@ -13,9 +13,12 @@ import { getReelsByUserId, uploadReel } from "../features/reel/reelThunk";
 const Library = () => {
     const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ; 
     const { data: reels, loading:reelsLoading , reelerror } = useSelector((state) => state.reels)
+    const [uploadComplete, setUploadComplete] = useState(false); // New state for upload completion
+
 
     useEffect(() => {       
         const fetchUserReels = () => {
+            console.log("Fetching user" , user?._id)
             if(user?.email){
             console.log(user._id);
                 dispatch(getReelsByUserId(user?._id)).unwrap().then((payload) => {
@@ -27,7 +30,7 @@ const Library = () => {
             }
         }
     fetchUserReels() ; 
-    }, [])
+    }, [user , uploadComplete])
     const [thumbnails, setThumbnails] = useState({});
 
     const captureFrameFromVideo = (videoUrl) =>
@@ -61,7 +64,6 @@ const Library = () => {
             const fetchThumbnails = async () => {
                 if (reels?.length) {
                     const generatedThumbnails = {};
-        
                     // Map each reel to a thumbnail generation promise
                     const thumbnailPromises = reels.map(async (reel) => {
                         if (!reel.thumbnail) {
@@ -69,7 +71,6 @@ const Library = () => {
                             generatedThumbnails[reel._id] = frame;
                         }
                     });
-        
                     // Await all promises to resolve
                     await Promise.all(thumbnailPromises);
                     console.log("Generated Thumbnails:", generatedThumbnails);
@@ -78,11 +79,9 @@ const Library = () => {
                         ...prev,
                         ...generatedThumbnails,
                     }));
-                    console.log(thumbnails);
-                    
+                    console.log(thumbnails);   
                 }
             };
-        
             fetchThumbnails();
         }, [reels]);
         
@@ -105,7 +104,7 @@ const Library = () => {
         setThumbnail(e.target.files[0]);
     };
     const handleUpload = async () => {
-
+          setUploadComplete(false) ; 
         if (!selectedFile) {
             alert("Please select a file to upload.");
             return;
@@ -132,8 +131,8 @@ const Library = () => {
                 setThumbnail(null);
                 setIsOpen(false);
                 setUploading(false); 
+                setUploadComplete(true) ; 
             }).catch((error)=>{
-                
                 alert(error)
                 setUploading(false); 
             })
@@ -144,7 +143,7 @@ const Library = () => {
         }
     };
 
-    if(userLoading) {
+    if(userLoading || reels && reels.length===0 ) {
          return <Loader/>
     }
 

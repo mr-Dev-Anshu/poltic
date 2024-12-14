@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { getReelsByUserId } from "../features/reel/reelThunk";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
+import { Loader } from "./Loader";
 
 const Dashboard = () => {
     const { data: user } = useSelector((state) => state.auth);
     const { data: reels, loading: reelsLoading } = useSelector((state) => state.reels);
-
+    const [loading , setLoading ] = useState(false) ; 
     const dispatch = useDispatch();
     const [thumbnails, setThumbnails] = useState({});
 
@@ -47,6 +48,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchThumbnails = async () => {
+            setLoading(true) ; 
             if (reels?.length) {
                 const generatedThumbnails = {};
                 for (const reel of reels) {
@@ -57,10 +59,15 @@ const Dashboard = () => {
                 }
                 setThumbnails(generatedThumbnails);
             }
+            setLoading(false) ; 
         };
-
         fetchThumbnails();
     }, [reels]);
+    if( reels && reels.length===0 || loading) {
+       return   <Loader/>
+    }
+
+
 
     return (
         <div>
