@@ -130,7 +130,6 @@ const Reels = () => {
                 isPlaying={currentReelId === reel._id}
                 vid={(el) => (videoRefs.current[index] = el || videoRefs.current[index])}
               />
-
             </div>
             <div className="hidden sm:flex flex-col justify-between my-5">
             <div className="ml-4 mt-6">

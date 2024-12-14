@@ -18,13 +18,13 @@ const Modal = ({ children, isOpen }) => {
   );
 };
 
-const ReelPage = ({ reel, vid, reelI }) => {
+const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
   const BASE_URL = "https://polity-backend.onrender.com/api/v1";
   const { data: user } = useSelector((state) => state.auth);
   const videoRef = useRef(null);
   const navigate = useNavigate()
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  // const [isMuted, setIsMuted] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [creatorId, setCreatorId] = useState()
   const [reporterId, setReporterId] = useState()
@@ -64,9 +64,7 @@ const ReelPage = ({ reel, vid, reelI }) => {
       setReelId(reel?._id)
       console.log(creatorId, reporterId, reelId)
       await dispatch(reportReel({ creatorId, reporterId, reelId })).unwrap().then(() => {
-
         console.log(creatorId, reporterId, reelId);
-
       }).catch((error) => {
       })
 
@@ -79,18 +77,19 @@ const ReelPage = ({ reel, vid, reelI }) => {
     return <Loader />
   }
 
+
   return (
     <div
       key={reel._id}
       className="reel w-[100vw] md:w-[330px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
     >
       <video
-        ref={videoRef}
+        ref={vid}
         src={reel.video}
         loop
         muted={isMuted}
         className="w-full md:rounded-xl h-[calc(100vh-97px)] object-cover cursor-pointer"
-        onClick={togglePlayPause}
+        // onClick={togglePlayPause}
       />
       <div className="absolute bottom-8 flex gap-3 left-4 text-white">
         <div>
