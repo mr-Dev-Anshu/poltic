@@ -101,7 +101,7 @@ const Profile = () => {
                     <Sidebar />
                 </div>
               <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-5">
-              <div className=" w-full flex flex-col mt-5 items-center justify-center mx-auto p-5">
+              <div className=" w-full flex flex-col items-center justify-center mx-auto p-5">
                     <div>
                         <img src={img} alt="" />
                     </div>
@@ -123,7 +123,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <hr />
-                <div className="grid grid-cols-2 sm:grid-cols-4 mt-10 gap-6 justify-center items-center mx-auto md:max-w-7xl">
+                <div className="grid grid-cols-2 sm:grid-cols-4 mt-5 gap-6 justify-center items-center mx-auto md:max-w-7xl">
                     {reels && reels.length > 0 && reels.map((short) => (
                         <Link
                             to={`/short/${short.id}`}
