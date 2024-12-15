@@ -31,6 +31,7 @@ const Library = () => {
         }
     fetchUserReels() ; 
     }, [user , uploadComplete])
+    
     const [thumbnails, setThumbnails] = useState({});
 
     const captureFrameFromVideo = (videoUrl) =>
@@ -260,7 +261,7 @@ const Library = () => {
                                             <img
                                                 src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
                                                 alt={short.title}
-                                                className="h-[265px] object-cover rounded-lg w-full "
+                                                className="h-[265px] w-[180px] object-cover rounded-lg "
                                             />
                                             <div className="">
                                                 <p className="font-light mt-2">{short.title}</p>

@@ -22,7 +22,7 @@ const Modal = ({ children, isOpen }) => {
     );
 };
 
-const UserSettings = () => {
+const UserSettings = () => { 
     const dispatch = useDispatch()
     const { data: channel, error: channelError } = useSelector((state) => state.channel)
     const { data: user, loading:userLoading , error } = useSelector((state) => state.auth)
@@ -128,14 +128,14 @@ const UserSettings = () => {
             setLoading(true)
              dispatch(updateProfile({ id:user._id, updates:basicInfo })).unwrap().then((payload)=> {
                 setLoading(false)
-                console.log(payload)
+                // console.log(payload)
                 setBasicInfoModalOpen(false);
              }).catch((error)=> {
-                console.log(error)
+                // console.log(error)
                   setLoading(false)
              })
         } catch (error) {
-            console.log("Error saving basic info:", error);
+            // console.log("Error saving basic info:", error);
         }
     };
     const saveChannelInfo = async (e) => {

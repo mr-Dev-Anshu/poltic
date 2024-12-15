@@ -4,34 +4,50 @@ import ProfileSidebar from "./ProfileSidebar"; // Adjust the path if needed
 import img from "../assets/profileimg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "../features/auth/authThunk";
+import { getChannelByEmail } from "../features/channel/channelThunk";
 
 const UserProfile = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const dispatch = useDispatch()
+    const { data: channel, error: channelError } = useSelector((state) => state.channel)
+    const { data: user, loading, error } = useSelector((state) => state.auth)
     const sidebarRef = useRef(null);
+    useEffect(() => {
+        const fetchChannelDetails = () => {
+            if (user?.email) {
+                dispatch(getChannelByEmail(user?.email)).unwrap().then((payload) => {
+                //   console.log(payload);            
+                }).catch((error) => {
+
+                })
+            }
+        }
+        fetchChannelDetails();
+    }, [user, channel])
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
                 setIsSidebarOpen(false);
             }
         };
-        document.addEventListener("mousedown", handleClickOutside); 
+        document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
-    const {data:user, loading, error} = useSelector((state) => state.auth)
 
-    useEffect(()=> {
-        console.log('fetched');
-        console.log( "this is user from the userProfile" , user);
-        }, [user])
-    
-    if(loading) {
+    // useEffect(() => {
+    //     // console.log('fetched');
+    //     // console.log("this is user from the userProfile", user);
+    // }, [user])
+
+    if (loading) {
         return <p>loading...</p>
     }
 
-    if(error){
+    if (error) {
         return <p className="text-red-500">{error}</p>
     }
 
@@ -48,7 +64,7 @@ const UserProfile = () => {
             </div>
             <div className="flex flex-col items-center sm:items-start">
                 <p className="md:text-[31px] text-[19px] py-1 md:py-0">{user?.firstName || "User Name"} {user?.lastName || "User Name"}</p>
-                <p className="md:text-[25px] text-[16px] text-[#B7B7B7] ">@{user?.firstName|| "username"}</p>
+                <p className="md:text-[25px] text-[16px] text-[#B7B7B7] ">@{channel?.channelName || "channelName"}</p>
                 <div className="hidden md:flex gap-4 p-2 md:p-0">
                     <div>
                         <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium"> {user?.subscribers || "0"}</p>
