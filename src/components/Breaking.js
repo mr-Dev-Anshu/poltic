@@ -1,7 +1,7 @@
 const Breaking = () => {
     return (
-        <div>
-
+        <div className="flex justify-center items-center h-screen text-2xl">
+             <p className="">Coming Soon </p>
         </div>
     )
 }

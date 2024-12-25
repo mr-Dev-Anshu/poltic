@@ -29,9 +29,7 @@ const Signup = () => {
             if (!firstName.trim()) errors += "First Name is required.\n";
             if (!lastName.trim()) errors += "Last Name is required.\n";
             if (!email.includes("@")) errors += "Enter a valid email address.\n";
-            if (phone.length !== 10 || !/^\d+$/.test(phone)) errors += "Enter a valid 10-digit phone phone.\n";
             if (password !== confPassword) errors += "Passwords do not match.\n";
-    
             if (errors) {
                 setLoading(false);
                 setErrorMessage(errors);

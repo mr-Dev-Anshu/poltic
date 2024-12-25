@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchCurrentUser, updateProfile } from "./features/auth/authThunk";
+import { fetchCurrentUser } from "./features/auth/authThunk";
 
 import LandingPage from "./components/LandingPage";
 import About from "./components/About";
@@ -25,6 +25,7 @@ import Library from "./components/Library";
 import ReportedVideos from "./components/ReportedVideos";
 import { Verify } from "./components/Verify";
 import Profile from "./components/Profile";
+import Breaking from "./components/Breaking";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +38,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        {/* Protected  routes  */}
+
+        {/* Protected routes */}
         <Route
           path="/home"
           element={
@@ -54,40 +56,75 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/user-settings"
+          element={
+            <ProtectedRoute>
+              <UserSettings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-subscriptions"
+          element={
+            <ProtectedRoute>
+              <Subscriptions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/breaking"
+          element={
+            <ProtectedRoute>
+              <Breaking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-reports"
+          element={
+            <ProtectedRoute>
+              <ReportedVideos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/creator-profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/short/:id" element={<ClickedVideo />} />
+        {/* Public routes */}
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/email-confirmation"
+          element={
+            <PublicRoute>
+              <EmailConfirmation />
+            </PublicRoute>
+          }
+        />
         <Route path="/about" element={<About />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/email-confirm" element={<EmailConfirm />} />
-
-        <Route path="/email-confirmation" element={<PublicRoute>
-          <EmailConfirmation />
-        </PublicRoute>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/channel" element={<Channel />} />
         <Route path="/verify" element={<Verify />} />
-
-
-        {/* Public routes */}
-        <Route path="/login" element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        } />
-        <Route path="/user-profile" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+        <Route path="/short/:id" element={<ClickedVideo />} />
+        <Route path="/reels" element={<Reels />} />
         <Route path="/user-library" element={<Library />} />
-        <Route path="/creator-profile" element={<Profile />} />
-        <Route path="/user-settings" element={<UserSettings />} />
-        <Route path="/user-subscriptions" element={<Subscriptions />} />
-        <Route path="/user-reports" element={<ReportedVideos />} />
-        <Route
-          path="/reels"
-          element={
-            <Reels />
-          }
-        />
       </Routes>
     </BrowserRouter>
   );

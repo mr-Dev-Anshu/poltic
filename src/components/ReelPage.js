@@ -96,7 +96,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
           <img
             src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF/?text=Avatar"}
             alt="Profile"
-            className="h-12 w-12 rounded-full my-2"
+            className="h-12 w-12 rounded-full my-2 cursor-pointer"
             onClick={() =>
               navigate("/creator-profile", {
                 state: {
