@@ -13,7 +13,7 @@ const Modal = ({ children, isOpen }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-[90%] max-w-[500px] p-6">
         {children}
       </div>
@@ -131,11 +131,7 @@ const Reels = () => {
                 vid={(el) => (videoRefs.current[index] = el || videoRefs.current[index])}
               />
             </div>
-            <div className="hidden sm:flex flex-col justify-between my-5">
-            <div className="ml-4 mt-6">
-          <CiMenuKebab size={28} onClick={() => setModalOpen(true)} />
-        </div>
-              <div>
+            <div className="hidden sm:flex flex-col justify-end gap-4 items-center bottom-2 my-2">
                 <button className="flex flex-col items-center p-2">
                   <AiOutlineHeart size={28} />
                   <span className="text-xs">123</span>
@@ -148,7 +144,8 @@ const Reels = () => {
                   <AiOutlineShareAlt size={28} />
                   <span className="text-xs">Share</span>
                 </button>
-              </div>
+            <CiMenuKebab size={28} className="m-2" onClick={() => setModalOpen(true)} />
+
             </div>
             <Modal isOpen={modalOpen}  >
         <div className="flex flex-col">

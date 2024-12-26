@@ -1,0 +1,30 @@
+{
+    "short_name": "MyApp",
+    "name": "My React Progressive Web App",
+    "description": "An awesome React app that works offline and can be installed on mobile devices.",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "https://via.placeholder.com/512x512.png?text=App+Icon",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "https://via.placeholder.com/1280x720.png?text=Wide+Screenshot",
+        "sizes": "1280x720",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "https://via.placeholder.com/720x1280.png?text=Mobile+Screenshot",
+        "sizes": "720x1280",
+        "type": "image/png"
+      }
+    ]
+  }
+  

@@ -96,7 +96,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
           <img
             src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF/?text=Avatar"}
             alt="Profile"
-            className="h-12 w-12 rounded-full my-2"
+            className="h-12 w-12 rounded-full my-2 cursor-pointer"
             onClick={() =>
               navigate("/creator-profile", {
                 state: {
@@ -114,10 +114,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
           <p>{reel.description}</p>
         </div>
       </div>
-      <div className="absolute sm:hidden h-full text-white right-4 flex flex-col justify-between">
-        <div className="ml-4 mt-6">
-          <CiMenuKebab size={28} onClick={() => setModalOpen(true)} />
-        </div>
+      <div className="absolute sm:hidden h-full text-white right-4 flex flex-col justify-end my-2">
         <div>
           <button className="flex flex-col items-center p-2">
             <AiOutlineHeart size={28} />
@@ -131,6 +128,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
             <AiOutlineShareAlt size={28} />
             <span className="text-xs">Share</span>
           </button>
+          <CiMenuKebab size={28} onClick={() => setModalOpen(true)} className="m-2 items-center" />
         </div>
       </div>
       <Modal isOpen={modalOpen}>

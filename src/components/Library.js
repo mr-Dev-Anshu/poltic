@@ -181,6 +181,7 @@ const Library = () => {
                                         >
                                             Upload Video
                                         </button>
+                                        {/* uploading && <div className="overlay"><p>Uploading...</p></div> */}
                                         {isOpen && (
                                             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                                 <div className="bg-white rounded-lg w-full max-w-md p-6">
@@ -240,7 +241,7 @@ const Library = () => {
                                                         />
                                                     </div>
                                                     <button
-                                                        className="bg-[#065FD4] text-white px-4 py-2 rounded w-full"
+                                                        className="bg-[#065FD4] disabled:bg-gray-400 text-white px-4 py-2 rounded w-full"
                                                         onClick={handleUpload}
                                                         disabled={uploading}
                                                     >

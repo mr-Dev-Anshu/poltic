@@ -32,7 +32,7 @@ const Sidebar = () => {
                     <div className="h-[2px] bg-blue-500 w-full absolute bottom-[-2px] left-0" />
                 )}
             </div>
-            <div className="flex flex-col gap-1 md:m-2 relative">
+            {/* <div className="flex flex-col gap-1 md:m-2 relative">
                 <Link
                     to="/subscription"
                     className={`flex items-center gap-2 ${isActive("/subscription") ? "text-blue-500" : "text-gray-700"
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 {isActive("/subscription") && (
                     <div className="h-[2px] bg-blue-500 w-full absolute bottom-[-2px] left-0" />
                 )}
-            </div>
+            </div> */}
         </div>
     );
 };

@@ -39,12 +39,12 @@ const HeroSection = () => {
           Join a community where your voice matters! At #PolTic, everyone shapes the news that impacts our lives.
         </p>
       </div>
-      <div className="grid grid-cols-1 px-12 md:grid-cols-4 p-5 md:px-24 gap-10 bg-no-repeat bg-right-bottom">
+      <div className="grid grid-cols-2 px-2 md:grid-cols-4 p-5 md:px-24 gap-2 sm:gap-10 bg-no-repeat bg-right-bottom">
         {ItemList.map((item, index)=>(
-            <div className="bg-[#F3F8FF] p-4 w-[275px]">
-                <div className="bg-[#D9D9D9] h-[31px] w-[31px] rounded-full"/>
-                <p className="py-2 text-[18px] font-semibold">{item.title}</p>
-                <p className="text-[14px] text-[#3D3C3C]">{item.description}</p>
+            <div className="bg-[#F3F8FF] p-2 sm:p-4 sm:w-[275px]">
+                <div className="bg-[#D9D9D9] h-[20px] sm:h-[31px] w-[20px] sm:w-[31px] rounded-full"/>
+                <p className="py-2 sm:text-[18px] font-medium sm:font-semibold">{item.title}</p>
+                <p className="text-[12px] sm:text-[14px] text-[#3D3C3C]">{item.description}</p>
             </div>
         ))}
       </div>

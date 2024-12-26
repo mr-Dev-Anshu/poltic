@@ -1,5 +1,5 @@
 import { IoMdSearch } from "react-icons/io"
-import img from "../assets/image-Photoroom (38) 1.png"
+import img from "../assets/Picture1.png"
 import { useNavigate } from "react-router-dom"
 
 const Nav = () => {
@@ -10,7 +10,7 @@ const Nav = () => {
             <IoMdSearch className="h-[16px] w-[16px]" />
             </div>
             <div className="md:ml-4">
-                <img src={img} alt="" className="w-[99px] md:w-[138px]" />
+                <img src={img} alt="" className="h-[30px] sm:h-[40px]" />
             </div>
             <div className=" mr-2 md:mr-12">
                 <button className="text-white bg-[#032347] w-[33px] h-[33px] rounded-full flex items-center justify-center" onClick={() => navigate("/user-profile")} >A</button>

@@ -1,57 +1,78 @@
-import React from "react";
-// import Navbar from "./navbar";
-// import Sidebar from "./sidebar";
-import { TbFilter } from "react-icons/tb";
-import { FiChevronDown } from "react-icons/fi";
-import { FiRefreshCw } from "react-icons/fi";
-import Sidebar from "./Sidebar";
+// import { reels } from "../constants/Reels"
+// import DummyPlay from "./DummyPlay"
+// import React, { useRef, useEffect, useState } from "react";
 
-const Log = () => {
-  return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+// const Dummy = () => {
+//     const [isMuted, setIsMuted] = useState(true);
+//     const videoRefs = useRef([]);
+  
+//     useEffect(() => {
+//       const options = {
+//         root: null,
+//         threshold: 0.5,
+//       };
+  
+//       const observer = new IntersectionObserver((entries) => {
+//         entries.forEach((entry) => {
+//           const video = entry.target;
+  
+//           if (entry.isIntersecting) {
+//             video.play().catch((error) => {
+//               console.warn("Autoplay blocked by the browser:", error.message);
+//               video.muted = true;
+//               video.play();
+//             });
+//           } else {
+//             video.pause();
+//           }
+//         });
+//       }, options);
+  
+//       videoRefs.current.forEach((video) => {
+//         if (video) observer.observe(video);
+//       });
+  
+//       return () => {
+//         videoRefs.current.forEach((video) => {
+//           if (video) observer.unobserve(video);
+//         });
+//       };
+//     }, []);
+  
+//     const toggleMute = () => {
+//       setIsMuted((prev) => !prev);
+//     };
+  
+//     return (
+//         <div>
+//             {reels.map((reel, index) => (
+//             <div className="flex gap-2">
+//               <div>
+//                 <DummyPlay
+//                   key={reel.id}
+//                   reel={reel}
+//                   isMuted={isMuted}
+//                   videoRef={(el) => (videoRefs.current[index] = el)}
+//                 />
+//               </div>
+//               <div className="hidden sm:flex flex-col justify-end my-5">
+//                 <button className="flex flex-col items-center p-2">
+//                   <AiOutlineHeart size={28} />
+//                   <span className="text-xs">123</span>
+//                 </button>
+//                 <button className="flex flex-col items-center p-2">
+//                   <AiOutlineComment size={28} />
+//                   <span className="text-xs">45</span>
+//                 </button>
+//                 <button className="flex flex-col items-center p-2">
+//                   <AiOutlineShareAlt size={28} />
+//                   <span className="text-xs">Share</span>
+//                 </button>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//     )
+// }
 
-      <div className="flex-1 flex flex-col">
-
-        <div className="p-8 bg-gray-100">
-          <h1 className="text-2xl font-semibold mb-6">History:</h1>
-
-          <div className="flex items-center max-w-5xl justify-between bg-white rounded-lg shadow-md border border-gray-200 px-4 mx-5">
-            {/* Filter Icon */}
-            <div className="flex items-center p-4 border-r pr-4">
-              <TbFilter className="text-gray-600 text-2xl" />
-            </div>
-            <div className="flex items-center p-4 border-r pr-4">
-              <span className="text-gray-700 font-medium">Filter By</span>
-            </div>
-            <div className="flex items-center p-3 gap-2 border-r">
-              <span className="text-gray-700 font-medium">Date</span>
-              <FiChevronDown className="text-gray-600 m-2" />
-            </div>
-            <div className="flex items-center p-3 gap-2 border-r">
-              <span className="text-gray-700 font-medium">User Name</span>
-              <FiChevronDown className="text-gray-600 m-2" />
-            </div>
-            <div className="flex items-center p-3 gap-2 border-r">
-              <span className="text-gray-700 font-medium">Activity Type</span>
-              <FiChevronDown className="text-gray-600 m-2" />
-            </div>
-            <div className="flex items-center p-3 gap-2 border-r">
-              <span className="text-gray-700 font-medium">Customer Name</span>
-              <FiChevronDown className="text-gray-600 m-2" />
-
-            </div>
-
-            {/* Reset Filter */}
-            <div className="flex items-center text-red-600 font-medium cursor-pointer p-4">
-              <FiRefreshCw className="text-red-600 m-1" />
-              <span>Reset Filter</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Log;
+// export default Dummy
