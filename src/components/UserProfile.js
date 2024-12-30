@@ -5,6 +5,7 @@ import img from "../assets/profileimg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "../features/auth/authThunk";
 import { getChannelByEmail } from "../features/channel/channelThunk";
+import { CiMenuKebab } from "react-icons/ci";
 
 const UserProfile = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -56,7 +57,7 @@ const UserProfile = () => {
             <div>
                 <img src={img} alt="" className="sm:pr-10" />
                 <div className="absolute right-4 top-6 sm:hidden">
-                    <MdOutlineArrowDropDownCircle
+                    <CiMenuKebab
                         className="h-6 w-6 cursor-pointer"
                         onClick={() => setIsSidebarOpen((prev) => !prev)}
                     />

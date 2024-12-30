@@ -47,7 +47,7 @@ const Reels = () => {
   useEffect(() => {
     if (reels && reels.length > 0) {
       if (!observerRef.current) {
-        const options = { root: null, threshold: 0.5 };
+        const options = { root: null, threshold: 0.6 };
         observerRef.current = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             const video = entry.target;

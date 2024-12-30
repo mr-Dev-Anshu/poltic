@@ -147,7 +147,6 @@ const Profile = () => {
                                     <p className="md:text-[20px] text-[14px] ">News</p>
                                 </div>
                             </div>
-                            {/* Subscribe and Unsubscribe Buttons */}
                             {isSubscribed ||  optimisticFollow  ? (
                                 <button
                                     className={`px-6 py-2 m-3 text-white rounded-md ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-red-500"
