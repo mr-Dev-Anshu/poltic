@@ -14,14 +14,14 @@ const UserDashboard = () => {
                 <div className="z-50 fixed w-full flex flex-col items-center md:h-[calc(100vh-89px)] md:w-[227px]">
                     <Sidebar />
                 </div>
-                <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-5">
+                <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-2 sm:px-5">
                     <UserProfile/>
                     <hr className="my-5 w-full" />
                     <div className="flex gap-10">
                         <div className="hidden md:flex">
                         <ProfileSidebar/>
                         </div>          
-                    <div>
+                    <div className="flex-1">
                         <Dashboard/>
                     </div>
                     </div>

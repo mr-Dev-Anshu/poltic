@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import img1 from "../assets/image-Photoroom (38) 1.png"
+import img1 from "../assets/Picture1.png"
 import { NavButtons } from "../constants/NavButtons"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="sticky rounded-2xl flex justify-between h-[81px] ">
             <div className="flex items-center ml-6">
                 <button onClick={() => navigate("/")}>
-                    <img src={img1} alt="logo" className="h-[50px] mr-2"/>
+                    <img src={img1} alt="logo" className="h-[30px] sm:h-[40px] mr-2"/>
                 </button>
             </div>
             <div className="hidden md:flex gap-[65px] text-[18px]">

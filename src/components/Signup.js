@@ -1,5 +1,5 @@
 import img from "../assets/image2.png";
-import img1 from "../assets/image-Photoroom (38) 1.png";
+import img1 from "../assets/Picture1.png";
 import { LuDot } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,7 +71,7 @@ const Signup = () => {
                 onClick={() => navigate("/")}
                 src={img1}
                 alt="Logo"
-                className="h-[50px] w-fit m-4 cursor-pointer"
+                className="h-[40px] w-fit m-4 cursor-pointer"
             />
             <div className="md:w-[50%] h-screen md:mx-auto px-5 md:px-0">
                 <div className="flex flex-col md:justify-center md:items-center h-[calc(100vh-84px)]">
