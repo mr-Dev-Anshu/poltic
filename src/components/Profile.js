@@ -7,28 +7,31 @@ import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { getReelsByUserId } from "../features/reel/reelThunk";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { useReels } from "../features/reel/customeHooks";
 
 const Profile = () => {
-    const location = useLocation()
+    const location = useLocation(); 
     const { creatorId, firstName, lastName, userId } = location.state || {};
-    console.log(lastName, creatorId, firstName, location.state);
     const dispatch = useDispatch()
-    const { data: reels, loading: reelsLoading, reelerror } = useSelector((state) => state.reels)
     const [optimisticFollow, setOptimisticFollow] = useState(false);
     const [isSubscribed, setIsSubscribe] = useState(false);
     const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        const fetchUserReels = () => {
-            console.log("Fetching user", creatorId)
-            dispatch(getReelsByUserId(creatorId)).unwrap().then((payload) => {
-                console.log(payload);
-                console.log("reels", reels);
-            }).catch((error) => {
-                console.log(error);
-            })
+
+    const {
+        data: reels,
+        isLoading: isReelsLoading,
+        isError,
+        error,
+        refetch,
+      } = useReels(creatorId, {
+        enabled: false, 
+      });
+      useEffect(() => {
+        if (creatorId) {
+          refetch(); 
         }
-        fetchUserReels();
-    }, [creatorId])
+      }, [creatorId, refetch]);
+ 
 
     useEffect(() => {
         const checkFollowStatus = async () => {
@@ -77,7 +80,6 @@ const Profile = () => {
             video.crossOrigin = "anonymous";
             video.muted = true;
             console.log(reels);
-
             video.onloadedmetadata = () => {
                 const randomTime = Math.random() * video.duration;
                 video.currentTime = randomTime;
@@ -99,7 +101,7 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchThumbnails = async () => {
-            if (reels?.length) {
+            if (reels && reels?.length) {
                 const generatedThumbnails = {};
                 const thumbnailPromises = reels.map(async (reel) => {
                     if (!reel.thumbnail) {
@@ -109,7 +111,6 @@ const Profile = () => {
                 });
                 await Promise.all(thumbnailPromises);
                 console.log("Generated Thumbnails:", generatedThumbnails);
-
                 setThumbnails((prev) => ({
                     ...prev,
                     ...generatedThumbnails,
@@ -119,6 +120,10 @@ const Profile = () => {
         };
         fetchThumbnails();
     }, [reels]);
+
+
+    if (isReelsLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error: {error.message}</p>;
 
     return (
         <div >
@@ -167,7 +172,7 @@ const Profile = () => {
                                 >
                                     {loading ? "Subscribing..." : "Subscribe"}
                                 </button>
-                            )}                      </div>
+                            )} </div>
                     </div>
                     <hr />
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 mt-5 gap-6 justify-center items-center mx-auto px-4 md:max-w-7xl">

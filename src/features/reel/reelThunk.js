@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-// Base URL configuration
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
-// const BASE_URL = "http://localhost:9000/api/v1";
-
+import { BASE_URL } from "../../constants/info";
 // Upload Reel
 export const uploadReel = createAsyncThunk(
     "reels/upload",
@@ -61,15 +57,9 @@ export const deleteReel = createAsyncThunk(
 );
 
 
-export const getReelsByUserId = createAsyncThunk( "reels/get", async(userId, {rejectWithValue}) => {
-    try{
-        console.log(userId);
+export const getReelsByUserId = async  (userId) => {
         const response = await axios.get(`${BASE_URL}/reels/getByUserId?userId=${userId}`,
             {withCredentials:true}
         )
         return response.data
-    } catch(error) {
-        const errorMessage = error.response?.data?.message || "Failed to get reels"
-        return rejectWithValue(errorMessage)
-    }
-});
+};

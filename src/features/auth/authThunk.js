@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-// Base URL configuration
-// const BASE_URL = "http://localhost:9000/api/v1"; // Local
-// Uncomment this line and comment the above line for production
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
+import { BASE_URL } from "../../constants/info";
 
 // Login
 export const login = createAsyncThunk(

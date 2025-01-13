@@ -71,7 +71,6 @@ const authSlice = createSlice({
              state.loading = false ; 
              state.error = action.payload ; 
         })
-
     },
 })
 
