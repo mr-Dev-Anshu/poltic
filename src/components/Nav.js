@@ -1,5 +1,5 @@
 import { IoMdSearch } from "react-icons/io"
-import img from "../assets/Picture1.png"
+import img from "../assets/logo1.svg"
 import { useNavigate } from "react-router-dom"
 
 const Nav = () => {

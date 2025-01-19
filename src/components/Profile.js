@@ -44,8 +44,6 @@ const Profile = () => {
     }, [creatorId, userId]);
 
 
-
-
     const [thumbnails, setThumbnails] = useState({});
 
     const handleFollow = async () => {
@@ -68,56 +66,84 @@ const Profile = () => {
              setIsSubscribe(true)
           }
     }
-
     const captureFrameFromVideo = (videoUrl) =>
-        new Promise((resolve) => {
-            const video = document.createElement("video");
-            video.src = videoUrl;
-            video.crossOrigin = "anonymous";
-            video.muted = true;
-            console.log(reels);
+    new Promise((resolve) => {
+        const video = document.createElement("video");
+        video.crossOrigin = "anonymous";
+        video.preload = "metadata";
+        
+        // Handle loading errors
+        video.onerror = () => {
+            console.error("Error loading video:", videoUrl);
+            resolve("/default-placeholder.png");
+        };
 
-            video.onloadedmetadata = () => {
-                const randomTime = Math.random() * video.duration;
-                video.currentTime = randomTime;
-            };
+        // Handle successful metadata load
+        video.onloadedmetadata = () => {
+            // Set to 25% of the video duration for a consistent preview point
+            video.currentTime = video.duration * 0.25;
+        };
 
-            video.onseeked = () => {
+        // Handle successful seek
+        video.onseeked = () => {
+            try {
                 const canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+                canvas.width = 480;  // Set fixed dimensions for consistency
+                canvas.height = 270;
                 const ctx = canvas.getContext("2d");
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resolve(canvas.toDataURL("image/png"));
-            };
-
-            video.onerror = () => {
+                
+                if (ctx) {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const thumbnail = canvas.toDataURL("image/jpeg", 0.7); // Use JPEG with quality 0.7 for better performance
+                    resolve(thumbnail);
+                } else {
+                    resolve("/default-placeholder.png");
+                }
+            } catch (error) {
+                console.error("Error capturing frame:", error);
                 resolve("/default-placeholder.png");
-            };
-        });
-
-    useEffect(() => {
-        const fetchThumbnails = async () => {
-            if (reels?.length) {
-                const generatedThumbnails = {};
-                const thumbnailPromises = reels.map(async (reel) => {
-                    if (!reel.thumbnail) {
-                        const frame = await captureFrameFromVideo(reel?.video);
-                        generatedThumbnails[reel?._id] = frame;
-                    }
-                });
-                await Promise.all(thumbnailPromises);
-                console.log("Generated Thumbnails:", generatedThumbnails);
-
-                setThumbnails((prev) => ({
-                    ...prev,
-                    ...generatedThumbnails,
-                }));
-                console.log(thumbnails);
             }
         };
-        fetchThumbnails();
-    }, [reels]);
+
+        // Start loading the video
+        video.src = videoUrl;
+        video.load();
+    });
+
+useEffect(() => {
+    const fetchThumbnails = async () => {
+        if (!reels?.length) return;
+
+        setLoading(true);
+        const newThumbnails = { ...thumbnails };
+        
+        // Process videos in smaller batches to prevent memory issues
+        const batchSize = 3;
+        for (let i = 0; i < reels.length; i += batchSize) {
+            const batch = reels.slice(i, i + batchSize);
+            await Promise.all(
+                batch.map(async (reel) => {
+                    if (!reel.thumbnail && !thumbnails[reel._id]) {
+                        try {
+                            const frame = await captureFrameFromVideo(reel.video);
+                            newThumbnails[reel._id] = frame;
+                        } catch (error) {
+                            console.error("Error generating thumbnail for reel:", reel._id, error);
+                            newThumbnails[reel._id] = "/default-placeholder.png";
+                        }
+                    }
+                })
+            );
+            // Update thumbnails after each batch
+            setThumbnails(newThumbnails);
+        }
+        
+        setLoading(false);
+    };
+
+    fetchThumbnails();
+}, [reels]);
+    
 
     return (
         <div >
