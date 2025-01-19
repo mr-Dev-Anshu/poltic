@@ -3,13 +3,27 @@ import { getReelsByUserId } from "../features/reel/reelThunk";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { Loader } from "./Loader";
+import { useReels } from "../features/reel/customeHooks";
 
 const Dashboard = () => {
-    const { data: user } = useSelector((state) => state.auth);
-    const { data: reels, loading: reelsLoading } = useSelector((state) => state.reels);
-    const [loading , setLoading ] = useState(false) ; 
-    const dispatch = useDispatch();
+    const { data: user } = useSelector((state) => state.auth); // Get user from Redux
+    const [loading , setLoading] = useState()
+    const {
+      data: reels,
+      isLoading: isReelsLoading,
+      isError,
+      error,
+      refetch,
+    } = useReels(user?._id, {
+      enabled: false, // Disable automatic fetching initially
+    });
     const [thumbnails, setThumbnails] = useState({});
+    // Use effect to refetch reels when the user becomes available
+    useEffect(() => {
+      if (user) {
+        refetch(); // Refetch reels when user is set
+      }
+    }, [user, refetch]);
 
     const captureFrameFromVideo = (videoUrl) =>
         new Promise((resolve) => {
@@ -18,12 +32,10 @@ const Dashboard = () => {
             video.crossOrigin = "anonymous";
             video.muted = true;
             console.log(video,reels);
-            
             video.onloadedmetadata = () => {
                 const randomTime = Math.random() * video.duration;
                 video.currentTime = randomTime;
             };
-
             video.onseeked = () => {
                 const canvas = document.createElement("canvas");
                 canvas.width = video.videoWidth;
@@ -38,13 +50,6 @@ const Dashboard = () => {
             };
         });
 
-    useEffect(() => {
-        if (user) {
-            dispatch(getReelsByUserId(user._id))
-                .unwrap()
-                .catch((error) => console.error("Error fetching reels:", error));
-        }
-    }, [dispatch, user]);
 
     useEffect(() => {
         const fetchThumbnails = async () => {
@@ -63,10 +68,8 @@ const Dashboard = () => {
         };
         fetchThumbnails();
     }, [reels]);
-    if( reels && reels.length===0 || loading) {
-       return   <Loader/>
-    }
-
+        if (isReelsLoading) return <p>Loading...</p>;
+        if (isError) return <p>Error: {error.message}</p>;
     return (
         <div>
             <div>

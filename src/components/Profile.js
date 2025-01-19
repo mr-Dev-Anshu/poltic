@@ -6,28 +6,32 @@ import Nav from "./Nav";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { getReelsByUserId } from "../features/reel/reelThunk";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { useReels } from "../features/reel/customeHooks";
 
 const Profile = () => {
-    const location = useLocation()
+    const location = useLocation(); 
     const { creatorId, firstName, lastName, userId } = location.state || {};
-    console.log(lastName, creatorId, firstName, location.state);
     const dispatch = useDispatch()
-    const { data: reels, loading: reelsLoading, reelerror } = useSelector((state) => state.reels)
     const [optimisticFollow, setOptimisticFollow] = useState(false);
     const [isSubscribed, setIsSubscribe] = useState(false);
     const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        const fetchUserReels = () => {
-            console.log("Fetching user", creatorId)
-            dispatch(getReelsByUserId(creatorId)).unwrap().then((payload) => {
-                console.log(payload);
-                console.log("reels", reels);
-            }).catch((error) => {
-                console.log(error);
-            })
+
+    const {
+        data: reels,
+        isLoading: isReelsLoading,
+        isError,
+        error,
+        refetch,
+      } = useReels(creatorId, {
+        enabled: false, 
+      });
+      useEffect(() => {
+        if (creatorId) {
+          refetch(); 
         }
-        fetchUserReels();
-    }, [creatorId])
+      }, [creatorId, refetch]);
+ 
 
     useEffect(() => {
         const checkFollowStatus = async () => {
@@ -67,22 +71,16 @@ const Profile = () => {
           }
     }
     const captureFrameFromVideo = (videoUrl) =>
-    new Promise((resolve) => {
-        const video = document.createElement("video");
-        video.crossOrigin = "anonymous";
-        video.preload = "metadata";
-        
-        // Handle loading errors
-        video.onerror = () => {
-            console.error("Error loading video:", videoUrl);
-            resolve("/default-placeholder.png");
-        };
-
-        // Handle successful metadata load
-        video.onloadedmetadata = () => {
-            // Set to 25% of the video duration for a consistent preview point
-            video.currentTime = video.duration * 0.25;
-        };
+        new Promise((resolve) => {
+            const video = document.createElement("video");
+            video.src = videoUrl;
+            video.crossOrigin = "anonymous";
+            video.muted = true;
+            console.log(reels);
+            video.onloadedmetadata = () => {
+                const randomTime = Math.random() * video.duration;
+                video.currentTime = randomTime;
+            };
 
         // Handle successful seek
         video.onseeked = () => {
@@ -110,40 +108,31 @@ const Profile = () => {
         video.load();
     });
 
-useEffect(() => {
-    const fetchThumbnails = async () => {
-        if (!reels?.length) return;
-
-        setLoading(true);
-        const newThumbnails = { ...thumbnails };
-        
-        // Process videos in smaller batches to prevent memory issues
-        const batchSize = 3;
-        for (let i = 0; i < reels.length; i += batchSize) {
-            const batch = reels.slice(i, i + batchSize);
-            await Promise.all(
-                batch.map(async (reel) => {
-                    if (!reel.thumbnail && !thumbnails[reel._id]) {
-                        try {
-                            const frame = await captureFrameFromVideo(reel.video);
-                            newThumbnails[reel._id] = frame;
-                        } catch (error) {
-                            console.error("Error generating thumbnail for reel:", reel._id, error);
-                            newThumbnails[reel._id] = "/default-placeholder.png";
-                        }
+    useEffect(() => {
+        const fetchThumbnails = async () => {
+            if (reels && reels?.length) {
+                const generatedThumbnails = {};
+                const thumbnailPromises = reels.map(async (reel) => {
+                    if (!reel.thumbnail) {
+                        const frame = await captureFrameFromVideo(reel?.video);
+                        generatedThumbnails[reel?._id] = frame;
                     }
-                })
-            );
-            // Update thumbnails after each batch
-            setThumbnails(newThumbnails);
-        }
-        
-        setLoading(false);
-    };
+                });
+                await Promise.all(thumbnailPromises);
+                console.log("Generated Thumbnails:", generatedThumbnails);
+                setThumbnails((prev) => ({
+                    ...prev,
+                    ...generatedThumbnails,
+                }));
+                console.log(thumbnails);
+            }
+        };
+        fetchThumbnails();
+    }, [reels]);
 
-    fetchThumbnails();
-}, [reels]);
-    
+
+    if (isReelsLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error: {error.message}</p>;
 
     return (
         <div >
@@ -191,7 +180,7 @@ useEffect(() => {
                                 >
                                     {loading ? "Subscribing..." : "Subscribe"}
                                 </button>
-                            )}                      </div>
+                            )} </div>
                     </div>
                     <hr />
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 mt-5 gap-6 justify-center items-center mx-auto px-4 md:max-w-7xl">

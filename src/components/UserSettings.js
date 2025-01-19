@@ -22,17 +22,17 @@ const Modal = ({ children, isOpen }) => {
     );
 };
 
-const UserSettings = () => { 
+const UserSettings = () => {
     const dispatch = useDispatch()
     const { data: channel, error: channelError } = useSelector((state) => state.channel)
-    const { data: user, loading:userLoading , error } = useSelector((state) => state.auth)
+    const { data: user, loading: userLoading, error } = useSelector((state) => state.auth)
     const [isBasicInfoModalOpen, setBasicInfoModalOpen] = useState(false);
     const [isChannelInfoModalOpen, setChannelInfoModalOpen] = useState(false);
     const [createChannelInfoModalOpen, setCreateChannelInfoModalOpen] = useState(false);
     const [channelName, setChannelName] = useState()
     const [niche, setNiche] = useState()
     const [language, setLanguage] = useState()
-    const[loading , setLoading ] = useState() ; 
+    const [loading, setLoading] = useState();
     const [err, setError] = useState()
     const [channelData, setChannelData] = useState({
         channelName: "",
@@ -72,35 +72,30 @@ const UserSettings = () => {
                 niche: channel?.niche || "",
                 language: channel?.language || "",
             });
-            setChannelInfo({
-                channelName: channel?.channelName || "",
-                niche: channel?.niche || "",
-                language: channel?.language || "",
-            });
         }
-    }, [user,channel])
+    }, [user, channel])
 
-    useEffect(() => {       
+    useEffect(() => {
         const fetchChannelDetails = () => {
-            if(user?.email){
+            if (user?.email) {
                 dispatch(getChannelByEmail(user?.email)).unwrap().then((payload) => {
                     setChannelData(payload);
                 }).catch((error) => {
-                   
+
                 })
             }
         }
-    fetchChannelDetails() ; 
+        fetchChannelDetails();
     }, [user])
 
     useEffect(() => {
         setChannelData(channelData)
-    },[channelData,channelName,niche,language])
+    }, [channelData, channelName, niche, language])
 
     console.log(channelData)
 
     if (userLoading) {
-        return <Loader/>
+        return <Loader />
     }
     if (err) {
         return <p className="text-red-500">{err}</p>
@@ -112,9 +107,9 @@ const UserSettings = () => {
     };
     const handleChannelInfoChange = (e) => {
         const { name, value } = e.target;
-        setChannelInfo((prev) => ({ ...prev, [name]: value }))
-        setChannelData((prev) => ({ ...prev, [name]: value }))
+        setChannelData((prev) => ({ ...prev, [name]: value }));
     };
+
     const handleCreateChannel = (e) => {
         const { name, value } = e.target
         setChannelData((prev) => ({ ...prev, [name]: value }));
@@ -126,53 +121,53 @@ const UserSettings = () => {
     const saveBasicInfo = async () => {
         try {
             setLoading(true)
-             dispatch(updateProfile({ id:user._id, updates:basicInfo })).unwrap().then((payload)=> {
+            dispatch(updateProfile({ id: user._id, updates: basicInfo })).unwrap().then((payload) => {
                 setLoading(false)
                 // console.log(payload)
                 setBasicInfoModalOpen(false);
-             }).catch((error)=> {
+            }).catch((error) => {
                 // console.log(error)
-                  setLoading(false)
-             })
+                setLoading(false)
+            })
         } catch (error) {
             // console.log("Error saving basic info:", error);
         }
     };
-    const saveChannelInfo = async (e) => {
-            setLoading(true)
-             channelUpdates.email=user?.email ; 
-             dispatch(updateChannel({ channelId:channel._id, updates:channelUpdates })).unwrap().then(()=> {
-                 setLoading(false)
-                 setChannelInfoModalOpen(false)
-                setCreateChannelInfoModalOpen(false);
-                console.log("updtaees", channelData,"updtaes");
-                // channelData.channelName = channelName
-                // channelData.niche = niche
-                // channelData.language = language
-                 }).catch((error)=> {
-                   setError(error)
-                   setLoading(false)
-                 })
-                
-    };
-    const createUserChannel = async () => {
+    const saveChannelInfo = async () => {
         try {
-            setLoading(true)
-            console.log(channelName , niche , language)
-             dispatch(createChannel({ channelName, niche, language , email:user?.email })).unwrap().then(()=> {
-                setLoading(false)
-            setCreateChannelInfoModalOpen(false);
-          console.log(channelData);
-          
-             }).catch((error)=> {
-               setError(error)
-               setLoading(false)
-             })
-            
+            setLoading(true);
+            const updates = {
+                channelName: channelData.channelName,
+                niche: channelData.niche,
+                language: channelData.language,
+                email: user?.email, // Include user email
+            };
+            const response = await dispatch(updateChannel({ channelId: channel._id, updates })).unwrap();
+            console.log('Channel updated successfully:', response);
+            setChannelInfoModalOpen(false);
         } catch (error) {
-            console.error("Error creating channel", error);
+            console.error('Failed to update channel:', error);
+            setError(error.message || 'Failed to update channel');
+        } finally {
+            setLoading(false);
         }
     };
+
+    const createUserChannel = async () => {
+        try {
+            setLoading(true);
+            const { channelName, niche, language } = channelData;
+            const response = await dispatch(createChannel({ channelName, niche, language, email: user?.email })).unwrap();
+            console.log('Channel created successfully:', response);
+            setCreateChannelInfoModalOpen(false);
+        } catch (error) {
+            console.error('Error creating channel:', error);
+            setError(error.message || 'Error creating channel');
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <div className="flex flex-col h-screen font-roboto">
@@ -227,8 +222,8 @@ const UserSettings = () => {
                                     </div>
                                 </div>
                             </div>
-                              {!channel &&  <button className="text-white bg-red-600 px-3 mt-4 py-2 rounded-md" onClick={() => setCreateChannelInfoModalOpen(true)}>Create Channel</button>}
-                             {channel &&  <div className={`  my-5 p-5 border border-[#9C9C9C] rounded-[16px]`}>
+                            {!channel && <button className="text-white bg-red-600 px-3 mt-4 py-2 rounded-md" onClick={() => setCreateChannelInfoModalOpen(true)}>Create Channel</button>}
+                            {channel && <div className={`  my-5 p-5 border border-[#9C9C9C] rounded-[16px]`}>
                                 <div className="flex gap-4">
                                     <p className="px-2 text-[#1C1C1C] text-[20px] ">Channel Information</p>
                                     <FaRegEdit className="mt-1.5 text-blue-600"
@@ -264,7 +259,7 @@ const UserSettings = () => {
                                     </button>
                                 </div>
                                 <form onSubmit={(e) => { e.preventDefault(); saveBasicInfo(); setBasicInfoModalOpen(false) }}>
-                                   
+
                                     <div className="mb-4">
                                         <label className="block text-sm font-medium text-gray-700">Location</label>
                                         <input
@@ -297,17 +292,14 @@ const UserSettings = () => {
                                     </div>
                                     <button
                                         type="submit"
-                                         disabled={loading}
+                                        disabled={loading}
                                         className="bg-blue-500 disabled:bg-gray-300 text-white px-4 py-2 rounded-md"
                                     >
-                                      {!loading ? "Save":"Loading..."}
+                                        {!loading ? "Save" : "Loading..."}
                                     </button>
                                 </form>
                             </Modal>
-                            <Modal
-                                isOpen={isChannelInfoModalOpen}
-                                onClose={() => setChannelInfoModalOpen(false)}
-                            >
+                            <Modal isOpen={isChannelInfoModalOpen}>
                                 <div className="flex justify-between">
                                     <h3 className="text-lg font-bold mb-4">Edit Channel Information</h3>
                                     <button
@@ -317,13 +309,19 @@ const UserSettings = () => {
                                         ✕
                                     </button>
                                 </div>
-                                <form onSubmit={(e) => { e.preventDefault(); saveChannelInfo(); setChannelInfoModalOpen(false) }}>
+                                <form
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        saveChannelInfo();
+                                        setChannelInfoModalOpen(false);
+                                    }}
+                                >
                                     <div className="mb-4">
                                         <label className="block text-sm font-medium text-gray-700">Channel Name</label>
                                         <input
                                             type="text"
                                             name="channelName"
-                                            value={channelInfo.channelName}
+                                            value={channelData.channelName || ""}
                                             onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
@@ -333,7 +331,7 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="niche"
-                                            value={channelInfo.niche}
+                                            value={channelData.niche || ""}
                                             onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
@@ -343,23 +341,22 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="language"
-                                            value={channelInfo.language}
+                                            value={channelData.language || ""}
                                             onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
                                     </div>
                                     <button
                                         type="submit"
-                                         disabled={loading}
+                                        disabled={loading}
                                         className="bg-blue-500 disabled:bg-gray-300 text-white px-4 py-2 rounded-md"
                                     >
-                                      {!loading ? "Save":"Loading..."}
+                                        {!loading ? "Save" : "Loading..."}
                                     </button>
                                 </form>
                             </Modal>
-                            <Modal
-                                isOpen={createChannelInfoModalOpen}
-                            >
+
+                            <Modal isOpen={createChannelInfoModalOpen}>
                                 <div className="flex justify-between">
                                     <h3 className="text-lg font-bold mb-4">Create Channel</h3>
                                     <button
@@ -369,14 +366,19 @@ const UserSettings = () => {
                                         ✕
                                     </button>
                                 </div>
-                                <form onSubmit={(e) => { e.preventDefault(); createUserChannel(); setCreateChannelInfoModalOpen(false)}}>
+                                <form
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        createUserChannel();
+                                    }}
+                                >
                                     <div className="mb-4">
                                         <label className="block text-sm font-medium text-gray-700">Channel Name</label>
                                         <input
                                             type="text"
                                             name="channelName"
                                             value={channelData.channelName}
-                                            onChange={handleCreateChannel}
+                                            onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
                                     </div>
@@ -386,7 +388,7 @@ const UserSettings = () => {
                                             type="text"
                                             name="niche"
                                             value={channelData.niche}
-                                            onChange={handleCreateChannel}
+                                            onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
                                     </div>
@@ -396,7 +398,7 @@ const UserSettings = () => {
                                             type="text"
                                             name="language"
                                             value={channelData.language}
-                                            onChange={handleCreateChannel}
+                                            onChange={handleChannelInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
                                     </div>
@@ -408,6 +410,7 @@ const UserSettings = () => {
                                     </button>
                                 </form>
                             </Modal>
+
                         </div>
                     </div>
                 </div>

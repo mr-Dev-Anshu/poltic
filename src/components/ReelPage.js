@@ -81,7 +81,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
   return (
     <div
       key={reel._id}
-      className="reel w-[100vw] md:w-[330px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
+      className="reel w-[100vw] md:w-[450px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
     >
       <video
         ref={vid}
@@ -94,19 +94,25 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
       <div className="absolute bottom-8 flex gap-3 left-4 text-white">
         <div>
           <img
-            src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF/?text=Avatar"}
+            // src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF?text=Avatar"}
+            src="https://img.freepik.com/premium-vector/blog-design_24877-32255.jpg?w=740"
             alt="Profile"
             className="h-12 w-12 rounded-full my-2 cursor-pointer"
-            onClick={() =>
-              navigate("/creator-profile", {
+            onClick={() => {
+              console.log(
+                "This is log from the reels page:",
+                `User ID is ${user?._id} and Creator ID is ${reel.user?._id}`
+              );
+            
+              navigate(user?._id != reel.user?._id ? "/creator-profile" : "/user-profile", {
                 state: {
-                  creatorId: reel.user?._id,            
+                  creatorId: reel.user?._id,
                   firstName: reel.user?.firstName,
                   lastName: reel.user?.lastName,
-                  userId: user?._id
+                  userId: user?._id,
                 },
-              })
-            }
+              });
+            }}
           />
         </div>
         <div>

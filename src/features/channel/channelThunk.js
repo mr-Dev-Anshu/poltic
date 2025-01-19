@@ -1,9 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-// Base URL configuration
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
-// const BASE_URL = 'http://localhost:9000/api/v1'
+import { BASE_URL } from "../../constants/info";
 // Create Channel
 export const createChannel = createAsyncThunk(
     "channel/create",

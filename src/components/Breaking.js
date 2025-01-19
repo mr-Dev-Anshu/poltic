@@ -5,7 +5,7 @@ import img1 from "../assets/Rectangle 49.png"
 import img2 from "../assets/Rectangle 50.png"
 
 const Breaking = () => {
-    const tags = ["Trending", "Cricket", "Politics", "Cricket"];
+    const tags = ["Trending", "Cricket", "Politics"];
     const newsData = [
         { id: 1, imgSrc: img0 },
         { id: 2, imgSrc: img1 },
@@ -26,7 +26,7 @@ const Breaking = () => {
                 <div className="z-50 fixed w-full flex flex-col items-center md:h-[calc(100vh-89px)] md:w-[227px]">
                     <Sidebar />
                 </div>
-                <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-2 sm:px-5">
+                <div className="flex-1 overflow-y-scroll custom-scrollbar mt-[36px] sm:mt-0 ml-0 sm:ml-[227px] p-2 sm:px-5">
                     <div className="flex flex-col items-center space-y-4">
                         <input
                             type="text"
@@ -45,19 +45,17 @@ const Breaking = () => {
                         </div>
                     </div>
 
-                    {/* News Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 sm:px-32">
+                    <div className="flex flex-wrap items-start justify-evenly mt-2 sm:mt-6 sm:px-32">
                         {newsData.map((news) => (
                             <div
                                 key={news.id}
-                                className="relative w-[160px] sm:w-[200px] rounded-lg overflow-hidden"
+                                className="relative w-[150px] sm:w-[200px] rounded-lg overflow-hidden m-1"
                             >
                                 <img
                                     src={news.imgSrc}
                                     alt={`News ${news.id}`}
                                     className="w-[160px] sm:w-[200px] object-cover"
                                 />
-                                {/* Play Icon */}
                                 <div className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +73,9 @@ const Breaking = () => {
                                     </svg>
                                 </div>
                             </div>
+                        ))}
+                        {[...Array(3 - (newsData.length % 3)).keys()].map((_, index) => (
+                            <div key={index} className="w-[150px] sm:w-[200px] m-1 invisible"></div>
                         ))}
                     </div>
                 </div>

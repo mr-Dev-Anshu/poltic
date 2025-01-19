@@ -26,6 +26,7 @@ import ReportedVideos from "./components/ReportedVideos";
 import { Verify } from "./components/Verify";
 import Profile from "./components/Profile";
 import Breaking from "./components/Breaking";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <ScrollToTop/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
