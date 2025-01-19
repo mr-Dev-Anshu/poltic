@@ -49,7 +49,7 @@ const Breaking = () => {
                         {newsData.map((news) => (
                             <div
                                 key={news.id}
-                                className="relative w-[150px] sm:w-[200px] rounded-lg overflow-hidden m-1"
+                                className="relative w-[160px] sm:w-[200px] rounded-lg overflow-hidden m-1"
                             >
                                 <img
                                     src={news.imgSrc}
