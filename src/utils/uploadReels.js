@@ -6,7 +6,7 @@ export const uploadFileToS3 = async (file) => {
     const fileName = file.name + Date.now();
 
     // Request a pre-signed URL from your backend
-    const response = await fetch('https://trakies-backend.onrender.com/api/putObject', {
+    const response = await fetch('https://polity-backend.onrender.com/api/putObject', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const uploadFileToS3 = async (file) => {
 
     if (uploadResponse.status === 200) {
       // Construct the file URL based on your S3 bucket configuration
-      const url = `https://s3.ap-south-1.amazonaws.com/sanathana.sarthi/uploads/${fileName}`;
+      const url = `https://reels-anshu.s3.eu-north-1.amazonaws.com/uploads/${fileName}`;
       return url;
     } else {
       throw new Error(`Error while uploading the file: ${uploadResponse.status}`);
