@@ -51,23 +51,30 @@ const Dashboard = () => {
         });
 
 
-    useEffect(() => {
-        const fetchThumbnails = async () => {
-            setLoading(true) ; 
-            if (reels?.length) {
-                const generatedThumbnails = {};
-                for (const reel of reels) {
-                    if (!reel.thumbnail) {
-                        const frame = await captureFrameFromVideo(reel.video);
-                        generatedThumbnails[reel._id] = frame;
-                    }
+        useEffect(() => {
+            const fetchThumbnails = async () => {
+                if (reels?.length) {
+                    const generatedThumbnails = {};
+                    // Map each reel to a thumbnail generation promise
+                    const thumbnailPromises = reels.map(async (reel) => {
+                        if (!reel.thumbnail) {
+                            const frame = await captureFrameFromVideo(reel.video);
+                            generatedThumbnails[reel._id] = frame;
+                        }
+                    });
+                    // Await all promises to resolve
+                    await Promise.all(thumbnailPromises);
+                    console.log("Generated Thumbnails:", generatedThumbnails);
+        
+                    setThumbnails((prev) => ({
+                        ...prev,
+                        ...generatedThumbnails,
+                    }));
+                    console.log(thumbnails);   
                 }
-                setThumbnails(generatedThumbnails);
-            }
-            setLoading(false) ; 
-        };
-        fetchThumbnails();
-    }, [reels]);
+            }; 
+            fetchThumbnails();
+        }, [reels]);
         if (isReelsLoading) return <p>Loading...</p>;
         if (isError) return <p>Error: {error.message}</p>;
     return (

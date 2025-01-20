@@ -46,7 +46,7 @@ const EmailConfirmationPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex flex-col justify-center items-center text-black">
+        <div className="min-h-screen bg-[#fff] flex flex-col justify-center items-center text-black">
             <div className="text-center max-w-lg w-full p-8 bg-white rounded-xl shadow-lg">
                 <FaEnvelope className="text-6xl mb-4 mx-auto text-indigo-600" />
                 <h2 className="text-3xl font-semibold mb-4">Email Sent</h2>

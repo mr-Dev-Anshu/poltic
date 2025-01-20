@@ -108,6 +108,14 @@ function App() {
             </PublicRoute>
           }
         />
+         <Route
+          path="/user-library"
+          element={
+            <ProtectedRoute>
+              <Library />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/email-confirmation"
           element={
@@ -126,7 +134,6 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/short/:id" element={<ClickedVideo />} />
         <Route path="/reels" element={<Reels />} />
-        <Route path="/user-library" element={<Library />} />
       </Routes>
     </BrowserRouter>
   );

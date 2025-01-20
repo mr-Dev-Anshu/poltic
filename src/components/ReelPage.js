@@ -19,7 +19,6 @@ const Modal = ({ children, isOpen }) => {
 };
 
 const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
-  const BASE_URL = "https://polity-backend.onrender.com/api/v1";
   const { data: user } = useSelector((state) => state.auth);
   const videoRef = useRef(null);
   const navigate = useNavigate()
@@ -81,7 +80,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
   return (
     <div
       key={reel._id}
-      className="reel w-[100vw] md:w-[450px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
+      className="reel w-[100vw] md:w-[400px] md:h-[calc(100vh-83px)] flex items-center justify-center snap-start relative my-2 sm:my-0 sm:rounded-xl overflow-hidden"
     >
       <video
         ref={vid}

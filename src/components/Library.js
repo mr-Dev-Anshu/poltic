@@ -9,28 +9,28 @@ import { video } from "framer-motion/client";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "./Loader";
 import { getReelsByUserId, uploadReel } from "../features/reel/reelThunk";
+import { useReels } from "../features/reel/customeHooks";
 
 const Library = () => {
-    const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ; 
-    const { data: reels, loading:reelsLoading , reelerror } = useSelector((state) => state.reels)
-    const [uploadComplete, setUploadComplete] = useState(false); // New state for upload completion
-
-
-    useEffect(() => {       
-        const fetchUserReels = () => {
-            console.log("Fetching user" , user?._id)
-            if(user?.email){
-            console.log(user._id);
-                dispatch(getReelsByUserId(user?._id)).unwrap().then((payload) => {
-                   console.log(payload);           
-                   console.log("reels",reels);           
-                }).catch((error) => {
-                   console.log(error);             
-                })
-            }
-        }
-    fetchUserReels() ; 
-    }, [user , uploadComplete])
+    const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ;
+    const [uploadComplete, setUploadComplete] = useState(false);  
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploading, setUploading] = useState(false); 
+    const [title, setTitle] = useState(""); 
+    const [description, setDescription] = useState(""); 
+    const [thumbnail, setThumbnail] = useState(null); 
+    const dispatch = useDispatch() ; 
+    const navigate = useNavigate(); 
+    const {
+          data: reels,
+          isLoading: isReelsLoading,
+          isError,
+          error,
+          refetch,
+        } = useReels(user?._id, {
+          enabled: false, // Disable automatic fetching initially
+        });
     
     const [thumbnails, setThumbnails] = useState({});
 
@@ -85,15 +85,6 @@ const Library = () => {
             };
             fetchThumbnails();
         }, [reels]);
-        
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [uploading, setUploading] = useState(false); 
-    const [title, setTitle] = useState(""); 
-    const [description, setDescription] = useState(""); 
-    const [thumbnail, setThumbnail] = useState(null); 
-    const dispatch = useDispatch() ; 
-    const navigate = useNavigate(); 
     const toggleModal = () => {
         setIsOpen(!isOpen);
         setSelectedFile(null); 
