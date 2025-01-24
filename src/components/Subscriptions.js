@@ -17,14 +17,14 @@ const Subscriptions = () => {
                 <div className="flex-1 overflow-y-scroll custom-scrollbar ml-0 md:ml-[227px] pt-6 px-5">
                     <UserProfile />
                     <hr className="my-5 w-full" />
-                    <div className="flex gap-10">
+                    <div className="flex sm:gap-10">
                     <div className="hidden md:flex">
                         <ProfileSidebar/>
                         </div>
                         <div>
-                            <div className="sm:mx-4 font-inter  w-[90vw] md:w-fit">
+                            <div className="sm:mx-4 font-inter w-[90vw] sm:w-fit flex flex-col items-center justify-center">
                                 <p className="text-center md:text-start font-semibold text-[20px] pb-4 font-inter">All Subscribed Channels</p>
-                                <div className="grid md:grid-cols-2 gap-10 justify-center mb-10 items-center mx-auto max-w-7xl">
+                                <div className="grid sm:grid-cols-2 gap-4 sm:gap-10 justify-center sm:mb-10 items-center mx-auto sm:max-w-7xl">
                                     {SubscribedChannels.map((channel) => (
                                        <div className="flex gap-5">
                                          <div className="flex gap-5">

@@ -67,6 +67,10 @@ const UserSettings = () => {
                 phone: user?.phone || "",
                 gender: user?.gender || "",
             });
+        }
+    }, [user])
+    useEffect(() => {
+        if (user) {
             setChannelInfo({
                 channelName: channel?.channelName || "",
                 niche: channel?.niche || "",
@@ -74,7 +78,6 @@ const UserSettings = () => {
             });
         }
     }, [user, channel])
-
     useEffect(() => {
         const fetchChannelDetails = () => {
             if (user?.email) {
@@ -92,7 +95,7 @@ const UserSettings = () => {
         setChannelData(channelData)
     }, [channelData, channelName, niche, language])
 
-    console.log(channelData)
+    // console.log(channelData)
 
     if (userLoading) {
         return <Loader />
@@ -104,6 +107,8 @@ const UserSettings = () => {
     const handleBasicInfoChange = (e) => {
         const { name, value } = e.target;
         setBasicInfo((prev) => ({ ...prev, [name]: value }));
+        console.log(basicInfo);
+        
     };
     const handleChannelInfoChange = (e) => {
         const { name, value } = e.target;
@@ -121,7 +126,12 @@ const UserSettings = () => {
     const saveBasicInfo = async () => {
         try {
             setLoading(true)
-            dispatch(updateProfile({ id: user._id, updates: basicInfo })).unwrap().then((payload) => {
+            const updates = {
+                location: basicInfo.location, // Use the updated state here
+                phone: basicInfo.phone,
+                gender: basicInfo.gender,
+            };
+            dispatch(updateProfile({ id: user._id, updates})).unwrap().then((payload) => {
                 setLoading(false)
                 // console.log(payload)
                 setBasicInfoModalOpen(false);
@@ -167,8 +177,6 @@ const UserSettings = () => {
             setLoading(false);
         }
     };
-
-
     return (
         <div className="flex flex-col h-screen font-roboto">
             <div className="fixed top-0 w-full z-50">
@@ -253,8 +261,7 @@ const UserSettings = () => {
                                     <h3 className="text-lg font-bold mb-4">Edit Basic Information</h3>
                                     <button
                                         className="mb-4 text-xl"
-                                        onClick={() => setBasicInfoModalOpen(false)}
-                                    >
+                                        onClick={() => setBasicInfoModalOpen(false)}>
                                         ✕
                                     </button>
                                 </div>
@@ -265,7 +272,7 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="location"
-                                            value={basicInfo.location}
+                                            value={basicInfo.location || ""}
                                             onChange={handleBasicInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
@@ -275,7 +282,7 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="phone"
-                                            value={basicInfo.phone}
+                                            value={basicInfo.phone || ""}
                                             onChange={handleBasicInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
@@ -285,7 +292,7 @@ const UserSettings = () => {
                                         <input
                                             type="text"
                                             name="gender"
-                                            value={basicInfo.gender}
+                                            value={basicInfo.gender || ""}
                                             onChange={handleBasicInfoChange}
                                             className="w-full border rounded-md p-2"
                                         />
@@ -355,7 +362,6 @@ const UserSettings = () => {
                                     </button>
                                 </form>
                             </Modal>
-
                             <Modal isOpen={createChannelInfoModalOpen}>
                                 <div className="flex justify-between">
                                     <h3 className="text-lg font-bold mb-4">Create Channel</h3>
@@ -404,13 +410,11 @@ const UserSettings = () => {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                                    >
+                                        className="bg-blue-500 text-white px-4 py-2 rounded-md">
                                         Save
                                     </button>
                                 </form>
                             </Modal>
-
                         </div>
                     </div>
                 </div>

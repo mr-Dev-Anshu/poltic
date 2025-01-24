@@ -102,13 +102,13 @@ const Dashboard = () => {
             <div>
                 <div className="sm:m-4 font-roboto">
                     <p className="font-semibold text-[20px] py-2 font-inter mt-5">Top Performing News</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
-                        {reels?.slice(0, 4).map((short) => (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center items-center mx-auto max-w-7xl">
+                        {reels?.slice(0, 4).slice().reverse().map((short) => (
                             <Link key={short._id} to={`/short/${short._id}`} className="flex flex-col">
                                 <img
                                     src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
                                     alt={short.title}
-                                    className="h-[265px] w-[160px] object-cover rounded-lg"
+                                    className="h-[265px] w-[160px] sm:w-[200px] object-cover rounded-lg"
                                 />
                                 <div>
                                     <p className="font-light mt-2">{short.title}</p>

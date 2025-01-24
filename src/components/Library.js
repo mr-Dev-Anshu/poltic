@@ -244,7 +244,7 @@ const Library = () => {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto md:max-w-7xl">
-                                    { reels && reels.length>0 &&  reels.map((short) => (
+                                    { reels && reels.length>0 &&  reels.slice().reverse().map((short) => (
                                         <Link
                                             to={`/short/${short.id}`}
                                             key={short.id}

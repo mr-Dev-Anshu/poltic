@@ -45,16 +45,16 @@ const Breaking = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap items-start justify-evenly mt-2 sm:mt-6 sm:px-32">
+                    <div className="sm:m-4 grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center mt-2 sm:mt-6 items-center mx-auto max-w-7xl">
                         {newsData.map((news) => (
                             <div
                                 key={news.id}
-                                className="relative w-[160px] sm:w-[200px] rounded-lg overflow-hidden m-1"
+                                className="relative"
                             >
                                 <img
                                     src={news.imgSrc}
                                     alt={`News ${news.id}`}
-                                    className="w-[160px] sm:w-[200px] object-cover"
+                                    className="h-[265px] w-[160px] rounded-lg object-cover"
                                 />
                                 <div className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
                                     <svg
