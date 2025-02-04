@@ -1,12 +1,8 @@
 import axios from "axios";
-
 export const uploadFileToS3 = async (file) => {
   try {
-    // Generate a unique file name with a timestamp
     const fileName = file.name + Date.now();
-
-    // Request a pre-signed URL from your backend
-    const response = await fetch('https://polity-backend.onrender.com/api/putObject', {
+    const response = await fetch('https://823d-13-60-180-150.ngrok-free.app/api/putObject', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,18 +13,14 @@ export const uploadFileToS3 = async (file) => {
     if (!response.ok) {
       throw new Error("Failed to get the pre-signed URL for " + file.name);
     }
-
     const presignedUrl = await response.json();
-
-    // Read file content as binary data
     const fileReader = new FileReader();
     const binaryData = await new Promise((resolve, reject) => {
       fileReader.onloadend = () => resolve(fileReader.result);
       fileReader.onerror = () => reject(fileReader.error);
-      fileReader.readAsArrayBuffer(file); // Reads the file as an ArrayBuffer
+      fileReader.readAsArrayBuffer(file); 
     });
 
-    // Upload the file to S3 using the pre-signed URL
     const uploadResponse = await axios.put(presignedUrl, binaryData, {
       headers: {
         "Content-Type": file.type,
@@ -36,7 +28,6 @@ export const uploadFileToS3 = async (file) => {
     });
 
     if (uploadResponse.status === 200) {
-      // Construct the file URL based on your S3 bucket configuration
       const url = `https://reels-anshu.s3.eu-north-1.amazonaws.com/uploads/${fileName}`;
       return url;
     } else {
@@ -44,6 +35,6 @@ export const uploadFileToS3 = async (file) => {
     }
   } catch (error) {
     console.log("Error while uploading file:", error);
-    throw error; // Re-throw the error for higher-level handling
+    throw error; 
   }
 };
