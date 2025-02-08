@@ -2,7 +2,7 @@ import axios from "axios";
 export const uploadFileToS3 = async (file) => {
   try {
     const fileName = file.name + Date.now();
-    const response = await fetch('https://823d-13-60-180-150.ngrok-free.app/api/putObject', {
+    const response = await fetch('https://polity-backend.onrender.com/api/putObject', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
