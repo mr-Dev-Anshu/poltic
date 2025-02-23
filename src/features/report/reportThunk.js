@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL configuration
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
+const BASE_URL = "https://api.poltic.in/api/v1";
 
 export const reportReel = createAsyncThunk(
     "reort/reel",

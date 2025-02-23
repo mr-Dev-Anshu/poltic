@@ -8,7 +8,7 @@ export const Verify = () => {
   const id = searchParams.get("id");
 //   const BASE_URL = "http://localhost:9000/api/v1"; // Local
 // Uncomment this line and comment the above line for production
-const BASE_URL = "https://polity-backend.onrender.com/api/v1";
+const BASE_URL = "https://api.poltic.in/api/v1";
 
 
   useEffect(() => {
