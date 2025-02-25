@@ -3,6 +3,13 @@ import Sidebar from "./Sidebar"
 import img0 from "../assets/Rectangle 47.png"
 import img1 from "../assets/Rectangle 49.png"
 import img2 from "../assets/Rectangle 50.png"
+import { useDispatch, useSelector } from "react-redux"
+import { useCallback, useEffect, useState } from "react"
+import { getReels } from "../features/reel/reelThunk"
+import { Loader } from "./Loader"
+import { captureFrameFromVideo } from "../utils/captureFrameFromVideo"
+import { useReels } from "../features/reel/customeHooks"
+import img from '../assets/image2.png'
 
 const Breaking = () => {
     const tags = ["Trending", "Cricket", "Politics"];
@@ -17,6 +24,49 @@ const Breaking = () => {
         { id: 8, imgSrc: img2 },
         { id: 9, imgSrc: img0 },
     ];
+
+       const { data: user } = useSelector((state) => state.auth); 
+          const {
+            data: reels,
+            isLoading: isReelsLoading,
+            refetch,
+          } = useReels(user?._id, {
+            enabled: false,
+          });
+          const [thumbnails, setThumbnails] = useState({});
+          useEffect(() => {
+            if (user) {
+              refetch(); 
+            }
+          }, [user, refetch]);
+
+    const fetchThumbnails = useCallback(async () => {
+        if (!reels?.length) return;
+        const generatedThumbnails = {};
+        console.log("this is reels ", reels)
+        const thumbnailPromises = reels.map(async (reel) => {
+            if (!reel.thumbnail) {
+                console.log(reels)
+                const frame = await captureFrameFromVideo(reel.video);
+                generatedThumbnails[reel._id] = frame;
+            }
+        });
+        await Promise.all(thumbnailPromises);
+        console.log("Generated Thumbnails:", generatedThumbnails);
+
+        setThumbnails((prev) => {
+            const newThumbnails = { ...prev, ...generatedThumbnails };
+            return newThumbnails;
+        });
+    }, [reels]);
+
+    useEffect(() => {
+        fetchThumbnails();
+    }, [fetchThumbnails])
+
+
+    if (isReelsLoading   || thumbnails?.length<0  ) return <p>Loading...</p>;
+
     return (
         <div className="flex flex-col h-screen font-roboto">
             <div className="fixed top-0 w-full z-50">
@@ -46,14 +96,14 @@ const Breaking = () => {
                     </div>
 
                     <div className="sm:m-4 grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center mt-2 sm:mt-6 items-center mx-auto max-w-7xl">
-                        {newsData.map((news) => (
+                        {reels?.length > 0 && reels.map((reel) => (
                             <div
-                                key={news.id}
+                                key={reel.id}
                                 className="relative"
                             >
                                 <img
-                                    src={news.imgSrc}
-                                    alt={`News ${news.id}`}
+                                    src={thumbnails[reel._id] || img}
+                                    alt={`News ${reel._id}`}
                                     className="h-[265px] w-[160px] rounded-lg object-cover"
                                 />
                                 <div className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">

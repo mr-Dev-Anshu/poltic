@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "./Loader";
 import { getReelsByUserId, uploadReel } from "../features/reel/reelThunk";
 import { useReels } from "../features/reel/customeHooks";
+import img from '../assets/image2.png'
 
 const Library = () => {
     const {data:user , loading:userLoading , error:userError } = useSelector((state)=> state.auth) ;
@@ -251,7 +252,7 @@ const Library = () => {
                                             className="flex flex-col"
                                         >
                                             <img
-                                                src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
+                                                src={short.thumbnail || thumbnails[short._id] || img}
                                                 alt={short.title}
                                                 className="h-[265px] w-[180px] object-cover rounded-lg "
                                             />

@@ -17,14 +17,13 @@ const UserProfile = () => {
         const fetchChannelDetails = () => {
             if (user?.email) {
                 dispatch(getChannelByEmail(user?.email)).unwrap().then((payload) => {
-                //   console.log(payload);            
                 }).catch((error) => {
 
                 })
             }
         }
         fetchChannelDetails();
-    }, [user, channel])
+    }, [user , dispatch])
 
     useEffect(() => {
         const handleClickOutside = (event) => {

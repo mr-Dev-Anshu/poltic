@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { getReelsByUserId } from "../features/reel/reelThunk";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import {  useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
 import { Loader } from "./Loader";
 import { useReels } from "../features/reel/customeHooks";
+import { captureFrameFromVideo } from "../utils/captureFrameFromVideo";
+import img from '../assets/image2.png'
 
 const Dashboard = () => {
-    const { data: user } = useSelector((state) => state.auth); // Get user from Redux
-    const [loading , setLoading] = useState()
+    const { data: user } = useSelector((state) => state.auth); 
     const {
       data: reels,
       isLoading: isReelsLoading,
@@ -15,67 +15,67 @@ const Dashboard = () => {
       error,
       refetch,
     } = useReels(user?._id, {
-      enabled: false, // Disable automatic fetching initially
+      enabled: false,
     });
     const [thumbnails, setThumbnails] = useState({});
-    // Use effect to refetch reels when the user becomes available
     useEffect(() => {
       if (user) {
-        refetch(); // Refetch reels when user is set
+        refetch(); 
       }
     }, [user, refetch]);
 
-    const captureFrameFromVideo = (videoUrl) =>
-        new Promise((resolve) => {
-            const video = document.createElement("video");
-            video.src = videoUrl;
-            video.crossOrigin = "anonymous";
-            video.muted = true;
-            console.log(video,reels);
-            video.onloadedmetadata = () => {
-                const randomTime = Math.random() * video.duration;
-                video.currentTime = randomTime;
-            };
-            video.onseeked = () => {
-                const canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resolve(canvas.toDataURL("image/png"));
-            };
-
-            video.onerror = () => {
-                resolve("/default-placeholder.png");
-            };
-        });
+  
 
 
-        useEffect(() => {
-            const fetchThumbnails = async () => {
-                if (reels?.length) {
-                    const generatedThumbnails = {};
-                    // Map each reel to a thumbnail generation promise
-                    const thumbnailPromises = reels.map(async (reel) => {
-                        if (!reel.thumbnail) {
-                            const frame = await captureFrameFromVideo(reel.video);
-                            generatedThumbnails[reel._id] = frame;
-                        }
-                    });
-                    // Await all promises to resolve
-                    await Promise.all(thumbnailPromises);
-                    console.log("Generated Thumbnails:", generatedThumbnails);
+        // useEffect(() => {
+        //     const fetchThumbnails = useCallback( async () => {
+        //         if (reels?.length) {
+        //             const generatedThumbnails = {};
+        //             const thumbnailPromises = reels.map(async (reel) => {
+        //                 if (!reel.thumbnail) {
+        //                     const frame = await captureFrameFromVideo(reel.video);
+        //                     generatedThumbnails[reel._id] = frame;
+        //                 }
+        //             });
+        //             await Promise.all(thumbnailPromises);
+        //             console.log("Generated Thumbnails:", generatedThumbnails);
         
-                    setThumbnails((prev) => ({
-                        ...prev,
-                        ...generatedThumbnails,
-                    }));
-                    console.log(thumbnails);   
+        //             setThumbnails((prev) => ({
+        //                 ...prev,
+        //                 ...generatedThumbnails,
+        //             }));
+        //             console.log(thumbnails);   
+        //         }
+        //     } , [reels]); 
+        //     fetchThumbnails();
+        // }, [reels ]);
+
+
+        const fetchThumbnails = useCallback(async () => {
+            if (!reels?.length) return; 
+            const generatedThumbnails = {};
+            const thumbnailPromises = reels.map(async (reel) => {
+                if (!reel.thumbnail) {
+                    const frame = await captureFrameFromVideo(reel.video);
+                    generatedThumbnails[reel._id] = frame;
                 }
-            }; 
+            });
+        
+            await Promise.all(thumbnailPromises);
+            console.log("Generated Thumbnails:", generatedThumbnails);
+        
+            setThumbnails((prev) => {
+                const newThumbnails = { ...prev, ...generatedThumbnails };
+                return newThumbnails;
+            });
+        }, [reels]); 
+        
+        useEffect(() => {
             fetchThumbnails();
-        }, [reels]);
-        if (isReelsLoading) return <p>Loading...</p>;
+        }, [fetchThumbnails])
+
+
+        if (isReelsLoading   || thumbnails?.length<0  ) return <p>Loading...</p>;
         if (isError) return <p>Error: {error.message}</p>;
     return (
         <div>
@@ -106,7 +106,7 @@ const Dashboard = () => {
                         {reels?.slice(0, 4).slice().reverse().map((short) => (
                             <Link key={short._id} to={`/short/${short._id}`} className="flex flex-col">
                                 <img
-                                    src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
+                                    src={short.thumbnail || thumbnails[short._id] || img }
                                     alt={short.title}
                                     className="h-[265px] w-[160px] sm:w-[200px] object-cover rounded-lg"
                                 />
