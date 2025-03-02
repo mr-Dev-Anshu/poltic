@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getReelsByUserId } from "../features/reel/reelThunk";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { useReels } from "../features/reel/customeHooks";
+import defaultThumbnail  from '../assets/image2.png'
 
 const Profile = () => {
     const location = useLocation(); 
@@ -191,7 +192,7 @@ const Profile = () => {
                                 className="flex flex-col w-full max-w-[200px] mx-auto"
                             >
                                 <img
-                                    src={short.thumbnail || thumbnails[short._id] || "/default-placeholder.png"}
+                                    src={short.thumbnail || thumbnails[short._id] || defaultThumbnail}
                                     alt={short.title}
                                     className="h-[200px] md:h-[265px] w-full object-cover rounded-lg"
                                 />
