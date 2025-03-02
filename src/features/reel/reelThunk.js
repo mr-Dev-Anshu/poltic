@@ -26,11 +26,12 @@ export const uploadReel = createAsyncThunk(
 // Get All Reels
 export const getReels = createAsyncThunk(
     "reels/get-all",
-    async ({userId}, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${BASE_URL}/reels/get-all?userId=${userId}`, {
+            const response = await axios.get(`${BASE_URL}/reels/get-all`, {
                 withCredentials: true,
             });
+            console.log(response , "this is from thunk ")
             return response.data;
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Failed to fetch reels";

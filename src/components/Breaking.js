@@ -10,6 +10,7 @@ import { Loader } from "./Loader"
 import { captureFrameFromVideo } from "../utils/captureFrameFromVideo"
 import { useReels } from "../features/reel/customeHooks"
 import img from '../assets/image2.png'
+import { p } from "framer-motion/client"
 
 const Breaking = () => {
     const tags = ["Trending", "Cricket", "Politics"];
@@ -25,20 +26,12 @@ const Breaking = () => {
         { id: 9, imgSrc: img0 },
     ];
 
-       const { data: user } = useSelector((state) => state.auth); 
-          const {
-            data: reels,
-            isLoading: isReelsLoading,
-            refetch,
-          } = useReels(user?._id, {
-            enabled: false,
-          });
+         const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
+         const dispatch = useDispatch() ; 
           const [thumbnails, setThumbnails] = useState({});
           useEffect(() => {
-            if (user) {
-              refetch(); 
-            }
-          }, [user, refetch]);
+              dispatch(getReels())
+          }, [dispatch]);
 
     const fetchThumbnails = useCallback(async () => {
         if (!reels?.length) return;
@@ -65,7 +58,13 @@ const Breaking = () => {
     }, [fetchThumbnails])
 
 
-    if (isReelsLoading   || thumbnails?.length<0  ) return <p>Loading...</p>;
+    if (reelsLoading   || thumbnails?.length<0  ) return <p> <Loader /> </p>;
+
+    if (reelsError) return( 
+         <p>
+            Internal server Error 
+         </p>
+    )
 
     return (
         <div className="flex flex-col h-screen font-roboto">

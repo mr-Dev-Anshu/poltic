@@ -252,7 +252,7 @@ const Library = () => {
                                             className="flex flex-col"
                                         >
                                             <img
-                                                src={short.thumbnail || thumbnails[short._id] || img}
+                                                src={short.thumbnail || img }
                                                 alt={short.title}
                                                 className="h-[265px] w-[180px] object-cover rounded-lg "
                                             />
