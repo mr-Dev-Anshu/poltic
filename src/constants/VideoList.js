@@ -16,7 +16,7 @@ const VideosList = [
       title: "Short Video 1",
       thumbnail: img0, 
       video: "/path-to-video1.mp4",
-      views: "400k views"
+      views: "10 views"
     },
     {
       id: 2,

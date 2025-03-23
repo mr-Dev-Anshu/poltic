@@ -7,7 +7,7 @@ import reportedVideos from "../constants/ReportedVideos"
 
 const ReportedVideos = () => {
 
-    
+
     return (
         <div className="flex flex-col h-screen font-roboto">
             <div className="fixed top-0 w-full z-50">
@@ -21,11 +21,11 @@ const ReportedVideos = () => {
                     <UserProfile />
                     <hr className="my-5 w-full" />
                     <div className="flex gap-10">
-                    <div className="hidden md:flex">
-                        <ProfileSidebar/>
+                        <div className="hidden md:flex">
+                            <ProfileSidebar />
                         </div>
                         <div>
-                            <div className="sm:mx-4 font-roboto w-[90vw] md:w-fit">
+                            {/* <div className="sm:mx-4 font-roboto w-[90vw] md:w-fit">
                                 <p className="font-semibold text-[20px] pb-2 font-inter">Reported Videos</p>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center items-center mx-auto max-w-7xl">
                                     {reportedVideos.map((short) => (
@@ -50,12 +50,16 @@ const ReportedVideos = () => {
                                         </Link>
                                     ))}
                                 </div>
+                            </div> */}
+                            <div className="text-green-600">
+                                Congrats, No Videos Of Yours have been reported yet.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     )
 }
 
