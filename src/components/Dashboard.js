@@ -74,8 +74,8 @@ const Dashboard = () => {
             fetchThumbnails();
         }, [fetchThumbnails])
 
-
         if (isReelsLoading   || thumbnails?.length<0  ) return <p>Loading...</p>;
+        if(error?.status===404) return  <p>Your haven't uploaded any reels yet </p>
         if (isError) return <p>Error: {error.message}</p>;
     return (
         <div>
