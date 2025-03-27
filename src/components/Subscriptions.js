@@ -22,19 +22,19 @@ const Subscriptions = () => {
                         <ProfileSidebar/>
                         </div>
                         <div>
-                            <div className="sm:mx-4 font-inter w-[90vw] sm:w-fit flex flex-col items-center justify-center">
-                                <p className="text-center md:text-start font-semibold text-[20px] pb-4 font-inter">All Subscribed Channels</p>
-                                <div className="grid sm:grid-cols-2 gap-4 sm:gap-10 justify-center sm:mb-10 items-center mx-auto sm:max-w-7xl">
+                            <div className="sm:mx-4 font-inter w-[100vw] sm:w-fit flex flex-col items-center justify-center">
+                                <p className="text-center md:text-start font-semibold text-[20px] pb-4 font-inter">All Followed  Channels</p>
+                                <div className="grid sm:grid-cols-2 gap-4 sm:gap-10 justify-center sm:mb-10 items-center mx-auto  sm:max-w-7xl">
                                     {SubscribedChannels.map((channel) => (
-                                       <div className="flex gap-5">
-                                         <div className="flex gap-5">
+                                       <div className="flex gap-12">
+                                         <div className="flex gap-12">
                                             <div>
                                                 <img src={channel.profile} alt="" className="h-[75px] w-[75px]" />
                                             </div>
                                             <div>
                                                 <p className="text-[18px] ">{channel.name}</p>
                                                 <p className="text-[13px] text-[#B7B7B7]">{channel.attherate}</p>
-                                                <p className="text-[13px] text-[#065FD4]">{channel.subscribers} <span className="text-[#B7B7B7]">Subscribers</span></p>
+                                                <p className="text-[13px] text-[#065FD4]">{channel.Followers} <span className="text-[#B7B7B7]">Followers</span></p>
                                             </div>
                                         </div>
                                         <div>

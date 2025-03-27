@@ -95,7 +95,7 @@ const Dashboard = () => {
                     </div>
                     <div className="sm:hidden w-[108px] md:w-[258px] h-[120px] md:h-[158px] border border-[#C5C5C5] rounded-[10px] flex flex-col items-center justify-center">
                         <p className="text-[24px] font-semibold">10</p>
-                        <p className="text-[17px] font-normal text-[#999999]">Subscribers</p>
+                        <p className="text-[17px] font-normal text-[#999999]">Followers</p>
                     </div>
                 </div>
             </div>

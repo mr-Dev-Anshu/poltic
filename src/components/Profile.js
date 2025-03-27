@@ -155,7 +155,7 @@ const Profile = () => {
                             <div className="flex gap-4 p-2 md:p-0">
                                 <div >
                                     <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">10</p>
-                                    <p className="md:text-[20px] text-[14px] ">Subscribers</p>
+                                    <p className="md:text-[20px] text-[14px] ">Followers</p>
                                 </div>
                                 <div className="bg-gray-300 h-14 mx-8 md:mx-0 md:mt-3 w-[1px] " />
                                 <div>

@@ -117,13 +117,13 @@ const UserProfile = () => {
                 <p className="md:text-[25px] text-[16px] text-[#B7B7B7]">
                     @{channel?.channelName || "channelName"}
                 </p>
-                {/* Subscribers and News Section */}
+                {/* Followers and News Section */}
                 <div className="flex md:flex-row flex-col items-center gap-4 p-2 md:p-0 mt-2">
                     <div className="text-center">
                         <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">
-                            {user?.subscribers || "0"}
+                            {user?.Followers || "0"}
                         </p>
-                        <p className="md:text-[20px] text-[14px]">Subscribers</p>
+                        <p className="md:text-[20px] text-[14px]">Followers</p>
                     </div>
                     <div className="bg-gray-300 h-14 mx-8 md:mx-0 md:mt-3 w-[1px]" />
                     <div className="text-center">
