@@ -94,7 +94,7 @@ const ReelPage = ({ reel, vid, reelI , isMuted  }) => {
         <div>
           <img
             // src={reel.user?.profileImage || "https://via.placeholder.com/150/000000/FFFFFF?text=Avatar"}
-            src="https://img.freepik.com/premium-vector/blog-design_24877-32255.jpg?w=740"
+            src={reel.user?.profileImage || "https://img.freepik.com/premium-vector/blog-design_24877-32255.jpg?w=740"}
             alt="Profile"
             className="h-12 w-12 rounded-full my-2 cursor-pointer"
             onClick={() => {

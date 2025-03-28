@@ -88,15 +88,15 @@ const UserProfile = () => {
     return (
         <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start mx-auto p-5 relative">
             {/* Profile Image Section */}
-            <div className="relative flex flex-col items-center md:items-start">
+            <div className="relative flex flex-col items-center">
                 <img
                     src={user?.profileImage || img}
                     alt="Profile"
-                    className="w-16 h-16 md:h-24 md:w-full rounded-full object-cover sm:pr-10"
+                    className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover "
                 />
                 <button
                     onClick={() => setIsPopupOpen(true)}
-                    className="text-white bg-sky-500 mt-2 py-1 px-4 rounded-md text-sm"
+                    className="text-white bg-sky-500 mt-4 py-1 px-4 rounded-md text-sm"
                 >
                     Update Profile Image
                 </button>
@@ -118,7 +118,7 @@ const UserProfile = () => {
                     @{channel?.channelName || "channelName"}
                 </p>
                 {/* Followers and News Section */}
-                <div className="flex md:flex-row flex-col items-center gap-4 p-2 md:p-0 mt-2">
+                {/* <div className="flex md:flex-row flex-row items-center gap-4 p-2 md:p-0 mt-2">
                     <div className="text-center">
                         <p className="text-[#065FD4] md:text-[32px] text-[22px] font-medium">
                             {user?.Followers || "0"}
@@ -132,7 +132,7 @@ const UserProfile = () => {
                         </p>
                         <p className="md:text-[20px] text-[14px]">News</p>
                     </div>
-                </div>
+                </div>*/}
             </div>
 
             {/* Sidebar */}

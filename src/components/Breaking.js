@@ -1,136 +1,127 @@
-import Nav from "./Nav"
-import Sidebar from "./Sidebar"
-import img0 from "../assets/Rectangle 47.png"
-import img1 from "../assets/Rectangle 49.png"
-import img2 from "../assets/Rectangle 50.png"
-import { useDispatch, useSelector } from "react-redux"
-import { useCallback, useEffect, useState } from "react"
-import { getReels } from "../features/reel/reelThunk"
-import { Loader } from "./Loader"
-import { captureFrameFromVideo } from "../utils/captureFrameFromVideo"
-import { useReels } from "../features/reel/customeHooks"
-import img from '../assets/image2.png'
-import { p } from "framer-motion/client"
+import Nav from "./Nav";
+import Sidebar from "./Sidebar";
+import img from '../assets/image2.png';
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { getReels } from "../features/reel/reelThunk";
+import { Loader } from "./Loader";
+import { captureFrameFromVideo } from "../utils/captureFrameFromVideo";
 
 const Breaking = () => {
     const tags = ["Trending", "Cricket", "Politics"];
-    const newsData = [
-        { id: 1, imgSrc: img0 },
-        { id: 2, imgSrc: img1 },
-        { id: 3, imgSrc: img2 },
-        { id: 4, imgSrc: img0 },
-        { id: 5, imgSrc: img1 },
-        { id: 6, imgSrc: img2 },
-        { id: 7, imgSrc: img1 },
-        { id: 8, imgSrc: img2 },
-        { id: 9, imgSrc: img0 },
-    ];
+    const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
+    const dispatch = useDispatch();
+    const [thumbnails, setThumbnails] = useState({});
 
-         const { data: reels, loading: reelsLoading, error: reelsError } = useSelector((state) => state.reels);
-         const dispatch = useDispatch() ; 
-          const [thumbnails, setThumbnails] = useState({});
-          useEffect(() => {
-              dispatch(getReels())
-          }, [dispatch]);
+    useEffect(() => {
+        dispatch(getReels());
+    }, [dispatch]);
 
     const fetchThumbnails = useCallback(async () => {
         if (!reels?.length) return;
         const generatedThumbnails = {};
-        console.log("this is reels ", reels)
         const thumbnailPromises = reels.map(async (reel) => {
             if (!reel.thumbnail) {
-                console.log(reels)
                 const frame = await captureFrameFromVideo(reel.video);
                 generatedThumbnails[reel._id] = frame;
             }
         });
         await Promise.all(thumbnailPromises);
-        console.log("Generated Thumbnails:", generatedThumbnails);
-
-        setThumbnails((prev) => {
-            const newThumbnails = { ...prev, ...generatedThumbnails };
-            return newThumbnails;
-        });
+        setThumbnails((prev) => ({ ...prev, ...generatedThumbnails }));
     }, [reels]);
 
     useEffect(() => {
         fetchThumbnails();
-    }, [fetchThumbnails])
+    }, [fetchThumbnails]);
 
+    if (reelsLoading) return (
+        <div className="flex items-center justify-center h-screen">
+            <Loader />
+        </div>
+    );
 
-    if (reelsLoading   || thumbnails?.length<0  ) return <p> <Loader /> </p>;
-
-    if (reelsError) return( 
-         <p>
-            Internal server Error 
-         </p>
-    )
+    if (reelsError) return (
+        <div className="flex items-center justify-center h-screen">
+            <p className="text-red-500 text-lg">Internal Server Error</p>
+        </div>
+    );
 
     return (
-        <div className="flex flex-col h-screen font-roboto">
-            <div className="fixed top-0 w-full z-50">
+        <div className="min-h-screen bg-gray-100 font-roboto">
+            <div className="fixed top-0 w-full z-50 bg-white shadow-md">
                 <Nav />
             </div>
-            <div className="flex flex-1 pt-[53px] md:pt-[89px]">
-                <div className="z-50 fixed w-full flex flex-col items-center md:h-[calc(100vh-89px)] md:w-[227px]">
+            
+            <div className="flex pt-[53px] md:pt-[89px]">
+                <div className="hidden md:block fixed w-[227px] h-[calc(100vh-89px)] bg-white shadow-lg">
                     <Sidebar />
                 </div>
-                <div className="flex-1 overflow-y-scroll custom-scrollbar mt-[36px] sm:mt-0 ml-0 sm:ml-[227px] p-2 sm:px-5">
-                    <div className="flex flex-col items-center space-y-4">
-                        <input
-                            type="text"
-                            placeholder="Search for your favourite News"
-                            className="w-full max-w-md p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <div className="flex space-x-3">
-                            {tags.map((tag, index) => (
-                                <button
-                                    key={index}
-                                    className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+
+                <main className="flex-1 ml-0 md:ml-[227px] p-4 md:p-6">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="space-y-6 mb-8">
+                            <input
+                                type="text"
+                                placeholder="Search for your favorite news..."
+                                className="w-full max-w-md mx-auto block p-3 border border-gray-300 rounded-lg 
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                    shadow-sm"
+                            />
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {tags.map((tag) => (
+                                    <button
+                                        key={tag}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-full 
+                                            hover:bg-blue-700 transition-colors duration-200
+                                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                    >
+                                        {tag}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+                            {reels?.map((reel) => (
+                                <div
+                                    key={reel._id}
+                                    className="relative group rounded-lg overflow-hidden shadow-md 
+                                        hover:shadow-xl transition-shadow duration-300"
                                 >
-                                    {tag}
-                                </button>
+                                    <img
+                                        src={thumbnails[reel._id] || img}
+                                        alt={`News ${reel._id}`}
+                                        className="w-full h-[265px] md:h-[300px] object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 
+                                        transition-opacity duration-300" />
+                                    <button
+                                        className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md
+                                            opacity-75 hover:opacity-100 transition-opacity duration-200"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={2}
+                                            stroke="currentColor"
+                                            className="w-5 h-5 text-gray-800"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M5.5 4.5l12.5 7-12.5 7v-14z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
                             ))}
                         </div>
                     </div>
-
-                    <div className="sm:m-4 grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center mt-2 sm:mt-6 items-center mx-auto max-w-7xl">
-                        {reels?.length > 0 && reels.map((reel) => (
-                            <div
-                                key={reel.id}
-                                className="relative"
-                            >
-                                <img
-                                    src={thumbnails[reel._id] || img}
-                                    alt={`News ${reel._id}`}
-                                    className="h-[265px] w-[160px] rounded-lg object-cover"
-                                />
-                                <div className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2}
-                                        stroke="currentColor"
-                                        className="w-5 h-5 text-gray-800"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M5.5 4.5l12.5 7-12.5 7v-14z"
-                                        />
-                                    </svg>
-                                </div>
-                            </div>
-                        ))}
-                        {[...Array(3 - (newsData.length % 3)).keys()].map((_, index) => (
-                            <div key={index} className="w-[150px] sm:w-[200px] m-1 invisible"></div>
-                        ))}
-                    </div>
-                </div>
+                </main>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Breaking
+export default Breaking;
