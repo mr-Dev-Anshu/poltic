@@ -6,7 +6,7 @@ import Videos from "./Videos";
 const Channel = () => {
     return (
         <div className="flex flex-col h-screen font-roboto">
-            <div className="fixed top-0 w-full shadow-md z-10">
+            <div className="fixed top-0 w-full  z-10">
                 <Nav />
             </div>
             <div className="flex flex-1 pt-[53px] md:pt-[89px]">

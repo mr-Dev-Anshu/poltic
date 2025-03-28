@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar"
 const VideoPlay = () => {
     return (
         <div className="flex flex-col h-screen font-roboto">
-            <div className="fixed top-0 w-full z-10 shadow-md">
+            <div className="fixed top-0 w-full z-10 ">
                 <Nav />
             </div> 
             <div className="flex flex-1 pt-[53px] md:pt-[89px]">
