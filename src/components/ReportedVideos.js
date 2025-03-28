@@ -10,7 +10,7 @@ const ReportedVideos = () => {
 
     return (
         <div className="flex flex-col h-screen font-roboto">
-            <div className="fixed top-0 w-full z-50">
+            <div className="fixed top-0 w-full z-50 shadow-md">
                 <Nav />
             </div>
             <div className="flex flex-1 pt-[53px] md:pt-[89px]">

@@ -7,7 +7,7 @@ import UserProfile from "./UserProfile"
 const Subscriptions = () => {
     return (
         <div className="flex flex-col h-screen font-roboto">
-            <div className="z-50 fixed top-0 w-full">
+            <div className="z-50 fixed top-0 w-full shadow-md">
                 <Nav />
             </div>
             <div className="flex flex-1 pt-[53px] md:pt-[89px]">

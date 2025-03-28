@@ -47,8 +47,8 @@ const Breaking = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 font-roboto">
-            <div className="fixed top-0 w-full z-50 bg-white shadow-md">
+        <div className="min-h-screen  font-roboto">
+            <div className="fixed top-0 w-full z-50 shadow-md">
                 <Nav />
             </div>
             
